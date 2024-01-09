@@ -28,7 +28,7 @@ interface IFormStep {
     fields: Array<IField>
 }
 
-enum FormType {
+export enum FormType {
     inspeçãoInterna = 'inspeçãoInterna',
     inspeçãoExterna = 'inspeçãoExterna',
     inspeçãoVeicular = 'inspeçãoVeicular'
@@ -48,7 +48,6 @@ interface IForm {
 }
 
 export type {
-  FormType,
   IField,
   IForm,
   IFormStep,

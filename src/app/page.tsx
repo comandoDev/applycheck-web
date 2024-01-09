@@ -20,6 +20,6 @@ export default function Home () {
   })
 
   return (
-    <h1>Heyy</h1>
+    <h1 className={'text-3xl font-bold underline'}>Heyy</h1>
   )
 }

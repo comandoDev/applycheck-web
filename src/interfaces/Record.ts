@@ -13,7 +13,7 @@ interface IRecordStep {
       fields: Array<IRecordStepField>
 }
 
-enum RecordStatus {
+export enum RecordStatus {
       open = 'aberto',
       analysing = 'analisando',
       conclued = 'concluido',
@@ -41,5 +41,4 @@ export type {
   IRecord,
   IRecordStep,
   IRecordStepField,
-  RecordStatus
 }
