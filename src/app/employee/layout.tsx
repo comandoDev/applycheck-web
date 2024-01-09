@@ -2,8 +2,8 @@
 'use client'
 
 import { useEffect } from 'react'
-import Content from '../components/Content'
-import Header from '../components/Header'
+import Content from './components/Content'
+import Header from './components/Header'
 import Storage from '@/utils/Storage'
 import { redirect } from 'next/navigation'
 
