@@ -1,6 +1,6 @@
-import { Repository } from "@/core/Repository";
-import { IResponse } from "@/interfaces/Response";
-import { IUser } from "@/interfaces/User";
+import { Repository } from '@/core/Repository'
+import { IResponse } from '@/interfaces/Response'
+import { IUser } from '@/interfaces/User'
 
 interface IAuthenticationProps {
   user: IUser,
@@ -8,7 +8,7 @@ interface IAuthenticationProps {
 }
 
 interface ISignInProps {
-  email: string 
+  email: string
   password: string
 }
 

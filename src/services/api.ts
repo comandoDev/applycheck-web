@@ -1,6 +1,7 @@
-import env from "@/config/env";
-import axios from "axios";
+import axios from 'axios'
+
+import env from '@/config/env'
 
 export const apiServer = axios.create({
-  baseURL: env.reactAppServer || 'http://10.0.13.21:4000',
+  baseURL: env.reactAppServer || 'http://10.0.12.193:4000'
 })

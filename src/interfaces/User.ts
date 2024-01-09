@@ -17,6 +17,6 @@ interface IUser {
 }
 
 export type {
-    IUser,
-    UserRole
+  IUser,
+  UserRole
 }

@@ -1,4 +1,4 @@
-import { AxiosResponse } from "axios"
+import { AxiosResponse } from 'axios'
 
 interface IPaginate<T> {
     next: boolean
@@ -27,13 +27,13 @@ interface IResponseData<T = any> {
   status: string
 }
 
-interface IResponse<T> extends AxiosResponse<IResponseData<T>> {}
+interface IResponse<T = any> extends AxiosResponse<IResponseData<T>> {}
 
 export type {
+  IDocumentIdResponse,
+  IInputError,
   IPaginate,
   IPaginateList,
   IResponse,
-  IResponseData,
-  IDocumentIdResponse,
-  IInputError
+  IResponseData
 }
