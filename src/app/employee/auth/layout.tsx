@@ -1,21 +1,22 @@
 /* eslint-disable no-undef */
 'use client'
 
-import Content from './components/Content'
-import Header from './components/Header'
+import { useEffect } from 'react'
+import Content from '../components/Content'
+import Header from '../components/Header'
 import Storage from '@/utils/Storage'
+import { redirect } from 'next/navigation'
 
 const Layout = ({
   children
 }: {
   children: React.ReactNode
 }) => {
-//   const isAuthenticated = Storage.getUserToken()
-  const isAuthenticated = true
+  const isAuthenticated = Storage.getUserToken()
 
-//   useEffect(() => {
-//     if (!isAuthenticated) return redirect('/signin/user')
-//   }, [])
+  useEffect(() => {
+    if (!isAuthenticated) return redirect('/employee/login')
+  }, [])
 
   return isAuthenticated ? (
     <>

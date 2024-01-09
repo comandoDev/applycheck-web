@@ -1,7 +1,7 @@
 'use client'
 
-import FormBox from './components/FormBox'
-import ListSelector from './components/ListSelector'
+import FormBox from '../components/FormBox'
+import ListSelector from '../components/ListSelector'
 import { FormType, IForm } from '@/interfaces/Form'
 
 const Home = () => {
