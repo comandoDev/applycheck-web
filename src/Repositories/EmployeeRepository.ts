@@ -17,7 +17,7 @@ class EmployeeRepository extends Repository<IUser> {
     )
   }
 
-  async createRecord (formId: string): Promise<IResponse<{ recoird: IRecord }>> {
+  async createRecord (formId: string): Promise<IResponse<{ record: IRecord }>> {
     return this.execute(() =>
       this.api.post(`${this.path}/records`, {
         formId

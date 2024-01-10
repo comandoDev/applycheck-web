@@ -1,4 +1,4 @@
-enum InputType {
+export enum InputType {
     multipleQuestion = 'multipleQuestions',
     select = 'select',
     text = 'text',
@@ -9,7 +9,7 @@ enum InputType {
 
 interface ISelectOption {
     key: string
-    nonCompliance: boolean
+    nonCompliance?: boolean
 }
 
 interface IField {
@@ -45,12 +45,12 @@ interface IForm {
     steps: Array<IFormStep>
     managerId: string
     title: string
+    totalSteps: number
 }
 
 export type {
   IField,
   IForm,
   IFormStep,
-  InputType,
   ISelectOption
 }
