@@ -21,7 +21,7 @@ const SignIn = () => {
 
         await authContext?.handleUserSignin(email, password)
 
-        if (!authContext?.error) return router.push('/auth/employee')
+        if (!authContext?.error) return router.push('/auth/forms')
     }
 
     return (

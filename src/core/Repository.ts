@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosInstance } from 'axios'
 
 import { IDocumentIdResponse, IPaginateList, IResponse } from '@/interfaces/Response'
 import { apiServer } from '@/services/api'
+import { message } from 'antd'
 
 export class Repository<T> {
   constructor (

@@ -45,6 +45,12 @@ class EmployeeRepository extends Repository<IUser> {
     )
   }
 
+  async getOneRecord (recordId: string): Promise<IResponse<{ record: IRecord }>> {
+    return this.execute(() =>
+      this.api.get(`${this.path}/records/get/${recordId}`)
+    )
+  }
+
 //   async uploadFile (): Promise<IResponse> {
 //     return this.execute(() =>
 //       this.api.post(`${this.path}/records/upload`)
