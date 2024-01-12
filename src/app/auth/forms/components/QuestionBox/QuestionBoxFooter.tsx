@@ -1,7 +1,8 @@
 import { IField } from "@/interfaces/Form"
 import { CameraPlus, ChatText, WarningDiamond } from "@phosphor-icons/react"
-import { useEffect, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import { useForm } from "../../hooks/useForm"
+import FileInput from "./FileInput"
 
 const QuestionBoxFooter = ({ field }: { field: IField }) => {
     const formContext = useForm()
@@ -35,23 +36,27 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
         }
     }
 
-    const onChange = (value: string) => {
-        if (selectedIndex == 0) setActionPlan(value)
-        if (selectedIndex == 1) setObservation(value)
-    
-        setValuesToCurrentStep(value, selectedIndex!)
+    const handleInputOnChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value
+
+        if (selectedIndex === 0) {
+            setValuesToCurrentStep('actionPlan', value)
+            setActionPlan(value)
+        }
+        if (selectedIndex === 1) {
+            setValuesToCurrentStep('observation', value)
+            setObservation(value)
+        }
     }
 
-    const setValuesToCurrentStep = (value: string, index: number) => {
-        const prop = (index === 0) ? 'actionPlan' : 'observation'
-
+    const setValuesToCurrentStep = (key: string, value: string) => {
         const currentStep = formContext?.currentStep 
 
         let exists = false
 
         currentStep?.fields.find(stepField => {
             if (stepField.key === field.key) {
-                stepField[prop] = value
+                stepField[key] = value
                 exists = true
             }
         })
@@ -59,7 +64,7 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
         if (!exists) {
             currentStep?.fields.push({
                 key: field.key,
-                [prop]: value
+                [key]: value
             })
         }
 
@@ -77,19 +82,22 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
                     <ChatText size={20} weight="fill" className="mr-1" />
                     <span>Observação</span>    
                 </div>        
-                <div className={`flex justify-center items-center ${(selectedIndex === 2) && 'text-principal'}`} onClick={() => onClick(2)}>
+                <label htmlFor={field.key} className={`flex justify-center items-center ${(selectedIndex === 2) && 'text-principal'}`} onClick={() => onClick(2)}>
                     <CameraPlus size={20} weight="fill" className="mr-1" />
                     <span>Mídia</span>    
-                </div>    
+                </label>    
             </div>  
-            { showBox && (
+            { (showBox && selectedIndex !== 2) && (
                 <input 
                     type="text"
-                    className="w-full p-5 bg-white border border-gray-300 rounded-lg mt-5 row-span-1"
+                    className="w-full p-5 bg-white border border-gray-300 rounded-lg mt-5"
                     value={(selectedIndex === 0) ? actionPlan : observation}
-                    onChange={(e) => onChange(e.target.value)}
-                    placeholder={(selectedIndex === 0) ? 'Adicione um plano de ação' : 'Adicione um comentário'}
+                    onChange={handleInputOnChange}
+                    placeholder={(selectedIndex === 0) ? 'Adicione um plano de ação' : 'Adicione uma observação'}
                 />
+            ) }
+            { (showBox && selectedIndex === 2) && (
+                <FileInput inputId={field.key} />
             ) }
         </>
     )

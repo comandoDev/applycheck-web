@@ -51,11 +51,11 @@ class EmployeeRepository extends Repository<IUser> {
     )
   }
 
-//   async uploadFile (): Promise<IResponse> {
-//     return this.execute(() =>
-//       this.api.post(`${this.path}/records/upload`)
-//     )
-//   }
+  async uploadFile (): Promise<IResponse> {
+    return this.execute(() =>
+      this.api.post(`${this.path}/records/upload`)
+    )
+  }
 }
 
 export default new EmployeeRepository('auth')

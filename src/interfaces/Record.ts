@@ -38,8 +38,17 @@ interface IRecord {
       employeeId: string
 }
 
+interface IFilledField { 
+      key: string,
+      value: string
+      observation?: string
+      actionPlan?: string
+      file?: string
+}
+
 export type {
   IRecord,
   IRecordStep,
   IRecordStepField,
+  IFilledField
 }

@@ -1,5 +1,5 @@
 import { IForm } from "@/interfaces/Form";
-import { IRecord, IRecordStep } from "@/interfaces/Record";
+import { IFilledField, IRecord, IRecordStep } from "@/interfaces/Record";
 
 export interface IFormContext {
     form?: IForm
@@ -11,18 +11,8 @@ export interface IFormContext {
     setLastReachedStep: (lastReachedStep: number) => void
     currentStep?: IRecordStep
     setCurrentStep: (currentStep: IRecordStep) => void
-    filledFields?: Array<{ 
-        key: string,
-        value: string
-        observation?: string
-        actionPlan?: string 
-    }>
-    setFilledFields: (filledFields: Array<{ 
-        key: string,
-        value: string
-        observation?: string
-        actionPlan?: string
-    }>) => void
+    filledFields?: Array<IFilledField>
+    setFilledFields: (filledFields: Array<IFilledField>) => void
     findRecordAndSetFilledFields: (number: number) => Promise<void>
     isRecordFinished: () => Promise<boolean>
 }
