@@ -7,7 +7,7 @@ export interface IFormContext {
     record?: IRecord
     setRecord: (record: IRecord) => void
     findFormById: (formId: string) => Promise<void>
-    lastReachedStep: number
+    lastReachedStep?: number
     setLastReachedStep: (lastReachedStep: number) => void
     currentStep?: IRecordStep
     setCurrentStep: (currentStep: IRecordStep) => void

@@ -704,7 +704,7 @@ export const FormContextProvider = ({ children }: { children: ReactNode }) => {
     id: '8fa7633e-5ab4-4ff2-a470-1bd0ff284301'
   })
   const [record, setRecord] = useState<IRecord>()
-  const [lastReachedStep, setLastReachedStep] = useState<number>(0)
+  const [lastReachedStep, setLastReachedStep] = useState<number>()
   const [currentStep, setCurrentStep] = useState<IRecordStep>()
   const [filledFields, setFilledFields] = useState<Array<{ key: string, value: string }>>()
 

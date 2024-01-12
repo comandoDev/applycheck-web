@@ -5,6 +5,7 @@ import { ArrowCircleRight } from "@phosphor-icons/react"
 import Link from "next/link"
 import { useForm } from "../hooks/useForm"
 import { useEffect, useState } from "react"
+import ProgressBar from "./ProgressBar"
 
 interface IFromBoxProps {
     id: string
@@ -23,10 +24,10 @@ const FormBox = ({
 }: IFromBoxProps) => {
     const formContext = useForm()
 
-    const [percentage, setPercentage] = useState<number>(50)
+    const [percentage, setPercentage] = useState<number>(0)
 
     useEffect(() => {
-        if (formContext?.lastReachedStep) setPercentage(Math.ceil(((formContext?.lastReachedStep! / formContext?.form!.totalSteps! * 100)) / 10) * 10 )
+        if (formContext?.lastReachedStep) setPercentage(formContext?.lastReachedStep! / formContext?.form!.totalSteps! * 100)
     })
 
     const formBox = (
@@ -44,9 +45,7 @@ const FormBox = ({
                 { (inProgressId && inProgressId === id) && (
                     <div className="flex flex-col text-xs text-progress font-bold">
                     <span className="ml-1 mb-1">{formContext?.lastReachedStep} de {formContext?.form?.totalSteps}</span>
-                    <div className="w-full h-3 bg-gray-300 rounded-lg">
-                        <div className={`w-[${percentage}%] h-3 bg-progress rounded-lg`}></div>                
-                    </div>
+                    <ProgressBar percentage={percentage} />
                 </div>
                 ) }
             </div>
