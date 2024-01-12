@@ -5,6 +5,7 @@ interface IRecordStepField {
       fields?: Array<IRecordStepField>
       file?: string
       observation?: string
+      actionPlan?: string
 }
 
 interface IRecordStep {

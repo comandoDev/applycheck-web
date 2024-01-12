@@ -10,7 +10,7 @@ const FormFooter = () => {
     const onClickNext = async () => {
         try {
             const isFinished = await formContext?.isRecordFinished()
-
+            console.log({ isFinished })
             if (isFinished) return router.push('/auth/forms')
 
             await formContext?.findRecordAndSetFilledFields((formContext!.lastReachedStep + 2))
@@ -21,7 +21,9 @@ const FormFooter = () => {
             )
     
             formContext?.setLastReachedStep(formContext.lastReachedStep + 1)
-        } finally {
+
+            return router.push('/auth/forms/fill')
+        } catch(error) {
             return router.push('/auth/forms/fill')
         }
     }

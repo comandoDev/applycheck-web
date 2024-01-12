@@ -7,12 +7,22 @@ export interface IFormContext {
     record?: IRecord
     setRecord: (record: IRecord) => void
     findFormById: (formId: string) => Promise<void>
-    lastReachedStep?: number
+    lastReachedStep: number
     setLastReachedStep: (lastReachedStep: number) => void
     currentStep?: IRecordStep
     setCurrentStep: (currentStep: IRecordStep) => void
-    filledFields?: Array<{ key: string, value: string }>
-    setFilledFields: (filledFields: Array<{ key: string, value: string }>) => void
+    filledFields?: Array<{ 
+        key: string,
+        value: string
+        observation?: string
+        actionPlan?: string 
+    }>
+    setFilledFields: (filledFields: Array<{ 
+        key: string,
+        value: string
+        observation?: string
+        actionPlan?: string
+    }>) => void
     findRecordAndSetFilledFields: (number: number) => Promise<void>
     isRecordFinished: () => Promise<boolean>
 }

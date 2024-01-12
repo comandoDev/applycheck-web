@@ -12,6 +12,8 @@ import to from "await-to-js"
 const FormList = () => {
   const formContext = useForm()
 
+  const router = useRouter()
+
   const [forms, setForms] = useState<Array<IForm>>([])
   const [recordInProgress, setRecordInProgress] = useState<IRecord>()
   const [loading, setLoading] = useState<boolean>(false)
@@ -39,7 +41,7 @@ const FormList = () => {
 
         setLoading(false)
       } catch (error) {
-        console.log({ error })
+        router.push('/login')
       }
     } 
 

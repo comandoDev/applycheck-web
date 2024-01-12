@@ -31,7 +31,7 @@ const FormBox = ({
     })
 
     const formBox = (
-        <div className={`w-full p-4 rounded-lg border border-gray-150 ${inProgressId && inProgressId !== id ? 'bg-zinc-100 animate-pulse' : 'bg-white'} text-selected mb-5 shadow-md`} key={id}>
+        <div className={`w-full p-4 rounded-lg border border-gray-150 ${inProgressId && inProgressId !== id ? 'bg-zinc-100' : 'bg-white'} text-selected mb-5 shadow-md`} key={id}>
                 <div className="w-full flex justify-between mb-3 items-start">
                     <div className="flex flex-col">
                         <span className="font-bold">{title}</span>

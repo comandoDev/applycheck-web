@@ -7,7 +7,7 @@ const QuestionBox = ({ field }: { field: IField }) => {
     const formContext = useForm()
 
     const [value, setValue] = useState<any>()
-    const [selectedKey, setSelectedKey] = useState<string>()
+    const [selectedOption, setSelectedOption] = useState<string>()
 
     useEffect(() => {
         const filledField = formContext?.filledFields?.find(filledField => filledField.key === field.key)
@@ -15,18 +15,18 @@ const QuestionBox = ({ field }: { field: IField }) => {
         const value = filledField?.value !
 
         setValue(value)
-        setSelectedKey(value)
+        setSelectedOption(value)
         setValuesToCurrentStep(value)
     }, [formContext?.filledFields])
 
     const onChange = (targetValue: string): void => {
-        setSelectedKey(targetValue)
+        setSelectedOption(targetValue)
         setValue(targetValue)
 
         setValuesToCurrentStep(targetValue)
     }
 
-    const setValuesToCurrentStep = (value: string) => {
+    const setValuesToCurrentStep = (value: string): void => {
         const currentStep = formContext?.currentStep 
 
         let exists = false
@@ -60,7 +60,7 @@ const QuestionBox = ({ field }: { field: IField }) => {
                             {field.options?.map(option => {
                                 return <div 
                                     key={option.key}
-                                    className={`w-full ${selectedKey === option.key ? 'bg-principal text-white' : 'border border-gray-200 text-gray-500 bg-zinc-50'} font-bold rounded-lg p-3 pl-8 mt-3`}
+                                    className={`w-full ${selectedOption === option.key ? 'bg-principal text-white' : 'border border-gray-200 text-gray-500 bg-zinc-50'} font-bold rounded-lg p-3 pl-8 mt-3`}
                                     onClick={() => onChange(option.key)}
                                     >{option.key}</div>
                             })}
@@ -95,7 +95,7 @@ const QuestionBox = ({ field }: { field: IField }) => {
                     )}
                 </div>
             </div>
-            <QuestionBoxFooter />        
+            <QuestionBoxFooter field={field} />        
         </div>
     )
 }

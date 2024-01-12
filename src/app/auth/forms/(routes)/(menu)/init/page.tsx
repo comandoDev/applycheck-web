@@ -14,8 +14,7 @@ const Init = () => {
     const formContext = useForm() 
     
     useEffect(() => {
-        console.log(formContext?.lastReachedStep)
-        if (formContext?.lastReachedStep! >= 0) return router.push('/auth/forms/fill')
+        if (formContext?.lastReachedStep! >= 0 && formContext?.form) return router.push('/auth/forms/fill')
 
         const formId = searchParams.get('formId')
 
