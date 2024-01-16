@@ -1,5 +1,6 @@
 'use client'
 
+import { FileContextProvider } from "./hooks/useFile"
 import { FormContextProvider } from "./hooks/useForm"
 
 const Layout = ({
@@ -10,9 +11,11 @@ const Layout = ({
   return(
     <>
         <FormContextProvider>
+          <FileContextProvider>
             <div className='flex flex-col'>
                 {children}
             </div>
+          </FileContextProvider>
         </FormContextProvider>
     </>
   )

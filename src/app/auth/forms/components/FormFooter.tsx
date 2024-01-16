@@ -1,6 +1,7 @@
 import EmployeeRepository from "@/Repositories/EmployeeRepository"
 import { useForm } from "../hooks/useForm"
 import { useRouter } from "next/navigation"
+import { message } from "antd"
 
 const FormFooter = () => {
     const router = useRouter()
@@ -10,7 +11,6 @@ const FormFooter = () => {
     const onClickNext = async () => {
         try {
             const isFinished = await formContext?.isRecordFinished()
-            console.log({ isFinished })
             if (isFinished) return router.push('/auth/forms')
 
             await formContext?.findRecordAndSetFilledFields((formContext!.lastReachedStep + 2))
@@ -23,7 +23,8 @@ const FormFooter = () => {
             formContext?.setLastReachedStep(formContext.lastReachedStep + 1)
 
             return router.push('/auth/forms/fill')
-        } catch(error) {
+        } catch (error) {
+            message.error(error.message)
             return router.push('/auth/forms/fill')
         }
     }

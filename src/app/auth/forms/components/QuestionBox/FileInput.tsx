@@ -1,8 +1,12 @@
 import { apiServer } from "@/services/api"
 import { message } from "antd"
 import { ChangeEvent } from "react"
+import { IField } from "@/interfaces/Form"
+import { useFile } from "../../hooks/useFile"
 
-const FileInput = ({ inputId }: { inputId: string }) => {
+const FileInput = ({ inputId, field }: { inputId: string, field: IField }) => {
+    const fileContext = useFile()
+
     const handleFileOnChange =  async (event: ChangeEvent<HTMLInputElement>) => {
         try {
             const file = event.target.files![0]
@@ -17,18 +21,25 @@ const FileInput = ({ inputId }: { inputId: string }) => {
                         'Content-Type': 'multipart/form-data'
                     }
                 })
+
+                const fileUrl = response.data.data.file
+
+                fileContext?.setFile(fileUrl)
+                fileContext?.setFieldKey(field.key)
             }
  
         } catch (error) {
             message.error((error as any).message)
         }
     }
+    
     return (
         <input 
             id={inputId}
             type="file"
             className="hidden"
             onChange={handleFileOnChange}
+            accept="image/*"
         />
     )
 }

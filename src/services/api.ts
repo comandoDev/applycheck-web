@@ -4,7 +4,7 @@ import env from '@/config/env'
 import Storage from '@/utils/Storage'
 
 export const apiServer = axios.create({
-  baseURL: env.reactAppServer || 'http://10.0.12.210:4000'
+  baseURL: env.reactAppServer || 'http://10.0.12.233:4000'
 })
 
 const setBearerToken = (instance: AxiosInstance): void => {

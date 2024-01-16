@@ -3,7 +3,7 @@
 import { useEffect } from "react"
 import { useForm } from "../../../hooks/useForm"
 import { useRouter, useSearchParams } from "next/navigation"
-import { Image, message } from "antd"
+import { message } from "antd"
 import EmployeeRepository from "@/Repositories/EmployeeRepository"
 import { FileArrowDown } from "@phosphor-icons/react"
 

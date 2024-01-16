@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import QuestionBoxFooter from "./QuestionBoxFooter"
 import { IField, InputType } from "@/interfaces/Form"
 import { useForm } from "../../hooks/useForm"
+import FormInput from "@/app/auth/forms/components/QuestionBox/Input"
 
 const QuestionBox = ({ field }: { field: IField }) => {
     const formContext = useForm()
@@ -19,7 +20,7 @@ const QuestionBox = ({ field }: { field: IField }) => {
         setValuesToCurrentStep(value)
     }, [formContext?.filledFields])
 
-    const onChange = (targetValue: string): void => {
+    const handleOnChange = (targetValue: string): void => {
         setSelectedOption(targetValue)
         setValue(targetValue)
 
@@ -48,8 +49,6 @@ const QuestionBox = ({ field }: { field: IField }) => {
         formContext?.setCurrentStep(currentStep!)
     }
 
-    const defaultStyle = 'w-full rounded-lg p-3 pl-4 mt-3 bg-white border border-gray-300'
-    
     return (
         <div className="w-full p-6 border border-gray-150 rounded-lg shadow-xl bg-white mb-5">
             <div className="border-b-2 border-gray-300 pb-4 mb-4">
@@ -61,37 +60,34 @@ const QuestionBox = ({ field }: { field: IField }) => {
                                 return <div 
                                     key={option.key}
                                     className={`w-full ${selectedOption === option.key ? 'bg-principal text-white' : 'border border-gray-200 text-gray-500 bg-zinc-50'} font-bold rounded-lg p-3 pl-8 mt-3`}
-                                    onClick={() => onChange(option.key)}
+                                    onClick={() => handleOnChange(option.key)}
                                     >{option.key}</div>
                             })}
                         </>
                     )}
                     {field.type === InputType.text && (
-                        <input 
-                            className={`${defaultStyle}`} 
-                            type="text"
+                        <FormInput 
+                            onChange={handleOnChange}
                             placeholder="Digite um valor"
-                            onChange={(e) => onChange(e.target.value)}
+                            type={InputType.text}
                             value={value}
-                            />
+                        />
                     )}
                     {field.type === InputType.number && (
-                        <input 
-                            className={`${defaultStyle}`} 
-                            type="number"
+                        <FormInput 
+                            onChange={handleOnChange}
                             placeholder="Digite um número"
-                            onChange={(e) => onChange(e.target.value)}
+                            type={InputType.number}
                             value={value}
-                           />
+                        />
                     )}
                     {field.type === InputType.date && (
-                        <input 
-                            className={`${defaultStyle}`}
-                            type="date"
-                            onChange={(e) => onChange(e.target.value)}
+                        <FormInput 
+                            onChange={handleOnChange}
                             placeholder="Selecione uma data"
+                            type={InputType.date}
                             value={value}
-                            />
+                        />
                     )}
                 </div>
             </div>
