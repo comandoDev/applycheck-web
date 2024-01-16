@@ -1,4 +1,4 @@
-import { useForm } from "@/app/auth/forms/hooks/useForm"
+import { useForm } from "@/app/auth/forms/hooks/FormContext/useForm"
 import { IField } from "@/interfaces/Form"
 
 interface ISetCurrentStep {

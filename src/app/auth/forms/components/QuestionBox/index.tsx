@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import QuestionBoxFooter from "./QuestionBoxFooter"
 import { IField, InputType } from "@/interfaces/Form"
-import { useForm } from "../../hooks/useForm"
+import { useForm } from "../../hooks/FormContext/useForm"
 import FormInput from "@/app/auth/forms/components/QuestionBox/Input"
 
 const QuestionBox = ({ field }: { field: IField }) => {

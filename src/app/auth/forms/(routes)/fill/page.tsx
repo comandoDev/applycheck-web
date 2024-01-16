@@ -1,6 +1,6 @@
 'use client'
 
-import { useForm } from "../../hooks/useForm"
+import { useForm } from "../../hooks/FormContext/useForm"
 import { useEffect, useState } from "react"
 import { IFormStep } from "@/interfaces/Form"
 import QuestionBox from "../../components/QuestionBox"

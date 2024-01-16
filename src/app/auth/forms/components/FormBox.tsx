@@ -3,7 +3,7 @@
 import { FormType } from "@/interfaces/Form"
 import { ArrowCircleRight } from "@phosphor-icons/react"
 import Link from "next/link"
-import { useForm } from "../hooks/useForm"
+import { useForm } from "../hooks/FormContext/useForm"
 import { useEffect, useState } from "react"
 import ProgressBar from "./ProgressBar"
 

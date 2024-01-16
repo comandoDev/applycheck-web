@@ -1,7 +1,8 @@
 'use client'
 
-import { FileContextProvider } from "./hooks/useFile"
-import { FormContextProvider } from "./hooks/useForm"
+import { NavbarContextProvider } from "@/app/auth/forms/hooks/NavbarContext/useNavbar"
+import { FileContextProvider } from "./hooks/FileContext/useFile"
+import { FormContextProvider } from "./hooks/FormContext/useForm"
 
 const Layout = ({
   children
@@ -10,13 +11,15 @@ const Layout = ({
 }) => {
   return(
     <>
-        <FormContextProvider>
-          <FileContextProvider>
-            <div className='flex flex-col'>
-                {children}
-            </div>
-          </FileContextProvider>
-        </FormContextProvider>
+    <NavbarContextProvider>
+      <FormContextProvider>
+        <FileContextProvider>
+          <div className='flex flex-col'>
+            {children}
+          </div>
+        </FileContextProvider>
+      </FormContextProvider>
+    </NavbarContextProvider>
     </>
   )
 }

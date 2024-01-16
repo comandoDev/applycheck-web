@@ -1,10 +1,10 @@
 import { IField } from "@/interfaces/Form"
 import { CameraPlus, ChatText, Trash, TrashSimple, WarningDiamond } from "@phosphor-icons/react"
 import { ChangeEvent, useEffect, useState } from "react"
-import { useForm } from "../../hooks/useForm"
+import { useForm } from "../../hooks/FormContext/useForm"
 import FileInput from "./FileInput"
 import { Image } from "antd"
-import { useFile } from "../../hooks/useFile"
+import { useFile } from "../../hooks/FileContext/useFile"
 
 const QuestionBoxFooter = ({ field }: { field: IField }) => {
     const formContext = useForm()

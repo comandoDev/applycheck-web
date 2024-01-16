@@ -2,9 +2,8 @@
 
 import { FormEvent, useState } from "react"
 import Input from "./components/Input"
-import UserRepository from "@/Repositories/UserRepository"
 import { useAuth } from "@/hooks/useAuth"
-import { redirect, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 
 const SignIn = () => {
     const router = useRouter()
@@ -17,11 +16,17 @@ const SignIn = () => {
     const [showPasswordError, setShowPasswordError] = useState<boolean>(false)
 
     const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
+        try {            
+            e.preventDefault()
+    
+            authContext?.setError(undefined)
 
-        await authContext?.handleUserSignin(email, password)
-
-        if (!authContext?.error) return router.push('/auth/forms')
+            await authContext?.handleUserSignin(email, password)
+            
+            if (!authContext?.error) return router.push('/auth/forms')
+        } catch (error) {
+            router.push('/login')
+        }
     }
 
     return (
