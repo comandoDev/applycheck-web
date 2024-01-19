@@ -6,6 +6,8 @@ interface IRecordStepField {
       file?: string
       observation?: string
       actionPlan?: string
+      fatherKey?: string
+      hasChildren?: boolean
 }
 
 interface IRecordStep {
@@ -40,10 +42,11 @@ interface IRecord {
 
 interface IFilledField { 
       key: string,
-      value: string
+      value?: string
       observation?: string
       actionPlan?: string
       file?: string
+      fields?: Array<IRecordStepField>
 }
 
 export type {

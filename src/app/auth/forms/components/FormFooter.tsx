@@ -22,7 +22,7 @@ const FormFooter = () => {
     
             formContext?.setLastReachedStep(formContext.lastReachedStep + 1)
 
-            return router.push('/auth/forms/fill')
+            // return router.push('/auth/forms/fill')
         } catch (error) {
             message.error(error.message)
             return router.push('/auth/forms/fill')
@@ -31,11 +31,13 @@ const FormFooter = () => {
 
     const onClickPrevious = async () => {
         try {
-            await formContext?.findRecordAndSetFilledFields(formContext!.lastReachedStep)
+            await formContext?.findRecordAndSetFilledFields(formContext.lastReachedStep)
 
             formContext?.setLastReachedStep(formContext.lastReachedStep - 1)
-        } finally {
-            return router.push('/auth/forms/fill')
+
+            // return router.push('/auth/forms/fill')
+        } catch (e) {
+            
         }
     }
 

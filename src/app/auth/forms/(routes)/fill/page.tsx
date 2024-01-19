@@ -37,7 +37,7 @@ const fill = () => {
             <ProgressBar percentage={(formContext!.lastReachedStep/formContext?.form?.totalSteps!) * 100} />
             <div className="p-5">
                 <h1 className="font-bold text-xl mb-5">{step?.title}</h1>
-                { step?.fields.map(field =>(<QuestionBox field={field} key={field.key}/>) ) }
+                { step?.fields.map((field) =>(<QuestionBox field={field} key={field.key}/>) ) }
             </div>
             <FormFooter />
         </>

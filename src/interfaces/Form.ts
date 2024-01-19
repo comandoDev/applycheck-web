@@ -1,5 +1,5 @@
 export enum InputType {
-    multipleQuestion = 'multipleQuestions',
+    multipleQuestions = 'multipleQuestions',
     select = 'select',
     text = 'text',
     number = 'number',

@@ -31,17 +31,31 @@ export const FormContextProvider = ({ children }: { children: ReactNode }) => {
     const step = response.data.data?.record?.steps?.find(step => step.order === stepOrder)
 
     if (step) {
-        const filledValues = step.fields.map(field => {
-            return {
-                key: field.key,
-                value: field.value!,
-                actionPlan: field.actionPlan,
-                observation: field.observation,
-                file: field.file
-            }
+      const fields = [] as Array<IFilledField>
+
+      step.fields.forEach(stepField => {
+        fields.push({
+          key: stepField.key,
+          value: stepField.value!,
+          actionPlan: stepField.actionPlan,
+          observation: stepField.observation,
+          file: stepField.file,
+          fields: stepField.fields
         })
 
-        setFilledFields(filledValues)
+        if (stepField.fields) {
+          stepField.fields.forEach(f => fields.push({
+            key: f.key,
+            value: f.value!,
+            actionPlan: f.actionPlan,
+            observation: f.observation,
+            file: f.file,
+            fields: f.fields
+          }))
+        }
+      })
+
+      setFilledFields(fields)
     }
   }
 
@@ -58,6 +72,7 @@ export const FormContextProvider = ({ children }: { children: ReactNode }) => {
 
       setLastReachedStep(0)
       setForm(undefined)
+      setRecord(undefined)
 
       message.success('Checagem concluida com sucesso!')
   
