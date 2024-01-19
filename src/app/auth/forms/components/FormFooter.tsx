@@ -31,6 +31,8 @@ const FormFooter = () => {
 
     const onClickPrevious = async () => {
         try {
+            if (!formContext?.lastReachedStep) return router.push('/auth/forms')
+
             await formContext?.findRecordAndSetFilledFields(formContext.lastReachedStep)
 
             formContext?.setLastReachedStep(formContext.lastReachedStep - 1)

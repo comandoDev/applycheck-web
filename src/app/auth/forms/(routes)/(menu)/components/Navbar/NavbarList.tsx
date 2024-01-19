@@ -1,6 +1,6 @@
 import { SelectedOption } from "@/app/auth/forms/hooks/NavbarContext/NavbarContext"
 import { useNavbar } from "@/app/auth/forms/hooks/NavbarContext/useNavbar"
-import { ClipboardText, Table } from "@phosphor-icons/react"
+import { ClipboardText, ListChecks, ListNumbers, Table } from "@phosphor-icons/react"
 import Link from "next/link"
 
 const NavbarList = () => {
@@ -26,7 +26,7 @@ const NavbarList = () => {
                     className={`flex items-center w-full p-3 rounded-lg ${navbarContext?.selected === SelectedOption.forms ? selectedLiStyle : normalLiStyle}`}
                     onClick={handleFormsClick}
                 >
-                    <Table size={28} />
+                    <ListChecks size={28} />
                         <span className="ml-3">FORMULÁRIOS</span>
                         </li>
             </Link>
@@ -35,7 +35,7 @@ const NavbarList = () => {
                     className={`flex items-center w-full p-3 rounded-lg ${navbarContext?.selected === SelectedOption.historic ? selectedLiStyle : normalLiStyle}`}
                     onClick={handleHistoricClick}
                 >
-                    <ClipboardText size={28} />
+                    <ListNumbers size={28} />
                     <span className="ml-3">HISTÓRICOS</span>
                 </li>
             </Link>

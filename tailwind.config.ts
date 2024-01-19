@@ -7,9 +7,7 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
+        cloud: "url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fillustrations%2Flight-blue-background&psig=AOvVaw3djmEjsBbQ5FLoJiIIENyp&ust=1705757361025000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCLCSvr_H6YMDFQAAAAAdAAAAABAI')"
       },
       colors: {
         principal: '#287AF8',

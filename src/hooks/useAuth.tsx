@@ -6,10 +6,13 @@ import { message } from 'antd';
 import { IAuthContext } from './AuthContext';
 import Storage from '@/utils/Storage';
 import UserRepository from '@/Repositories/UserRepository';
+import { useRouter } from 'next/navigation';
 
 const AuthContext = createContext<IAuthContext | null>(null)
 
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
+  const router = useRouter()
+
   const [user, setUser] = useState<IUser>()
   const [userToken, setUserToken] = useState<string>()
   const [error, setError] = useState()
@@ -30,6 +33,8 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       Storage.setUserToken(data?.token!)
       
       message.success(response.data.message)
+
+      return router.push('/auth/forms')
     } catch (error) {
       setError(error as any)
       message.error((error as any).message)

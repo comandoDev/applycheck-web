@@ -16,17 +16,11 @@ const SignIn = () => {
     const [showPasswordError, setShowPasswordError] = useState<boolean>(false)
 
     const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        try {            
-            e.preventDefault()
+        e.preventDefault()
     
-            authContext?.setError(undefined)
+        authContext?.setError(undefined)
 
-            await authContext?.handleUserSignin(email, password)
-            
-            if (!authContext?.error) return router.push('/auth/forms')
-        } catch (error) {
-            router.push('/login')
-        }
+        await authContext?.handleUserSignin(email, password)            
     }
 
     return (

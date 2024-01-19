@@ -7,6 +7,9 @@ import QuestionBox from "../../components/QuestionBox"
 import FormFooter from "../../components/FormFooter"
 import { useRouter } from "next/navigation"
 import ProgressBar from "../../components/ProgressBar"
+import Link from "next/link"
+import { Button, Flex } from "antd"
+import { ArrowArcRight, ArrowLeft } from "@phosphor-icons/react"
 
 const fill = () => {
     const formContext = useForm()
@@ -35,8 +38,11 @@ const fill = () => {
     return (
         <>
             <ProgressBar percentage={(formContext!.lastReachedStep/formContext?.form?.totalSteps!) * 100} />
+            <div className="w-full pl-5 mt-5">
+                <Button type="primary" className="bg-principal" onClick={() => router.push('/auth/forms')}>VOLTAR AO MENU</Button>
+            </div>
             <div className="p-5">
-                <h1 className="font-bold text-xl mb-5">{step?.title}</h1>
+                <h1 className="font-bold text-xl mb-3">{step?.title}</h1>
                 { step?.fields.map((field) =>(<QuestionBox field={field} key={field.key}/>) ) }
             </div>
             <FormFooter />
