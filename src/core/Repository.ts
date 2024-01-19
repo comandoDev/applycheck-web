@@ -1,13 +1,17 @@
-import axios, { AxiosInstance, AxiosError } from 'axios'
-import { apiServer } from "@/services/api"
-import { IDocumentIdResponse, IPaginateList, IResponse } from '@/interfaces/Response'
+import axios, { AxiosError, AxiosInstance } from 'axios'
 
+import { IDocumentIdResponse, IPaginateList, IResponse } from '@/interfaces/Response'
+import { apiServer } from '@/services/api'
+import { message } from 'antd'
 
 export class Repository<T> {
   constructor (
     protected path: string = '',
     protected api: AxiosInstance = apiServer
-  ) { } 
+  ) {
+    this.path = path
+    this.api = api
+  }
 
   async list (): Promise<IResponse<IPaginateList<T>>> {
     return this.execute<IPaginateList<T>>(() =>
@@ -19,7 +23,7 @@ export class Repository<T> {
     return this.execute(() =>
       this.api.get(`${this.path}/:${id}`)
     )
-  } 
+  }
 
   async create (data: T): Promise<IResponse<T>> {
     return this.execute(() =>
