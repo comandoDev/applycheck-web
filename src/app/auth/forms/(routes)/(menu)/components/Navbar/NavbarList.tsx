@@ -30,7 +30,7 @@ const NavbarList = () => {
                         <span className="ml-3">FORMULÁRIOS</span>
                         </li>
             </Link>
-            <Link href='/auth/forms/historics' className="w-5/6 mt-5">
+            {/* <Link href='/auth/forms/historics' className="w-5/6 mt-5">
                 <li 
                     className={`flex items-center w-full p-3 rounded-lg ${navbarContext?.selected === SelectedOption.historic ? selectedLiStyle : normalLiStyle}`}
                     onClick={handleHistoricClick}
@@ -38,7 +38,7 @@ const NavbarList = () => {
                     <ListNumbers size={28} />
                     <span className="ml-3">HISTÓRICOS</span>
                 </li>
-            </Link>
+            </Link> */}
         </ul>
     )
 }
