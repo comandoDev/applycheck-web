@@ -1,10 +1,10 @@
 import { SelectedOption } from "@/app/auth/forms/hooks/NavbarContext/NavbarContext"
-import { useNavbar } from "@/app/auth/forms/hooks/NavbarContext/useNavbar"
-import { ClipboardText, ListChecks, ListNumbers, Table } from "@phosphor-icons/react"
+import { useEmployeeNavbar } from "@/app/auth/forms/hooks/NavbarContext/useEmployeeNavbar"
+import { ListChecks } from "@phosphor-icons/react"
 import Link from "next/link"
 
 const NavbarList = () => {
-    const navbarContext = useNavbar()
+    const navbarContext = useEmployeeNavbar()
 
     const handleFormsClick = () => {
         navbarContext?.setSelected(SelectedOption.forms)

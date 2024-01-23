@@ -1,3 +1,6 @@
+import { IForm } from "@/interfaces/Form"
+import { IUser } from "@/interfaces/User"
+
 interface IRecordStepField {
       key: string
       value?: string
@@ -34,6 +37,8 @@ interface IRecord {
       actionPlan?: string
       hasNonCompliance?: boolean
       nonComplianceCount?: number
+      employee?: IUser
+      form?: IForm
 
       tenantId: string
       formId: string

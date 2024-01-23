@@ -1,10 +1,10 @@
 'use client'
 
-import { useNavbar } from '@/app/auth/forms/hooks/NavbarContext/useNavbar'
+import { useEmployeeNavbar } from '@/app/auth/forms/hooks/NavbarContext/useEmployeeNavbar'
 import { Bell, List } from '@phosphor-icons/react'
 
 const Header = () => {
-	const navbarContext = useNavbar()
+	const navbarContext = useEmployeeNavbar()
 
 	const handleHamburguerClick = () => {
 		navbarContext?.setShow(!navbarContext.show)

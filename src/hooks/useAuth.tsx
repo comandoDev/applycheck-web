@@ -1,9 +1,9 @@
 'use client'
 
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { IUser } from '@/interfaces/User';
+import { createContext, ReactNode, useContext, useState } from 'react';
+import { IUser, UserRole } from '@/interfaces/User';
 import { message } from 'antd';
-import { IAuthContext } from './AuthContext';
+import { IAuthContext, IUserSigninProps } from './AuthContext';
 import Storage from '@/utils/Storage';
 import UserRepository from '@/Repositories/UserRepository';
 import { useRouter } from 'next/navigation';
@@ -16,30 +16,36 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<IUser>()
   const [userToken, setUserToken] = useState<string>()
   const [error, setError] = useState()
+  const [loading, setLoading] = useState(false)
 
-  const handleUserSignin = async (email: string, password: string) => {
+  const handleUserSignin = async ({ email, password }: IUserSigninProps) => {
     try {
+      setLoading(true)
+
       const response = await UserRepository.signin({
         email,
         password
       })
 
-      const data = response.data.data
+      const { user, token } = response.data.data!
 
-      setUser(data?.user)
-      setUserToken(data?.token)
+      setUser(user)
+      setUserToken(token)
 
-      Storage.setUser(data?.user!)
-      Storage.setUserToken(data?.token!)
+      Storage.setUser(user)
+      Storage.setUserToken(token!)
       
       message.success(response.data.message)
+
+      if (user.role === UserRole.manager) return router.push('/auth/records')
 
       return router.push('/auth/forms')
     } catch (error) {
       setError(error as any)
       message.error((error as any).message)
+    } finally {
+      setLoading(false)
     }
-
   }
 
   const logout = () => {
@@ -52,7 +58,9 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     error,
     logout,
     setError,
-    handleUserSignin
+    handleUserSignin,
+    loading,
+    setLoading
   }
 
   return (

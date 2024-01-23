@@ -6,21 +6,20 @@ import { useAuth } from "@/hooks/useAuth"
 import { useRouter } from "next/navigation"
 
 const SignIn = () => {
-    const router = useRouter()
-
     const authContext = useAuth()
 
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
-    const [showEmailError, setShowEmailError] = useState<boolean>(false)
-    const [showPasswordError, setShowPasswordError] = useState<boolean>(false)
 
     const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
     
         authContext?.setError(undefined)
 
-        await authContext?.handleUserSignin(email, password)            
+        await authContext?.handleUserSignin({
+            email,
+            password
+        })            
     }
 
     return (
@@ -38,15 +37,11 @@ const SignIn = () => {
                         name="email"
                         type="email"
                         onChange={setEmail}
-                        setShowError={setShowEmailError}
-                        showError={showEmailError}
                     />
                     <Input 
                         placeHolder="Insira sua senha"
                         name="password"
                         onChange={setPassword}
-                        setShowError={setShowPasswordError}
-                        showError={showPasswordError}
                     />
 
                     <Input 

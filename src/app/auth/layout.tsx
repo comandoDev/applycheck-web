@@ -4,8 +4,6 @@
 import { useEffect } from 'react'
 import Storage from '@/utils/Storage'
 import { redirect } from 'next/navigation'
-import Content from './employee/components/Content'
-import Header from './employee/components/Header'
 
 const Layout = ({
   children
@@ -20,7 +18,7 @@ const Layout = ({
 
   return isAuthenticated ? (
     <>
-        <div className='flex flex-col'>
+        <div className='flex flex-col overflow-hidden'>
           {children}
         </div>
     </>
