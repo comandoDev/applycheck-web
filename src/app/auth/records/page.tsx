@@ -37,9 +37,9 @@ const Records = () => {
 
             <div className="flex mb-14">
                 <StatisticsBox title="Registros" data={totalCount!} />
-                <StatisticsBox title="Registros em conforme" data={registerWithoutNonComplianceCount!} />
-                <StatisticsBox title="Registros com não conformidades" data={registerWithNonComplianceCount!} />
-                <StatisticsBox title="N.º de não conformidades" data={nonComplianceCount!} lastOne={true} />
+                <StatisticsBox title="Registros em conf." data={registerWithoutNonComplianceCount!} />
+                <StatisticsBox title="Registros com não conf." data={registerWithNonComplianceCount!} />
+                <StatisticsBox title="N.º de não conf." data={nonComplianceCount!} lastOne={true} />
             </div>
             
             <RecordsTable records={records!} />

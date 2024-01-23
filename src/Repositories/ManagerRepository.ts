@@ -9,6 +9,13 @@ class ManagerRepository extends Repository<IUser> {
           this.api.get(`${this.path}/records?limit=20`)
         )
     }
+
+    async getOneRecord (recordId: string): Promise<IResponse<{ record: IRecord }>> {
+        return this.execute(() =>
+          this.api.get(`${this.path}/records/get/${recordId}`)
+        )
+      }
+    
     
     async dash (): Promise<IResponse<{
         dash: {

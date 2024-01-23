@@ -12,7 +12,7 @@ const RecordsTable = ({ records }: { records: Array<IRecord> }) => {
             status: record.status,
             stepsNumber: record.form?.totalSteps,
             nonCompliance: record.nonComplianceCount,
-            date: record.createdAt
+            date: new Date(record.createdAt!).toLocaleDateString("pt-BR")
         }
     })
       
@@ -57,7 +57,7 @@ const RecordsTable = ({ records }: { records: Array<IRecord> }) => {
                     <Tag color={color} key={status}>
                         {status}
                     </Tag>
-                );
+                )
             },
         },
         {
@@ -69,7 +69,9 @@ const RecordsTable = ({ records }: { records: Array<IRecord> }) => {
             title: 'Ação',
             dataIndex: '',
             key: 'x',
-            render: () => <Link href='' className="text-principal">Analisar</Link>,
+            render: (index: any) => {
+                return <Link href={`/auth/records/one?recordId=${index.key}`} className="text-principal">Analisar</Link>
+            },
         },
     ];
 

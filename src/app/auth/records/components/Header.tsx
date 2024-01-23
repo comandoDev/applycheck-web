@@ -50,7 +50,7 @@ const Header = () => {
                     fill="#acb3be"
                     weight="fill"
                 />
-                <div className="ml-7 w-[50px] h-[50px] rounded-full flex justify-center items-center bg-principal text-white text-xl">E</div>
+                <Link href='' className="ml-7 w-[50px] h-[50px] rounded-full flex justify-center items-center bg-principal text-white text-xl">E</Link>
             </div>
         </div>
     )
