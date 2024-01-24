@@ -1,11 +1,8 @@
-/* eslint-disable no-undef */
 'use client'
 
 import { useEffect } from 'react'
 import Storage from '@/utils/Storage'
 import { redirect } from 'next/navigation'
-import Content from './employee/components/Content'
-import Header from './employee/components/Header'
 
 const Layout = ({
   children

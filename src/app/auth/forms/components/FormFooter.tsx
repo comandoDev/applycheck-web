@@ -24,7 +24,7 @@ const FormFooter = () => {
 
             // return router.push('/auth/forms/fill')
         } catch (error) {
-            message.error(error.message)
+            message.error((error as any).message)
             return router.push('/auth/forms/fill')
         }
     }
