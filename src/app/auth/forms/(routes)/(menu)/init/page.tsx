@@ -31,7 +31,7 @@ const Init = () => {
 
             router.push('/auth/forms/fill')
         } catch (error) {
-            message.error(error?.message as string)
+            message.error((error as any)?.message)
             router.push('/auth/forms')
         }
     }
