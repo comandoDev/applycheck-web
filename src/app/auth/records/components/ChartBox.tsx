@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react"
 import ReactApexChart from "react-apexcharts"
 
-interface IStatisticsBoxProps {
+interface IChartBoxProps {
     title: string
     data: number
     lastOne?: boolean
 }
 
-const StatisticsBox = ({
+const ChartBox = ({
     title,
     data,
     lastOne
-}: IStatisticsBoxProps) => {
+}: IChartBoxProps) => {
         const [months, setMonths] = useState<Array<string>>(['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun'])
 
         useEffect(() => {
@@ -50,7 +50,7 @@ const StatisticsBox = ({
             },
             grid: {
               row: {
-                colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                colors: ['#f3f3f3', 'transparent'],
                 opacity: 0.5
               },
             },
@@ -59,10 +59,10 @@ const StatisticsBox = ({
     return (
         <div className={`${boxStyle} ${lastOne ? 'mr-0' : 'mr-14'}`}>
             <div className="flex-1 flex justify-center">
-                <ReactApexChart type="area" options={options} series={series} height={200} width={250} />
+                <ReactApexChart type="bar" options={options as ApexCharts.ApexOptions} series={series} height={200} width={250} />
             </div>
         </div>
     )
 }
 
-export default StatisticsBox
+export default ChartBox

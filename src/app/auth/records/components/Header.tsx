@@ -11,7 +11,7 @@ const Header = () => {
         navbarContext?.setSelected(selected)
     }
 
-    const normalLiStyle = 'pb-7 pt-7 mr-5 text-zinc-500'
+    const normalLiStyle = 'pb-7 pt-7 mr-5 text-zinc-500 font-medium'
     const selectedLiStyle = 'pb-7 pt-7 mr-5 border-b-2 border-principal text-principal'
 
     return (

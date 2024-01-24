@@ -13,7 +13,7 @@ const Layout = ({
   const isAuthenticated = Storage.getUserToken()
 
   useEffect(() => {
-    if (!isAuthenticated) return redirect('/login')
+    if (!isAuthenticated) return redirect('/login/manager')
   }, [])
 
   return isAuthenticated ? (

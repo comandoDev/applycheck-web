@@ -4,7 +4,7 @@ import ManagerRepository from "@/Repositories/ManagerRepository"
 import { IRecord } from "@/interfaces/Record"
 import { useEffect, useState } from "react"
 import RecordsTable from "./components/RecordsTable"
-import StatisticsBox from "./components/StatisticsBox"
+import ChartBox from "./components/ChartBox"
 
 const Records = () => {
     const [records, setRecords] = useState<Array<IRecord>>()
@@ -30,16 +30,16 @@ const Records = () => {
     }, [])
       
     return (
-        <div className="pl-24 pr-24 pt-10 pb-10">
+        <div className="pl-24 pr-24 pt-10 pb-10 bg-[#f8fafc]">
             <div className="mb-10">
                 <h1 className="font-bold text-3xl text-zinc-700">Lista de Registros</h1>
             </div>
 
             <div className="flex mb-14">
-                <StatisticsBox title="Registros" data={totalCount!} />
-                <StatisticsBox title="Registros em conf." data={registerWithoutNonComplianceCount!} />
-                <StatisticsBox title="Registros com não conf." data={registerWithNonComplianceCount!} />
-                <StatisticsBox title="N.º de não conf." data={nonComplianceCount!} lastOne={true} />
+                <ChartBox title="Registros" data={totalCount!} />
+                <ChartBox title="Registros em conf." data={registerWithoutNonComplianceCount!} />
+                <ChartBox title="Registros com não conf." data={registerWithNonComplianceCount!} />
+                <ChartBox title="N.º de não conf." data={nonComplianceCount!} lastOne={true} />
             </div>
             
             <RecordsTable records={records!} />

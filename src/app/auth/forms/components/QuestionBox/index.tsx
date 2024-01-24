@@ -13,8 +13,7 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
     useEffect(() => {   
         const filledField = formContext?.filledFields?.find(filledField => filledField.key === field.key)
 
-        const value = filledField?.value!
-        setValues(value)
+        setValues(filledField?.value!, filledField?.nonCompliance!)
     }, [formContext?.filledFields])
 
     const handleOnChange = (targetValue: string, nonCompliance?: boolean): void => {

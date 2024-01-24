@@ -46,7 +46,7 @@ const RecordsTable = ({ records }: { records: Array<IRecord> }) => {
             title: 'Status',
             dataIndex: 'status',
             key: 'status',
-            render: (_, { status }) => {
+            render: (_: any, { status }: { status: any }) => {
                 let color = ''
 
                 if (status === 'aberto') color = 'green'
