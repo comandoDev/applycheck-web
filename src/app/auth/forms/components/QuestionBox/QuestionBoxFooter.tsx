@@ -68,7 +68,7 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
         setFile('')
     }
 
-    const setValuesToCurrentStep = (key: string, value: string) => {
+    const setValuesToCurrentStep = (key: 'file' | 'actionPlan' |  'observation', value: string) => {
         const currentStep = formContext?.currentStep 
 
         let exists = false

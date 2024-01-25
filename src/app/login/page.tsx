@@ -3,11 +3,8 @@
 import { FormEvent, useState } from "react"
 import Input from "./components/Input"
 import { useAuth } from "@/hooks/useAuth"
-import { useRouter } from "next/navigation"
 
 const SignIn = () => {
-    const router = useRouter()
-
     const authContext = useAuth()
 
     const [email, setEmail] = useState<string>('')
