@@ -57,8 +57,8 @@ const RecordStatisticsbox = ({
                 </Tooltip>
             </div>
             <div className="w-full p-5 bg-[#F2F6FE] rounded-xl">
-            <div className="flex items-center">
-                    <div className={`w-2 h-2 rounded-full bg-${progress.color}-500`}></div>
+                <div className="flex items-center">
+                    <div className='w-2 h-2 rounded-full' style={{ backgroundColor: progress.color }}></div>
                     <span className="text-xs ml-2 font-bold">{progress.info}</span>
                 </div>
             </div>

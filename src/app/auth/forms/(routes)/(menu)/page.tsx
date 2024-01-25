@@ -1,6 +1,6 @@
-import FormList from '../../components/FormList'
+import FormList from '../../components/Form/FormList'
 
-const Home = () => {
+const Home = async () => {
   return <FormList />
 }
 

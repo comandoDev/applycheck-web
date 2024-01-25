@@ -5,8 +5,11 @@ import { IRecord } from "@/interfaces/Record"
 import { useEffect, useState } from "react"
 import RecordsTable from "./components/RecordsTable"
 import ChartBox from "./components/ChartBox"
+import { useRouter } from "next/navigation"
 
 const Records = () => {
+    const router = useRouter()
+
     const [records, setRecords] = useState<Array<IRecord>>()
     const [nonComplianceCount, setNonComplianceCount] = useState<number>()
     const [registerWithNonComplianceCount, setRegisterWithNonComplianceCount] = useState<number>()
@@ -15,15 +18,19 @@ const Records = () => {
 
     useEffect(() => {
         const fetch = async () => {
-            const dashResponse = await ManagerRepository.dash()
-
-            const { docs, nonComplianceCount, registerWithNonComplianceCount, registerWithoutNonComplianceCount, totalCount } = dashResponse.data.data!.dash
-
-            setRecords(docs)
-            setNonComplianceCount(nonComplianceCount)
-            setRegisterWithNonComplianceCount(registerWithNonComplianceCount)
-            setRegisterWithoutNonComplianceCount(registerWithoutNonComplianceCount)
-            setTotalCount(totalCount)
+            try {
+                const dashResponse = await ManagerRepository.dash()
+    
+                const { docs, nonComplianceCount, registerWithNonComplianceCount, registerWithoutNonComplianceCount, totalCount } = dashResponse.data.data!.dash
+    
+                setRecords(docs)
+                setNonComplianceCount(nonComplianceCount)
+                setRegisterWithNonComplianceCount(registerWithNonComplianceCount)
+                setRegisterWithoutNonComplianceCount(registerWithoutNonComplianceCount)
+                setTotalCount(totalCount)
+            } catch (error) {
+                router.push('/login/manager')
+            }
         }
 
         fetch()

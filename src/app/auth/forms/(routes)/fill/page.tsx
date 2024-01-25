@@ -4,12 +4,10 @@ import { useForm } from "../../hooks/FormContext/useForm"
 import { useEffect, useState } from "react"
 import { IFormStep } from "@/interfaces/Form"
 import QuestionBox from "../../components/QuestionBox"
-import FormFooter from "../../components/FormFooter"
+import FormFooter from "../../components/Form/FormFooter"
 import { useRouter } from "next/navigation"
 import ProgressBar from "../../components/ProgressBar"
-import Link from "next/link"
 import { Button, Flex } from "antd"
-import { ArrowArcRight, ArrowLeft } from "@phosphor-icons/react"
 
 const fill = () => {
     const formContext = useForm()

@@ -59,7 +59,7 @@ const ChartBox = ({
     return (
         <div className={`${boxStyle} ${lastOne ? 'mr-0' : 'mr-14'}`}>
             <div className="flex-1 flex justify-center">
-                <ReactApexChart type="bar" options={options as ApexCharts.ApexOptions} series={series} height={200} width={250} />
+                <ReactApexChart type="area" options={options as ApexCharts.ApexOptions} series={series} height={200} width={250} />
             </div>
         </div>
     )

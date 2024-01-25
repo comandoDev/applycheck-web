@@ -6,7 +6,7 @@ import { ReactNode, createContext, useContext, useState } from "react"
 const FileContext = createContext<IFileContext | null>(null)
 
 export const FileContextProvider = ({ children }: { children: ReactNode }) => {
-  const [file, setFile] = useState<string>()
+  const [file, setFile] = useState<string | null>()
   const [fieldKey, setFieldKey] = useState<string>()
 
   const fileContextProvider = {

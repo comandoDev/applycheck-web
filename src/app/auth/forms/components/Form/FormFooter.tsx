@@ -1,5 +1,5 @@
 import EmployeeRepository from "@/Repositories/EmployeeRepository"
-import { useForm } from "../hooks/FormContext/useForm"
+import { useForm } from "../../hooks/FormContext/useForm"
 import { useRouter } from "next/navigation"
 import { message } from "antd"
 
@@ -24,7 +24,7 @@ const FormFooter = () => {
 
             // return router.push('/auth/forms/fill')
         } catch (error) {
-            message.error(error.message)
+            message.error((error as any).message)
             return router.push('/auth/forms/fill')
         }
     }

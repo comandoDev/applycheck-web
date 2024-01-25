@@ -3,11 +3,10 @@
 import ManagerRepository from "@/Repositories/ManagerRepository"
 import RecordTable from "@/app/auth/records/components/Record/RecordStepTable"
 import { IRecord } from "@/interfaces/Record"
-import { Progress, Steps, Tabs, Tooltip } from "antd"
+import { Tabs } from "antd"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import RecordStatisticsList from "../components/Record/RecordStatisticsList"
-import ReactApexChart from "react-apexcharts"
 import RecordNonCompliancesChart from "../components/Record/RecordNonCompliancesChart"
 
 const RecordPage = () => {
@@ -21,10 +20,14 @@ const RecordPage = () => {
         if (!recordId) return router.push('/login/manager')
 
         const fetch = async () => {
-            const response = await ManagerRepository.getOneRecord(recordId)
-
-            const record = response.data.data?.record 
-            setRecord(record)
+            try {
+                const response = await ManagerRepository.getOneRecord(recordId)
+    
+                const record = response.data.data?.record 
+                setRecord(record)
+            } catch (error) {
+                router.push('/login/manager')
+            }
         }
 
         fetch()  

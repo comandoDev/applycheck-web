@@ -4,22 +4,24 @@ import env from '@/config/env'
 import Storage from '@/utils/Storage'
 
 export const apiServer = axios.create({
-  baseURL: env.reactAppServer || 'http://10.0.12.233:4000'
+  baseURL: env.reactAppServer || 'http://localhost:4000'
 })
 
 const setBearerToken = (instance: AxiosInstance): void => {
-  instance.interceptors.request.use(async (config: AxiosRequestConfig): AxiosRequestConfig => {
-    const isAuthed = document.location.href.includes('/auth')
+  instance.interceptors.request.use(async (config: AxiosRequestConfig): Promise<any> => {
+      const isAuthed = document.location.href.includes('/auth');
 
-    const token = Storage.getUserToken()
+      const token = Storage.getUserToken();
 
-    if (token && isAuthed) {
-      config.headers = config.headers || {}
-      config.headers.Authorization = 'Bearer ' + token
-    }
+      if (token && isAuthed) {
+        config.headers = config.headers || {};
+        config.headers.Authorization = 'Bearer ' + token;
+      }
 
-    return config
-  }, error => Promise.reject(error))
-}
+      return config;
+    },
+    error => Promise.reject(error)
+  );
+};
 
 setBearerToken(apiServer)

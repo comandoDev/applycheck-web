@@ -6,8 +6,9 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { IRecord } from "@/interfaces/Record"
 import EmployeeRepository from "@/Repositories/EmployeeRepository"
-import { useForm } from "../hooks/FormContext/useForm"
+import { useForm } from "../../hooks/FormContext/useForm"
 import to from "await-to-js"
+import FormListLoading from "./FormListLoading"
 
 const FormList = () => {
   const formContext = useForm()
@@ -63,7 +64,7 @@ const FormList = () => {
             />
           }) }
         </>
-      ) : 'LOADING' }
+      ) : <FormListLoading /> }
     </>
   )
 }
