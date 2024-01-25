@@ -2,10 +2,12 @@ import { IUser } from '@/interfaces/User'
 
 class Storage {
   setUser (user: IUser): void {
-    localStorage.setItem('user', JSON.stringify(user))
+    if (this.isWindowDefined()) localStorage.setItem('user', JSON.stringify(user))
   }
 
   getUser (): IUser | null {
+    if (!this.isWindowDefined()) return null
+
     const user = localStorage.getItem('user')
     if (!user) return null
 
@@ -13,15 +15,21 @@ class Storage {
   }
 
   setUserToken (token: string): void {
-    localStorage.setItem('userToken', token)
+    if (this.isWindowDefined()) localStorage.setItem('userToken', token)
   }
 
   getUserToken (): string | null {
+    if (!this.isWindowDefined()) return null
+
     return localStorage.getItem('userToken')
   }
 
   clear (): void {
-    localStorage.clear()
+    if (this.isWindowDefined()) localStorage.clear()
+  }
+
+  private isWindowDefined () {
+    return typeof window !== 'undefined'
   }
 }
 
