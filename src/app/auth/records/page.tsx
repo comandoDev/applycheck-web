@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import RecordsTable from "./components/RecordsTable"
 import ChartBox from "./components/ChartBox"
 import { useRouter } from "next/navigation"
+import PageLoading from "./components/Record/PageLoading"
 
 const Records = () => {
     const router = useRouter()
@@ -15,8 +16,11 @@ const Records = () => {
     const [registerWithNonComplianceCount, setRegisterWithNonComplianceCount] = useState<number>()
     const [registerWithoutNonComplianceCount, setRegisterWithoutNonComplianceCount] = useState<number>()
     const [totalCount, setTotalCount] = useState<number>()
+    const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
+        setLoading(true)
+
         const fetch = async () => {
             try {
                 const dashResponse = await ManagerRepository.dash()
@@ -30,14 +34,16 @@ const Records = () => {
                 setTotalCount(totalCount)
             } catch (error) {
                 router.push('/login/manager')
+            } finally {
+                setLoading(false)
             }
         }
 
         fetch()
     }, [])
       
-    return (
-        <div className="pl-24 pr-24 pt-10 pb-10 bg-[#f8fafc]">
+    return !loading ? (
+        <div className=" pl-24 pr-24 pt-10 pb-10 mt-20">
             <div className="mb-10">
                 <h1 className="font-bold text-3xl text-zinc-700">Lista de Registros</h1>
             </div>
@@ -51,7 +57,7 @@ const Records = () => {
             
             <RecordsTable records={records!} />
         </div>
-    )
+    ) : <PageLoading />
 }
 
 export default Records

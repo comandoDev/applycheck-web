@@ -8,14 +8,18 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import RecordStatisticsList from "../components/Record/RecordStatisticsList"
 import RecordNonCompliancesChart from "../components/Record/RecordNonCompliancesChart"
+import PageLoading from "../components/Record/PageLoading"
 
 const RecordPage = () => {
     const searchParams = useSearchParams()
     const router = useRouter()
 
     const [record, setRecord] = useState<IRecord>()
+    const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
+        setLoading(true)
+
         const recordId = searchParams.get('recordId')
         if (!recordId) return router.push('/login/manager')
 
@@ -27,14 +31,16 @@ const RecordPage = () => {
                 setRecord(record)
             } catch (error) {
                 router.push('/login/manager')
+            } finally {
+                setLoading(false)
             }
         }
 
         fetch()  
     }, [])
 
-    return (
-        <div className="pl-24 pr-24 pt-10 pb-10 bg-[#f8fafc]">
+    return !loading ? (
+        <div className="pl-24 pr-24 pt-10 pb-10 mt-20">
             <div>
                 <h1 className="font-bold text-2xl text-zinc-700">{`${record?.form?.title} (${record?.employee?.name})`}</h1>
                 <h2 className="font-bold text-1xl text-zinc-600">{record?.form?.type}</h2>
@@ -59,7 +65,7 @@ const RecordPage = () => {
                 />
             </div>
         </div>
-    )
+    ) : <PageLoading />
 }
 
 export default RecordPage
