@@ -45,7 +45,7 @@ const RecordStepTable = ({ step }: { step: IRecordStep }) => {
             title: 'Resposta',
             dataIndex: 'awnser',
             key: 'awnser',
-            render: (_, { awnser }) => {
+            render: (_: any, { awnser }: { awnser: any }) => {
                 if (awnser.nonCompliance) return <span className="text-red-400 font-bold">{ awnser.value }</span>
                 if (awnser) return awnser.value
             }
@@ -64,13 +64,13 @@ const RecordStepTable = ({ step }: { step: IRecordStep }) => {
             title: 'Arquivo',
             dataIndex: 'file',
             key: 'file',
-            render: (_, { file }) => {
+            render: (_: any, { file }: { file: any }) => {
                 if (file) return <Image width={40} src={`${file}`} />
             }
         }
     ]
 
-    return <Table dataSource={dataSource} columns={columns} className="shadow-xl" pagination={false} />
+    return <Table dataSource={dataSource} columns={columns as any} className="shadow-xl" pagination={false} />
 }
 
 export default RecordStepTable

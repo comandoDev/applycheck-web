@@ -37,7 +37,7 @@ const RecordNonCompliancesChart = ({ record }: { record: IRecord }) => {
     }]
     
     return (
-        <ReactApexChart type="area" options={options as ApexCharts.ApexOptions}  series={series} height={300} width={'100%'} />
+        <ReactApexChart type="area" options={options as any}  series={series} height={300} width={'100%'} />
     )
 }
 
