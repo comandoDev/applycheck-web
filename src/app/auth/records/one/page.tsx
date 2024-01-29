@@ -19,25 +19,27 @@ const RecordPage = () => {
     const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
-        setLoading(true)
+        if (Storage.isWindowDefined()) {
+            setLoading(true)
 
-        const recordId = searchParams.get('recordId')
-        if (!recordId) return router.push('/login/manager')
+            const recordId = searchParams.get('recordId')
+            if (!recordId) return router.push('/login/manager')
 
-        const fetch = async () => {
-            try {
-                const response = await ManagerRepository.getOneRecord(recordId)
-    
-                const record = response.data.data?.record 
-                setRecord(record)
-            } catch (error) {
-                router.push('/login/manager')
-            } finally {
-                setLoading(false)
+            const fetch = async () => {
+                try {
+                    const response = await ManagerRepository.getOneRecord(recordId)
+        
+                    const record = response.data.data?.record 
+                    setRecord(record)
+                } catch (error) {
+                    router.push('/login/manager')
+                } finally {
+                    setLoading(false)
+                }
             }
-        }
 
-        if (Storage.isWindowDefined()) fetch()
+            fetch()
+        }
     }, [])
 
     return !loading ? (
