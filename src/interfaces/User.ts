@@ -1,4 +1,4 @@
-enum UserRole {
+export enum UserRole {
     employee = 'employee',
     manager = 'manager',
     admin = 'admin'
@@ -17,6 +17,5 @@ interface IUser {
 }
 
 export type {
-  IUser,
-  UserRole
+  IUser
 }

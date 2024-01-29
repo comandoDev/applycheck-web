@@ -1,6 +1,6 @@
 'use client'
 
-import { NavbarContextProvider } from "@/app/auth/forms/hooks/NavbarContext/useNavbar"
+import { NavbarContextProvider } from "@/app/auth/forms/hooks/NavbarContext/useEmployeeNavbar"
 import { FileContextProvider } from "./hooks/FileContext/useFile"
 import { FormContextProvider } from "./hooks/FormContext/useForm"
 

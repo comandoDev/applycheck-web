@@ -1,38 +1,41 @@
+import { useAuth } from '@/hooks/useAuth'
 import { getErrorMessageByFieldName } from '@/utils/getErrorByFieldName'
+import { ClipLoader } from 'react-spinners'
 
 export interface IInputProps {
   placeHolder?: string
   name?: string
-  showError?: boolean
-  setShowError?: (show: boolean) => void
   onChange?: (value: any) => void
   type?: string
-  isSelect?: boolean
   isSubmit?: boolean
-  options?: Array<{
-    name: string
-    value: string
-  }>
   value?: any
 }
 
 const Input = ({
   placeHolder,
   name,
-  showError,
-  setShowError,
   onChange,
   type = 'text',
-  isSelect,
-  options,
   value,
-  isSubmit
+  isSubmit,
 }: IInputProps) => {
+    const authContext = useAuth()
+
   return (
     <div>
-      { !isSubmit && <input type={type} name={name} className={`${getErrorMessageByFieldName(name!) && 'border border-red-400'} w-full bg-slate-50 rounded-lg p-5 mb-5`} placeholder={placeHolder} onChange={e => onChange!(e.target.value) }/> }
+      { !isSubmit && <input type={type} name={name} className={`${getErrorMessageByFieldName(name!) && 'border border-red-400'} w-full bg-slate-50 rounded-lg p-5 mb-5 outline-none`} placeholder={placeHolder} onChange={e => onChange!(e.target.value) }/> }
 
-      { isSubmit && <input type="submit" value={value} className={`w-full bg-principal text-white font-bold p-4 rounded-xl`} /> }
+      { isSubmit && <button type="submit" className={`w-full bg-principal text-white font-bold p-4 rounded-xl cursor-pointer`}>
+        { authContext?.loading ? (
+          <ClipLoader
+            color={'white'}
+            loading={authContext.loading}
+            size={17}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        ) : value }
+      </button> }
       
       { getErrorMessageByFieldName(name!) && <h1 className='text-red-500 -mt-4 mb-4 text-xs'>{getErrorMessageByFieldName(name!)}</h1>}
     </div>

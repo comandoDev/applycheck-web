@@ -3,14 +3,14 @@
 import Navbar from '@/app/auth/forms/(routes)/(menu)/components/Navbar/Navbar'
 import Content from './components/Content'
 import Header from './components/Header'
-import { useNavbar } from '@/app/auth/forms/hooks/NavbarContext/useNavbar'
+import { useEmployeeNavbar } from '@/app/auth/forms/hooks/NavbarContext/useEmployeeNavbar'
 
 const Layout = ({
   children
 }: {
   children: React.ReactNode
 }) => {
-  const navbarContext = useNavbar()
+  const navbarContext = useEmployeeNavbar()
 
   return(
     <>

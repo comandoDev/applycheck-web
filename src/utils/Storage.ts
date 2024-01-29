@@ -28,7 +28,7 @@ class Storage {
     if (this.isWindowDefined()) localStorage.clear()
   }
 
-  private isWindowDefined () {
+  isWindowDefined () {
     return typeof window !== 'undefined'
   }
 }

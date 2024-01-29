@@ -23,4 +23,4 @@ export const NavbarContextProvider = ({ children }: { children: ReactNode }) => 
   )
 }
 
-export const useNavbar = () => useContext(NavbarContext)
+export const useEmployeeNavbar = () => useContext(NavbarContext)

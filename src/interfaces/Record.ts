@@ -1,3 +1,6 @@
+import { IForm } from "@/interfaces/Form"
+import { IUser } from "@/interfaces/User"
+
 interface IRecordStepField {
       key: string
       value?: string
@@ -22,6 +25,12 @@ export enum RecordStatus {
       conclued = 'concluido',
 }
 
+interface INonComplianceStep {
+      title: string
+      order: number
+      nonComplianceCount: number
+}
+
 interface IRecord {
       id?: string
       createdAt?: Date
@@ -34,6 +43,9 @@ interface IRecord {
       actionPlan?: string
       hasNonCompliance?: boolean
       nonComplianceCount?: number
+      employee?: IUser
+      form?: IForm
+      nonComplianceSteps?: Array<INonComplianceStep>
 
       tenantId: string
       formId: string
@@ -47,11 +59,13 @@ interface IFilledField {
       actionPlan?: string
       file?: string
       fields?: Array<IRecordStepField>
+      nonCompliance?: boolean
 }
 
 export type {
   IRecord,
   IRecordStep,
   IRecordStepField,
-  IFilledField
+  IFilledField,
+  INonComplianceStep
 }

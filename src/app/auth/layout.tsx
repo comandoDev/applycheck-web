@@ -12,12 +12,12 @@ const Layout = ({
   const isAuthenticated = Storage.getUserToken()
 
   useEffect(() => {
-    if (!isAuthenticated) return redirect('/login')
+    if (!isAuthenticated) return redirect('/login/manager')
   }, [])
 
   return isAuthenticated ? (
     <>
-        <div className='flex flex-col'>
+        <div className='flex flex-col overflow-hidden'>
           {children}
         </div>
     </>
