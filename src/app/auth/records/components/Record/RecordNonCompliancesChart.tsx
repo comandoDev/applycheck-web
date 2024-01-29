@@ -1,5 +1,7 @@
 import { IRecord } from "@/interfaces/Record"
-import ReactApexChart from "react-apexcharts"
+import dynamic from "next/dynamic"
+
+const Chart = dynamic(() => import('react-apexcharts'))
 
 const RecordNonCompliancesChart = ({ record }: { record: IRecord }) => {  
     const options ={
@@ -37,7 +39,11 @@ const RecordNonCompliancesChart = ({ record }: { record: IRecord }) => {
     }]
     
     return (
-        <ReactApexChart type="area" options={options as any}  series={series} height={300} width={'100%'} />
+        <>
+          { typeof window !== 'undefined' && (
+            <Chart type="area" options={options as any}  series={series} height={300} width={'100%'} />
+          ) }
+        </>
     )
 }
 

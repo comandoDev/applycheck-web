@@ -7,7 +7,6 @@ import RecordsTable from "./components/RecordsTable"
 import ChartBox from "./components/ChartBox"
 import { useRouter } from "next/navigation"
 import PageLoading from "./components/Record/PageLoading"
-import Storage from "@/utils/Storage"
 
 const Records = () => {
     const router = useRouter()
@@ -20,29 +19,27 @@ const Records = () => {
     const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
-        if (Storage.isWindowDefined()) {
-            setLoading(true)
+        setLoading(true)
 
-            const fetch = async () => {
-                try {
-                    const dashResponse = await ManagerRepository.dash()
-        
-                    const { docs, nonComplianceCount, registerWithNonComplianceCount, registerWithoutNonComplianceCount, totalCount } = dashResponse.data.data!.dash
-        
-                    setRecords(docs)
-                    setNonComplianceCount(nonComplianceCount)
-                    setRegisterWithNonComplianceCount(registerWithNonComplianceCount)
-                    setRegisterWithoutNonComplianceCount(registerWithoutNonComplianceCount)
-                    setTotalCount(totalCount)
-                } catch (error) {
-                    router.push('/login/manager')
-                } finally {
-                    setLoading  (false)
-                }
+        const fetch = async () => {
+            try {
+                const dashResponse = await ManagerRepository.dash()
+    
+                const { docs, nonComplianceCount, registerWithNonComplianceCount, registerWithoutNonComplianceCount, totalCount } = dashResponse.data.data!.dash
+    
+                setRecords(docs)
+                setNonComplianceCount(nonComplianceCount)
+                setRegisterWithNonComplianceCount(registerWithNonComplianceCount)
+                setRegisterWithoutNonComplianceCount(registerWithoutNonComplianceCount)
+                setTotalCount(totalCount)
+            } catch (error) {
+                router.push('/login/manager')
+            } finally {
+                setLoading(false)
             }
-
-            fetch()
         }
+
+        fetch()
     }, [])
       
     return !loading ? (

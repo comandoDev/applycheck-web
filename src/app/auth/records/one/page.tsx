@@ -9,7 +9,6 @@ import { useEffect, useState } from "react"
 import RecordStatisticsList from "../components/Record/RecordStatisticsList"
 import RecordNonCompliancesChart from "../components/Record/RecordNonCompliancesChart"
 import PageLoading from "../components/Record/PageLoading"
-import Storage from "@/utils/Storage"
 
 const RecordPage = () => {
     const searchParams = useSearchParams()
@@ -19,27 +18,25 @@ const RecordPage = () => {
     const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
-        if (Storage.isWindowDefined()) {
-            setLoading(true)
+        setLoading(true)
 
-            const recordId = searchParams.get('recordId')
-            if (!recordId) return router.push('/login/manager')
+        const recordId = searchParams.get('recordId')
+        if (!recordId) return router.push('/login/manager')
 
-            const fetch = async () => {
-                try {
-                    const response = await ManagerRepository.getOneRecord(recordId)
-        
-                    const record = response.data.data?.record 
-                    setRecord(record)
-                } catch (error) {
-                    router.push('/login/manager')
-                } finally {
-                    setLoading(false)
-                }
+        const fetch = async () => {
+            try {
+                const response = await ManagerRepository.getOneRecord(recordId)
+    
+                const record = response.data.data?.record 
+                setRecord(record)
+            } catch (error) {
+                router.push('/login/manager')
+            } finally {
+                setLoading(false)
             }
-
-            fetch()
         }
+
+        fetch()  
     }, [])
 
     return !loading ? (
@@ -52,7 +49,7 @@ const RecordPage = () => {
                 <RecordStatisticsList record={record} />
             ) }
             <div className="w-full bg-white shadow-xl p-5 mb-10">
-                <RecordNonCompliancesChart record={record!} />              
+                {/* <RecordNonCompliancesChart record={record!} />               */}
             </div>
             <div>
                 <Tabs

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
-import ReactApexChart from "react-apexcharts"
+import dynamic from "next/dynamic"
+
+const Chart = dynamic(() => import('react-apexcharts'))
 
 interface IChartBoxProps {
     title: string
@@ -59,7 +61,9 @@ const ChartBox = ({
     return (
         <div className={`${boxStyle} ${lastOne ? 'mr-0' : 'mr-14'}`}>
             <div className="flex-1 flex justify-center">
-                <ReactApexChart type="area" options={options as any} series={series} height={200} width={250} />
+            {typeof window !== 'undefined' && (
+              <Chart type="area" options={options as any} series={series} height={200} width={250} />
+            )}
             </div>
         </div>
     )
