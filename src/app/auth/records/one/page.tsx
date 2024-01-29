@@ -9,6 +9,7 @@ import { useEffect, useState } from "react"
 import RecordStatisticsList from "../components/Record/RecordStatisticsList"
 import RecordNonCompliancesChart from "../components/Record/RecordNonCompliancesChart"
 import PageLoading from "../components/Record/PageLoading"
+import Storage from "@/utils/Storage"
 
 const RecordPage = () => {
     const searchParams = useSearchParams()
@@ -36,7 +37,7 @@ const RecordPage = () => {
             }
         }
 
-        fetch()  
+        if (Storage.isWindowDefined()) fetch()
     }, [])
 
     return !loading ? (

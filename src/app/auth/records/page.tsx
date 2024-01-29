@@ -7,6 +7,7 @@ import RecordsTable from "./components/RecordsTable"
 import ChartBox from "./components/ChartBox"
 import { useRouter } from "next/navigation"
 import PageLoading from "./components/Record/PageLoading"
+import Storage from "@/utils/Storage"
 
 const Records = () => {
     const router = useRouter()
@@ -39,7 +40,7 @@ const Records = () => {
             }
         }
 
-        fetch()
+        if (Storage.isWindowDefined()) fetch()
     }, [])
       
     return !loading ? (
