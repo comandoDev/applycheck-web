@@ -4,12 +4,20 @@ import Link from "next/link"
 import { useManagerNavbar } from "../hooks/NavbarContext/useManagerNavbar"
 import { ManagerNavbarSelectedOption } from "../hooks/NavbarContext/ManagerNavbarContext"
 import Storage from "@/utils/Storage"
+import { useState } from "react"
 
 const Header = () => {
     const navbarContext = useManagerNavbar()
 
+    const [showProfileSettings, setShowProfileSettings] = useState<boolean>(false) 
+
     const handleLiCLick = (selected: ManagerNavbarSelectedOption) => {
         navbarContext?.setSelected(selected)
+    }
+
+    const handleProfileClick = () => {
+        console.log(!showProfileSettings)
+        setShowProfileSettings(!showProfileSettings)
     }
 
     const normalLiStyle = 'pb-7 pt-7 mr-5 text-zinc-500 font-medium'
@@ -51,8 +59,11 @@ const Header = () => {
                     fill="#acb3be"
                     weight="fill"
                 />
-                <Link href='' className="ml-7 w-[50px] h-[50px] rounded-full flex justify-center items-center bg-principal text-white text-xl">{Storage.getUser()?.name[0].toUpperCase()}</Link>
+                <div onClick={handleProfileClick} className="cursor-pointer ml-7 w-[50px] h-[50px] rounded-full flex justify-center items-center bg-principal text-white text-xl">{Storage.getUser()?.name[0].toUpperCase()}</div>
             </div>
+            { showProfileSettings && (
+                <div className="absolute right-24 top-20 w-56 h-32 border border-zinc-200 bg-white rounded-lg"><h1>Hi</h1></div>
+            ) }
         </div>
     )
 }
