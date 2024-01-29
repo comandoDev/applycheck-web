@@ -37,7 +37,7 @@ const Records = () => {
                 } catch (error) {
                     router.push('/login/manager')
                 } finally {
-                    setLoading(false)
+                    setLoading  (false)
                 }
             }
 
