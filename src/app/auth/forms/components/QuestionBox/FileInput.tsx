@@ -9,6 +9,8 @@ const FileInput = ({ inputId, field }: { inputId: string, field: IField }) => {
 
     const handleFileOnChange =  async (event: ChangeEvent<HTMLInputElement>) => {
         try {
+            fileContext?.setLoading(true)
+
             const file = event.target.files![0]
  
             if (file) {
@@ -30,6 +32,8 @@ const FileInput = ({ inputId, field }: { inputId: string, field: IField }) => {
  
         } catch (error) {
             message.error((error as any).message)
+        } finally {
+            fileContext?.setLoading(false)
         }
     }
     

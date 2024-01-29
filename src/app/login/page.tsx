@@ -40,6 +40,7 @@ const SignIn = () => {
                     <Input 
                         placeHolder="Insira sua senha"
                         name="password"
+                        type="password"
                         onChange={setPassword}
                     />
 

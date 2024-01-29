@@ -5,6 +5,7 @@ import { useForm } from "../../hooks/FormContext/useForm"
 import FileInput from "./FileInput"
 import { Image } from "antd"
 import { useFile } from "../../hooks/FileContext/useFile"
+import { ClipLoader } from "react-spinners"
 
 const QuestionBoxFooter = ({ field }: { field: IField }) => {
     const formContext = useForm()
@@ -106,6 +107,7 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
                     <span>Mídia</span>    
                 </label>    
             </div>  
+
             { (showBox && selectedIndex !== 2) && (
                 <input 
                     type="text"
@@ -115,10 +117,23 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
                     placeholder={(selectedIndex === 0) ? 'Adicione um plano de ação' : 'Adicione uma observação'}
                 />
             ) }
+
             { (!file && showBox && selectedIndex === 2) && (
                 <FileInput 
                     field={field}
                     inputId={field.key} />
+            ) }
+
+            { (!file && fileContext?.loading && showBox && selectedIndex === 2) && (
+                <div className="flex justify-center items-center text-red-500 mt-4 pt-4 border-t-2 border-gray-300">
+                    <ClipLoader
+                        color={'#287AF8'}
+                        loading={fileContext.loading}
+                        size={100}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                    />
+                </div>
             ) }
 
             { (file && showBox && selectedIndex === 2) && (

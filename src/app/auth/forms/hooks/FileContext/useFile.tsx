@@ -8,12 +8,15 @@ const FileContext = createContext<IFileContext | null>(null)
 export const FileContextProvider = ({ children }: { children: ReactNode }) => {
   const [file, setFile] = useState<string | null>()
   const [fieldKey, setFieldKey] = useState<string>()
+  const [loading, setLoading] = useState<boolean>(false)
 
   const fileContextProvider = {
     file,
     setFile,
     fieldKey,
-    setFieldKey
+    setFieldKey,
+    loading,
+    setLoading
   }
 
   return (
