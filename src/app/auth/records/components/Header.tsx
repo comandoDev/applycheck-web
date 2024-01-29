@@ -3,6 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useManagerNavbar } from "../hooks/NavbarContext/useManagerNavbar"
 import { ManagerNavbarSelectedOption } from "../hooks/NavbarContext/ManagerNavbarContext"
+import Storage from "@/utils/Storage"
 
 const Header = () => {
     const navbarContext = useManagerNavbar()
@@ -50,7 +51,7 @@ const Header = () => {
                     fill="#acb3be"
                     weight="fill"
                 />
-                <Link href='' className="ml-7 w-[50px] h-[50px] rounded-full flex justify-center items-center bg-principal text-white text-xl">E</Link>
+                <Link href='' className="ml-7 w-[50px] h-[50px] rounded-full flex justify-center items-center bg-principal text-white text-xl">{Storage.getUser()?.name[0].toUpperCase()}</Link>
             </div>
         </div>
     )
