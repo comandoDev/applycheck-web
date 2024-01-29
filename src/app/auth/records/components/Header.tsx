@@ -15,7 +15,7 @@ const Header = () => {
     const selectedLiStyle = 'pb-7 pt-7 mr-5 border-b-2 border-principal text-principal'
 
     return (
-        <div className="w-screen bg-white shadow-xl h-10 flex justify-between items-center p-10 pr-24 pl-24 fixed">
+        <div className="w-screen bg-white shadow-xl h-10 flex justify-between items-center p-10 pr-24 pl-24 fixed z-10">
             <div>
                 <Link href='/auth/records'>
                     <Image 

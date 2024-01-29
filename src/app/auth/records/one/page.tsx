@@ -49,7 +49,7 @@ const RecordPage = () => {
                 <RecordStatisticsList record={record} />
             ) }
             <div className="w-full bg-white shadow-xl p-5 mb-10">
-                {/* <RecordNonCompliancesChart record={record!} />               */}
+                <RecordNonCompliancesChart record={record!} />              
             </div>
             <div>
                 <Tabs
