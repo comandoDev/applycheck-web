@@ -32,7 +32,11 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
         console.log({ currentStep })
         let exists = false
 
+        console.log({ value, nonCompliance })
+        console.log({ key: field.key })
+
         currentStep?.fields.map(stepField => {
+            console.log({ stepFieldKey: stepField.key })
             if (stepField.key === field.key) {
                 console.log({ stepField })
                 console.log({fieldType: field.type}, field.type === InputType.multipleQuestions)
