@@ -24,6 +24,9 @@ const FormFooter = () => {
 
             await formContext?.findRecordAndSetFilledFields((formContext!.lastReachedStep + 2))
 
+            console.log({ currentStep: formContext?.currentStep })
+            console.log({ fields: formContext?.currentStep?.fields })
+
             await EmployeeRepository.updateRecordStep(
                 formContext?.record?.id!,
                 formContext?.currentStep!
