@@ -1,4 +1,4 @@
-import { IRecord } from "@/interfaces/Record";
+import { IRecord, RecordStatus } from "@/interfaces/Record";
 import { Table, Tag } from "antd"
 import Link from "next/link";
 
@@ -70,7 +70,11 @@ const RecordsTable = ({ records }: { records: Array<IRecord> }) => {
             dataIndex: '',
             key: 'x',
             render: (index: any) => {
-                return <Link href={`/auth/records/one?recordId=${index.key}`} className="text-principal">Analisar</Link>
+                return <Link href={`/auth/records/one?recordId=${index.key}`} className="text-principal">
+                    <>
+                        {index.status === RecordStatus.open ? 'Analisar' : 'Visualizar'}
+                    </>
+                </Link>
             },
         },
     ];

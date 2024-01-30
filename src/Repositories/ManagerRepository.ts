@@ -16,6 +16,11 @@ class ManagerRepository extends Repository<IUser> {
         )
       }
     
+    async analyzeRecord (recordId: string): Promise<IResponse<IResponse>> {
+      return this.execute(() =>
+        this.api.get(`${this.path}/records/${recordId}/analysing`)
+      )
+    }
     
     async dash (): Promise<IResponse<{
         dash: {

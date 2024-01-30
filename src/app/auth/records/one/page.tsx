@@ -2,7 +2,7 @@
 
 import ManagerRepository from "@/Repositories/ManagerRepository"
 import RecordTable from "@/app/auth/records/components/Record/RecordStepTable"
-import { IRecord } from "@/interfaces/Record"
+import { IRecord, RecordStatus } from "@/interfaces/Record"
 import { Tabs } from "antd"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -29,6 +29,8 @@ const RecordPage = () => {
     
                 const record = response.data.data?.record 
                 setRecord(record)
+
+                if (record?.status === RecordStatus.open) await ManagerRepository.analyzeRecord(recordId)
             } catch (error) {
                 router.push('/login/manager')
             } finally {
