@@ -49,7 +49,12 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const logout = () => {
+    const userRole = Storage.getUser()?.role
     Storage.clear()
+
+    if (userRole === UserRole.employee) return router.push('/login')
+
+    router.push('/login/manager')
   }
 
   const authContextProvider = {
