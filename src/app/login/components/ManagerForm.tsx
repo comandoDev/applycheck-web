@@ -39,6 +39,7 @@ const ManagerForm = () => {
                     <Input 
                         placeHolder="Insira sua senha"
                         name="password"
+                        type="password"
                         onChange={setPassword}
                     />
                 </div>
