@@ -11,6 +11,7 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
     const [selectedOption, setSelectedOption] = useState<string>()
 
     useEffect(() => {   
+        console.log({ useEffect })
         const filledField = formContext?.filledFields?.find(filledField => filledField.key === field.key)
 
         setValues(filledField?.value!, filledField?.nonCompliance!)
