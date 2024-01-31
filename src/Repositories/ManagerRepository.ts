@@ -6,7 +6,7 @@ import { IUser } from '@/interfaces/User'
 class ManagerRepository extends Repository<IUser> {
     async listRecords (): Promise<IResponse<IPaginateList<IRecord>>> {
         return this.execute(() =>
-          this.api.get(`${this.path}/records?limit=20`)
+          this.api.get(`${this.path}/records`)
         )
     }
 
