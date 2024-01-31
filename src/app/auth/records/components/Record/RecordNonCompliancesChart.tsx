@@ -23,7 +23,7 @@ const RecordNonCompliancesChart = ({ record }: { record: IRecord }) => {
             align: 'left'
         },
         xaxis: {
-            categories: record?.steps?.map(step => `Passo - ${step.order}`),
+            categories: record?.steps?.map(step => step.title.slice(0, 10) + '...'),
         },
         grid: {
           row: {

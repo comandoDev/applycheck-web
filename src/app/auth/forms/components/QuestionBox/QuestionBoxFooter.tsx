@@ -1,5 +1,5 @@
 import { IField } from "@/interfaces/Form"
-import { CameraPlus, ChatText, Trash, TrashSimple, WarningDiamond } from "@phosphor-icons/react"
+import { CameraPlus, ChatText, PlusCircle, Trash, TrashSimple, WarningDiamond } from "@phosphor-icons/react"
 import { ChangeEvent, useEffect, useState } from "react"
 import { useForm } from "../../hooks/FormContext/useForm"
 import FileInput from "./FileInput"
@@ -16,7 +16,7 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
 
     const [actionPlan, setActionPlan] = useState<string>('')
     const [observation, setObservation] = useState<string>('')
-    const [file, setFile] = useState<string>('')
+    const [files, setFiles] = useState<Array<string>>([])
 
     useEffect(() => {
         const filledField = formContext?.filledFields?.find(filledField => filledField.key === field.key)
@@ -31,13 +31,15 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
             setValuesToCurrentStep('observation', filledField?.observation)
         }
 
-        const file = filledField?.file || (fileContext?.fieldKey === field.key ? fileContext.file : null)
+        const files = filledField?.files || (fileContext?.fieldKey === field.key ? fileContext.files : undefined)
 
-        if (file) {
-            setFile(file)
-            setValuesToCurrentStep('file', file)
+        console.log({ files }, 'USE EFFECT')
+
+        if (files?.length) {
+            setFiles(files)
+            files.map(file => setValuesToCurrentStep('files', file))
         }
-    }, [formContext?.filledFields, fileContext?.file])
+    }, [formContext?.filledFields, fileContext?.files])
     
     const handleOnClick = (index: number) => {
         if (showBox && selectedIndex === index) {
@@ -62,21 +64,31 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
         }
     }
 
-    const handleTrashOnClick = () => {
-        setValuesToCurrentStep('file', '')
-        fileContext?.setFile(null)
-        handleOnClick(2)
-        setFile('')
+    const handleTrashOnClick = (deletedFile: string) => {
+        const updatedFiles = files.filter(file => file !== deletedFile)
+        
+        setFiles(updatedFiles)
+
+        updatedFiles.map(file => setValuesToCurrentStep('files', file))
+
+        fileContext?.setFiles(updatedFiles)
+        if (!updatedFiles.length) handleOnClick(2)
     }
 
-    const setValuesToCurrentStep = (key: 'file' | 'actionPlan' |  'observation', value: string) => {
+    const setValuesToCurrentStep = (key: 'files' | 'actionPlan' |  'observation', value: string) => {
         const currentStep = formContext?.currentStep 
-
+        console.log({ currentStep })
         let exists = false
 
         currentStep?.fields.map(stepField => {
             if (stepField.key === field.key) {
-                stepField[key] = value
+                if(key === 'files') {
+                    if (!stepField.files) stepField.files = []
+                    console.log({ stepFieldFiles: stepField.files })
+                    stepField.files.push(value)
+                } else {
+                    stepField[key] = value
+                }
                 exists = true
             }
         })
@@ -102,10 +114,10 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
                     <ChatText size={20} weight="fill" className="mr-1" />
                     <span>Observação</span>    
                 </div>        
-                <label htmlFor={field.key} className={`flex justify-center items-center ${(selectedIndex === 2) && 'text-principal'}`} onClick={() => handleOnClick(2)}>
+                <div className={`flex justify-center items-center ${(selectedIndex === 2) && 'text-principal'}`} onClick={() => handleOnClick(2)}>
                     <CameraPlus size={20} weight="fill" className="mr-1" />
                     <span>Mídia</span>    
-                </label>    
+                </div>    
             </div>  
 
             { (showBox && selectedIndex !== 2) && (
@@ -118,31 +130,44 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
                 />
             ) }
 
-            { (!file && showBox && selectedIndex === 2) && (
-                <FileInput 
-                    field={field}
-                    inputId={field.key} />
+            { (files.length && showBox && selectedIndex === 2) && (
+                <div>
+                    <div className="flex flex-col w-full border-gray-300">
+                        {files.map(file => {
+                            return (
+                                <div className="flex justify-between items-center text-red-500 mt-4 pt-4 border-t-2">
+                                    <Image
+                                        key={file}
+                                        width={100}
+                                        src={file}
+                                    />
+                                    <Trash size={32} onClick={() => handleTrashOnClick(file)} />
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
             ) }
 
-            { (!file && fileContext?.loading && showBox && selectedIndex === 2) && (
+            { (fileContext?.loading && showBox && selectedIndex === 2) && (
                 <div className="flex justify-center items-center text-red-500 mt-4 pt-4 border-t-2 border-gray-300">
                     <ClipLoader
                         color={'#287AF8'}
                         loading={fileContext.loading}
-                        size={100}
+                        size={50}
                         aria-label="Loading Spinner"
                         data-testid="loader"
                     />
                 </div>
             ) }
 
-            { (file && showBox && selectedIndex === 2) && (
-                <div className="flex justify-between items-center text-red-500 mt-4 pt-4 border-t-2 border-gray-300">
-                    <Image
-                        width={200}
-                        src={file}
+            { (showBox && selectedIndex === 2) && (
+                <div className="flex justify-center w-full mt-5 text-principal">
+                    <label htmlFor={field.key}><PlusCircle size={36} /></label>
+                    <FileInput 
+                        field={field}
+                        inputId={field.key}
                     />
-                    <Trash size={32} onClick={handleTrashOnClick} />
                 </div>
             ) }
         </>

@@ -11,22 +11,28 @@ const FileInput = ({ inputId, field }: { inputId: string, field: IField }) => {
         try {
             fileContext?.setLoading(true)
 
-            const file = event.target.files![0]
- 
-            if (file) {
-                const formData = new FormData()
-                
-                formData.append('image', file)
+            const filesSent = event.target.files
 
-                const response = await apiServer.post('/auth/records/upload', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                })
+            if (filesSent?.length) {
+                const files = await Promise.all(
+                    Array.from(filesSent).map(async (file) => {
+                        const formData = new FormData()
+                    
+                        formData.append('image', file)
+    
+                        const response = await apiServer.post('/auth/records/upload', formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                        
+    
+                        return response.data.data.file
+                    })
+                )
 
-                const fileUrl = response.data.data.file
 
-                fileContext?.setFile(fileUrl)
+                fileContext?.setFiles([...fileContext.files!, ...files])
                 fileContext?.setFieldKey(field.key)
             }
  
@@ -44,6 +50,7 @@ const FileInput = ({ inputId, field }: { inputId: string, field: IField }) => {
             className="hidden"
             onChange={handleFileOnChange}
             accept="image/*"
+            multiple
         />
     )
 }
