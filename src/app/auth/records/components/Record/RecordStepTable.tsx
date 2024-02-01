@@ -6,6 +6,7 @@ const RecordStepTable = ({ step }: { step: IRecordStep }) => {
 
     step.fields.map(field => {
         if (field.fields) {
+            console.log({ fieldFields: field.fields })
             field.fields.map(f => {
                 dataSource.push({
                 key: f.key,
@@ -16,7 +17,7 @@ const RecordStepTable = ({ step }: { step: IRecordStep }) => {
                 },
                 observation: f.observation,
                 actionPlan: f.actionPlan,
-                file: f.file,
+                files: f.files,
                 nonCompliance: f.nonCompliance
             })
         })
@@ -30,10 +31,11 @@ const RecordStepTable = ({ step }: { step: IRecordStep }) => {
                 },
                 observation: field.observation,
                 actionPlan: field.actionPlan,
-                file: field.file,
+                files: field.files,
             })
         }
     })
+
 
         const columns = [
         {
@@ -62,10 +64,12 @@ const RecordStepTable = ({ step }: { step: IRecordStep }) => {
         },
         {
             title: 'Arquivo',
-            dataIndex: 'file',
-            key: 'file',
-            render: (_: any, { file }: { file: any }) => {
-                if (file) return <Image width={40} src={`${file}`} />
+            dataIndex: 'files',
+            key: 'files',
+            render: (_: any, { files }: { files: Array<string> }) => {
+                if (files?.length) {
+                    return files.map(file => <div className="border border-zinc-300 shadow-xl pb-0 w-[50px] h-[50px] mt-2 mb-2"><Image width={50} height={50} src={`${file}`} /></div>)
+                }
             }
         }
     ]

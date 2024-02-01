@@ -31,10 +31,7 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
             setValuesToCurrentStep('observation', filledField?.observation)
         }
 
-        const files = filledField?.files || (fileContext?.fieldKey === field.key ? fileContext.files : undefined)
-
-        console.log({ files }, 'USE EFFECT')
-
+        const files = (fileContext?.fieldKey === field.key ? fileContext.files : undefined) || filledField?.files
         if (files?.length) {
             setFiles(files)
             files.map(file => setValuesToCurrentStep('files', file))
@@ -66,26 +63,29 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
 
     const handleTrashOnClick = (deletedFile: string) => {
         const updatedFiles = files.filter(file => file !== deletedFile)
-        
         setFiles(updatedFiles)
 
-        updatedFiles.map(file => setValuesToCurrentStep('files', file))
+        formContext!.currentStep?.fields.map(stepField => {
+            if (stepField.key === field.key) {
+                stepField.files = updatedFiles
+            }
+        })
 
-        fileContext?.setFiles(updatedFiles)
         if (!updatedFiles.length) handleOnClick(2)
     }
 
     const setValuesToCurrentStep = (key: 'files' | 'actionPlan' |  'observation', value: string) => {
         const currentStep = formContext?.currentStep 
-        console.log({ currentStep })
         let exists = false
 
         currentStep?.fields.map(stepField => {
             if (stepField.key === field.key) {
                 if(key === 'files') {
                     if (!stepField.files) stepField.files = []
-                    console.log({ stepFieldFiles: stepField.files })
-                    stepField.files.push(value)
+
+                    const fileExists = stepField.files.find(file => file === value)
+
+                    if (!fileExists) stepField.files.push(value)
                 } else {
                     stepField[key] = value
                 }
@@ -94,10 +94,17 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
         })
 
         if (!exists) {
-            currentStep?.fields.push({
-                key: field.key,
-                [key]: value
-            })
+            if (key === 'files') {
+                currentStep?.fields.push({
+                    key: field.key,
+                    files: [value]
+                })
+            } else {
+                currentStep?.fields.push({
+                    key: field.key,
+                    [key]: value
+                })
+            }
         }
 
         formContext?.setCurrentStep(currentStep!)
@@ -130,10 +137,10 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
                 />
             ) }
 
-            { (files.length && showBox && selectedIndex === 2) && (
+            { ((files.length > 0) && showBox && selectedIndex === 2) && (
                 <div>
                     <div className="flex flex-col w-full border-gray-300">
-                        {files.map(file => {
+                        {files.map((file, index) => {
                             return (
                                 <div className="flex justify-between items-center text-red-500 mt-4 pt-4 border-t-2">
                                     <Image
@@ -141,7 +148,7 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
                                         width={100}
                                         src={file}
                                     />
-                                    <Trash size={32} onClick={() => handleTrashOnClick(file)} />
+                                    <Trash key={index} size={32} onClick={() => handleTrashOnClick(file)} />
                                 </div>
                             )
                         })}

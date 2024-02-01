@@ -3,9 +3,11 @@ import { message } from "antd"
 import { ChangeEvent } from "react"
 import { IField } from "@/interfaces/Form"
 import { useFile } from "../../hooks/FileContext/useFile"
+import { useForm } from "../../hooks/FormContext/useForm"
 
 const FileInput = ({ inputId, field }: { inputId: string, field: IField }) => {
     const fileContext = useFile()
+    const formContext = useForm()
 
     const handleFileOnChange =  async (event: ChangeEvent<HTMLInputElement>) => {
         try {
@@ -14,7 +16,7 @@ const FileInput = ({ inputId, field }: { inputId: string, field: IField }) => {
             const filesSent = event.target.files
 
             if (filesSent?.length) {
-                const files = await Promise.all(
+                const newFiles = await Promise.all(
                     Array.from(filesSent).map(async (file) => {
                         const formData = new FormData()
                     
@@ -31,8 +33,15 @@ const FileInput = ({ inputId, field }: { inputId: string, field: IField }) => {
                     })
                 )
 
+                let files: string[] = []
 
-                fileContext?.setFiles([...fileContext.files!, ...files])
+                formContext?.currentStep?.fields.forEach(f => {
+                    if (f.key === field.key) {
+                        if (f.files) files.push(...f.files!)
+                    }
+                })
+
+                fileContext?.setFiles([...files, ...newFiles])
                 fileContext?.setFieldKey(field.key)
             }
  

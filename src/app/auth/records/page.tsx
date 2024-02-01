@@ -21,7 +21,7 @@ const Records = () => {
 
     const handleSearchOnChange = async () => {
         try {
-            const response = await ManagerRepository.listRecords()
+            await ManagerRepository.listRecords()
         } catch (error) {
             console.log({ error })
         }
