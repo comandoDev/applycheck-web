@@ -1,12 +1,13 @@
-import { IRecordStep } from "@/interfaces/Record";
-import { Image, Table } from "antd";
+import ActionPlanInputBox from "@/app/auth/forms/components/QuestionBox/QuestionBoxFooter/ActionPlanInputBox";
+import { IRecordActionPlan, IRecordStep } from "@/interfaces/Record";
+import { Image, Modal, Table } from "antd";
+import { useState } from "react";
 
 const RecordStepTable = ({ step }: { step: IRecordStep }) => {
     let dataSource = [] as any
 
     step.fields.map(field => {
         if (field.fields) {
-            console.log({ fieldFields: field.fields })
             field.fields.map(f => {
                 dataSource.push({
                 key: f.key,
@@ -36,8 +37,7 @@ const RecordStepTable = ({ step }: { step: IRecordStep }) => {
         }
     })
 
-
-        const columns = [
+    const columns = [
         {
             title: 'Questão',
             dataIndex: 'question',
@@ -60,7 +60,10 @@ const RecordStepTable = ({ step }: { step: IRecordStep }) => {
         {
             title: 'Plano de Ação',
             dataIndex: 'actionPlan',
-            key: 'actionPlan'
+            key: 'actionPlan',
+            render: (_: any, { actionPlan }: { actionPlan: IRecordActionPlan }) => {
+                return (actionPlan && <div onClick={() => modalInfo(actionPlan)} className="text-principal cursor-pointer w-full text-center">Ver</div>)
+            }
         },
         {
             title: 'Arquivo',
@@ -74,7 +77,55 @@ const RecordStepTable = ({ step }: { step: IRecordStep }) => {
         }
     ]
 
-    return <Table dataSource={dataSource} columns={columns as any} className="shadow-xl" pagination={false} />
+    const modalInfo = (actionPlan: IRecordActionPlan) => {
+        Modal.info({
+            title: 'Plano de Ação',
+            okType: 'dashed',
+            content: <>
+                <div className="flex flex-col">
+                    <div className="flex flex-col mb-3">
+                        <span className="text-principal mb-1">O que será feito?</span>
+                        <div className="pl-1 p-2 border border-zinc-250 rounded-lg">{actionPlan.plan}</div>
+                    </div>
+                    <div className="flex flex-col mb-3">
+                        <span className="text-principal mb-1">Por que será feito?</span>
+                        <div className="pl-1 p-2 border border-zinc-250 rounded-lg">{actionPlan.reason}</div>
+                    </div>
+                    <div className="flex flex-col mb-3">
+                        <span className="text-principal mb-1">Onde será feito?</span>
+                        <div className="pl-1 p-2 border border-zinc-250 rounded-lg">{actionPlan.place}</div>
+                    </div>
+                    <div className="flex flex-col mb-3">
+                        <span className="text-principal mb-1">Quando será feito?</span>
+                        <div className="pl-1 p-2 border border-zinc-250 rounded-lg">{new Date(actionPlan.date!).toLocaleDateString('pt-br')}</div>
+                    </div>
+                    <div className="flex flex-col mb-3">
+                        <span className="text-principal mb-1">Quem fará?</span>
+                        <div className="pl-1 p-2 border border-zinc-250 rounded-lg">{actionPlan.workResponsible}</div>
+                    </div>
+                    <div className="flex flex-col mb-3">
+                        <span className="text-principal mb-1">Quanto custará?</span>
+                        <div className="pl-1 p-2 border border-zinc-250 rounded-lg">{actionPlan.price}</div>
+                    </div>
+                    <div className="flex flex-col mb-3">
+                        <span className="text-principal mb-1">Responsável?</span>
+                        <div className="pl-1 p-2 border border-zinc-250 rounded-lg">{actionPlan.generalResponsible}</div>
+                    </div>
+                    <div className="flex flex-col mb-3">
+                        <span className="text-principal mb-1">Notificar Gestores?</span>
+                        <div className="pl-1 p-2 border border-zinc-250 rounded-lg">{actionPlan.notifyManagers ? 'Sim' : 'Não'}</div>
+                    </div>
+                </div>
+            </>
+        })
+    }
+
+    return (
+        <>
+
+            <Table dataSource={dataSource} columns={columns as any} className="shadow-xl" pagination={false} />
+        </>
+    )
 }
 
 export default RecordStepTable

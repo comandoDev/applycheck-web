@@ -11,7 +11,7 @@ const ManagerForm = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
-    const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
     
         authContext?.setError(undefined)
@@ -23,7 +23,7 @@ const ManagerForm = () => {
     }
 
     return (
-        <form className="w-[70%] flex flex-col" onSubmit={onSubmit}>
+        <form className="w-[70%] flex flex-col" onSubmit={handleFormSubmit}>
             <div className="">
                 <div className="flex flex-col">
                     <label htmlFor="email" className="text-zinc-600 mb-2">Email</label>

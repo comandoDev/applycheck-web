@@ -3,6 +3,7 @@
 import { NavbarContextProvider } from "@/app/auth/forms/hooks/NavbarContext/useEmployeeNavbar"
 import { FileContextProvider } from "./hooks/FileContext/useFile"
 import { FormContextProvider } from "./hooks/FormContext/useForm"
+import { ActionPlanContextProvider } from "./hooks/ActionPlanContext/useFile"
 
 const Layout = ({
   children
@@ -14,9 +15,11 @@ const Layout = ({
     <NavbarContextProvider>
       <FormContextProvider>
         <FileContextProvider>
-          <div className='flex flex-col'>
-            {children}
-          </div>
+          <ActionPlanContextProvider>
+            <div className='flex flex-col'>
+              {children}
+            </div>
+          </ActionPlanContextProvider>
         </FileContextProvider>
       </FormContextProvider>
     </NavbarContextProvider>

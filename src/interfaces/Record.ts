@@ -8,7 +8,7 @@ interface IRecordStepField {
       fields?: Array<IRecordStepField>
       files?: Array<string>
       observation?: string
-      actionPlan?: string
+      actionPlan?: IRecordActionPlan
       fatherKey?: string
       hasChildren?: boolean
 }
@@ -29,6 +29,17 @@ interface INonComplianceStep {
       title: string
       order: number
       nonComplianceCount: number
+}
+
+interface IRecordActionPlan {
+      plan?: string
+      reason?: string
+      place?: string
+      date?: Date
+      workResponsible?: string
+      price?: string
+      generalResponsible?: string
+      notifyManagers?: boolean
 }
 
 interface IRecord {
@@ -56,7 +67,7 @@ interface IFilledField {
       key: string,
       value?: string
       observation?: string
-      actionPlan?: string
+      actionPlan?: IRecordActionPlan
       files?: Array<string>
       fields?: Array<IRecordStepField>
       nonCompliance?: boolean
@@ -67,5 +78,6 @@ export type {
   IRecordStep,
   IRecordStepField,
   IFilledField,
-  INonComplianceStep
+  INonComplianceStep,
+  IRecordActionPlan
 }
