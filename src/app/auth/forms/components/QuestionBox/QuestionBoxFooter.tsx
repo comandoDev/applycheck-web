@@ -48,7 +48,7 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
         }
     }
 
-    const handleInputOnChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const handleInputOnChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const value = event.target.value
 
         if (selectedIndex === 0) {
@@ -128,13 +128,13 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
             </div>  
 
             { (showBox && selectedIndex !== 2) && (
-                <input 
-                    type="text"
-                    className="w-full p-5 bg-white border border-gray-300 rounded-lg mt-5"
+                <textarea
                     value={(selectedIndex === 0) ? actionPlan : observation}
                     onChange={handleInputOnChange}
                     placeholder={(selectedIndex === 0) ? 'Adicione um plano de ação' : 'Adicione uma observação'}
+                    className="w-full p-5 bg-white border border-gray-300 rounded-lg mt-5"
                 />
+
             ) }
 
             { ((files.length > 0) && showBox && selectedIndex === 2) && (
