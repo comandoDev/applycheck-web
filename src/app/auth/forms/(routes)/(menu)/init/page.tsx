@@ -22,7 +22,7 @@ const Init = () => {
     useEffect(() => {
         setLoading(true)
         // if (formContext?.lastReachedStep! >= 0 && formContext?.record) return router.push('/auth/forms/fill')
-        if (formContext?.lastReachedStep! >= 0 && formContext?.record?.steps?.length) setIsStarted(true)
+        if (formContext?.lastReachedStep! >= 0 && formContext?.record?.steps) setIsStarted(true)
 
         const formId = searchParams.get('formId')
         if (!formId) return router.push('/auth/forms')

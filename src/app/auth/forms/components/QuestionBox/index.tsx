@@ -11,9 +11,7 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
     const [selectedOption, setSelectedOption] = useState<string>()
 
     useEffect(() => {   
-        console.log({ useEffect })
         const filledField = formContext?.filledFields?.find(filledField => filledField.key === field.key)
-        console.log({ filledField })
         setValues(filledField?.value!, filledField?.nonCompliance!)
     }, [formContext?.filledFields])
 
@@ -29,17 +27,10 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
 
     const setValuesToCurrentStep = (value: string, nonCompliance?: boolean): void => {
         const currentStep = formContext?.currentStep 
-        console.log({ currentStep })
         let exists = false
 
-        console.log({ value, nonCompliance })
-        console.log({ key: field.key })
-
         currentStep?.fields.map(stepField => {
-            console.log({ stepFieldKey: stepField.key })
             if (stepField.key === field.key) {
-                console.log({ stepField })
-                console.log({fieldType: field.type}, field.type === InputType.multipleQuestions)
                 if (field.type === InputType.multipleQuestions) stepField.hasChildren = true
                 if (fatherField) stepField.fatherKey = fatherField.key
                 stepField.nonCompliance = nonCompliance
@@ -111,14 +102,6 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
                 </div>
             { field.type !== InputType.multipleQuestions &&  <QuestionBoxFooter field={field} />  }             
             </div>
-            {/* { field.type === InputType.multipleQuestions &&  (
-                <>
-                    <div className="w-full flex justify-center items-center text-white p-3 rounded-br-xl rounded-bl-xl bg-blackPrincipal">
-                        <span>VER MAIS</span>
-                        <CaretDown size={24} className="ml-3" />
-                    </div>
-                </>
-            ) }  */}
         </>
     )
 }
