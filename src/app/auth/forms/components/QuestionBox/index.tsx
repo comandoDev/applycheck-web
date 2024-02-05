@@ -103,14 +103,6 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
                 </div>
             { field.type !== InputType.multipleQuestions &&  <QuestionBoxFooter field={field} />  }             
             </div>
-            {/* { field.type === InputType.multipleQuestions &&  (
-                <>
-                    <div className="w-full flex justify-center items-center text-white p-3 rounded-br-xl rounded-bl-xl bg-blackPrincipal">
-                        <span>VER MAIS</span>
-                        <CaretDown size={24} className="ml-3" />
-                    </div>
-                </>
-            ) }  */}
         </>
     )
 }

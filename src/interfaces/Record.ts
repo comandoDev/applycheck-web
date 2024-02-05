@@ -6,7 +6,7 @@ interface IRecordStepField {
       value?: string
       nonCompliance?: boolean
       fields?: Array<IRecordStepField>
-      file?: string
+      files?: Array<string>
       observation?: string
       actionPlan?: string
       fatherKey?: string
@@ -57,7 +57,7 @@ interface IFilledField {
       value?: string
       observation?: string
       actionPlan?: string
-      file?: string
+      files?: Array<string>
       fields?: Array<IRecordStepField>
       nonCompliance?: boolean
 }

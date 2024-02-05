@@ -3,7 +3,7 @@
 import ManagerRepository from "@/Repositories/ManagerRepository"
 import RecordTable from "@/app/auth/records/components/Record/RecordStepTable"
 import { IRecord, RecordStatus } from "@/interfaces/Record"
-import { Tabs } from "antd"
+import { Steps, Tabs } from "antd"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import RecordStatisticsList from "../components/Record/RecordStatisticsList"
@@ -16,6 +16,18 @@ const RecordPage = () => {
 
     const [record, setRecord] = useState<IRecord>()
     const [loading, setLoading] = useState<boolean>(true)
+
+    const getFormattedTime = (stringDate: Date) => {
+        const date = new Date(stringDate)
+
+        const hour = date.getHours();
+        const minutes = date.getMinutes();
+
+        const formattedHour = hour.toString().padStart(2, '0');
+        const formattedMinutes = minutes.toString().padStart(2, '0');
+
+        return `${formattedHour}:${formattedMinutes}`
+    }
 
     useEffect(() => {
         setLoading(true)
@@ -46,6 +58,20 @@ const RecordPage = () => {
             <div>
                 <h1 className="font-bold text-2xl text-zinc-700">{`${record?.form?.title} (${record?.employee?.name})`}</h1>
                 <h2 className="font-bold text-1xl text-zinc-600">{record?.form?.type}</h2>
+            </div>
+            <div className="mb-10">
+                <Steps
+                    className="mb-5 mt-5"
+                    current={1}
+                    items={record?.form?.steps.map(step => {
+                        return {
+                            title: `Etapa-${step.order}`,
+                            status: record?.steps![(step.order - 1)] ? 'finish' : 'wait',
+                            description: (record.endTime && step.order === record.form?.totalSteps) ? 
+                                getFormattedTime(record.endTime) : (step.order === 1 ? getFormattedTime(record.createdAt!) : '')
+                        }
+                    })}
+                />
             </div>
             { record && (
                 <RecordStatisticsList record={record} />

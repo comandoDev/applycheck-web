@@ -62,7 +62,7 @@ const ChartBox = ({
         <div className={`${boxStyle} ${lastOne ? 'mr-0' : 'mr-14'}`}>
             <div className="flex-1 flex justify-center">
             {typeof window !== 'undefined' && (
-              <Chart type="area" options={options as any} series={series} height={200} width={250} />
+              <Chart type="bar" options={options as any} series={series} height={200} width={250} />
             )}
             </div>
         </div>

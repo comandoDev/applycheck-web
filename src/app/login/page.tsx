@@ -1,26 +1,6 @@
-'use client'
-
-import { FormEvent, useState } from "react"
-import Input from "./components/Input"
-import { useAuth } from "@/hooks/useAuth"
+import EmployeeForm from "./components/EmployeeForm"
 
 const SignIn = () => {
-    const authContext = useAuth()
-
-    const [email, setEmail] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
-
-    const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-    
-        authContext?.setError(undefined)
-
-        await authContext?.handleUserSignin({
-            email,
-            password
-        })            
-    }
-
     return (
         <div className="h-screen w-full p-10 flex justify-center items-center">
             <div>
@@ -30,25 +10,7 @@ const SignIn = () => {
                     </div>
                     <span>AuditLis</span>
                 </div>
-                <form onSubmit={onSubmit}>
-                    <Input 
-                        placeHolder="Insira seu email"
-                        name="email"
-                        type="email"
-                        onChange={setEmail}
-                    />
-                    <Input 
-                        placeHolder="Insira sua senha"
-                        name="password"
-                        type="password"
-                        onChange={setPassword}
-                    />
-
-                    <Input 
-                        isSubmit={true}
-                        value='Entrar'
-                    />
-                </form>
+                <EmployeeForm />
             </div>
         </div>
     )

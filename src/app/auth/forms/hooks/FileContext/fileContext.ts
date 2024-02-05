@@ -1,6 +1,6 @@
 export interface IFileContext {
-    file?: string | null
-    setFile: (file: string | null) => void
+    files?: Array<string>
+    setFiles: (files: Array<string>) => void
     fieldKey?: string
     setFieldKey: (file: string) => void
     loading?: boolean
