@@ -2,8 +2,8 @@ import { apiServer } from "@/services/api"
 import { message } from "antd"
 import { ChangeEvent } from "react"
 import { IField } from "@/interfaces/Form"
-import { useFile } from "../../hooks/FileContext/useFile"
-import { useForm } from "../../hooks/FormContext/useForm"
+import { useFile } from "../../../hooks/FileContext/useFile"
+import { useForm } from "../../../hooks/FormContext/useForm"
 
 const FileInput = ({ inputId, field }: { inputId: string, field: IField }) => {
     const fileContext = useFile()

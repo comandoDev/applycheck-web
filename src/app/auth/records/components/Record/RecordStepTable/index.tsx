@@ -1,12 +1,20 @@
+import { IActionPlan } from "@/interfaces/ActionPlan";
 import { IRecordStep } from "@/interfaces/Record";
-import { Image, Table } from "antd";
+import { Image, Modal, ModalFuncProps, Table, message } from "antd";
+import ModalInfoContent from "./ModalInfoContent";
+import { useState } from "react";
+import ActionPlanRepository from "@/Repositories/ActionPlanRepository.ts";
+import { useRouter } from "next/navigation";
+import ActionPlanModal from "./ActionPlanModal";
 
 const RecordStepTable = ({ step }: { step: IRecordStep }) => {
+    const [loading, setLoading] = useState<boolean>(false)
+    const [solved, setSolved] = useState<boolean>(false)
+
     let dataSource = [] as any
 
     step.fields.map(field => {
         if (field.fields) {
-            console.log({ fieldFields: field.fields })
             field.fields.map(f => {
                 dataSource.push({
                 key: f.key,
@@ -36,8 +44,7 @@ const RecordStepTable = ({ step }: { step: IRecordStep }) => {
         }
     })
 
-
-        const columns = [
+    const columns = [
         {
             title: 'Questão',
             dataIndex: 'question',
@@ -60,7 +67,10 @@ const RecordStepTable = ({ step }: { step: IRecordStep }) => {
         {
             title: 'Plano de Ação',
             dataIndex: 'actionPlan',
-            key: 'actionPlan'
+            key: 'actionPlan',
+            render: (_: any, { actionPlan }: { actionPlan: IActionPlan }) => {
+                return (actionPlan && <ActionPlanModal actionPlan={actionPlan} />)
+            }
         },
         {
             title: 'Arquivo',
@@ -74,7 +84,11 @@ const RecordStepTable = ({ step }: { step: IRecordStep }) => {
         }
     ]
 
-    return <Table dataSource={dataSource} columns={columns as any} className="shadow-xl" pagination={false} />
+    return (
+        <>
+            <Table dataSource={dataSource} columns={columns as any} className="shadow-xl" pagination={false} />
+        </>
+    )
 }
 
 export default RecordStepTable

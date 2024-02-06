@@ -3,31 +3,55 @@
 import { IRecord, IRecordStep } from "@/interfaces/Record"
 import RecordStatisticsbox, { IRecordStatisticsboxStatus, IRecordStatisticsboxType } from "./RecordStatisticsbox"
 import { useEffect, useState } from "react"
+import { apiServer } from "@/services/api"
+import { message } from "antd"
 
 const RecordStatisticsList = ({ record }: { record: IRecord }) => {
-    const [fieldsCount, setFieldsCount] = useState<number>();
+    const [actionPlansCount, setActionPlansCount] = useState<number>()
+    const [fieldsCount, setFieldsCount] = useState<number>()
+    const [loading, setLoading] = useState<boolean>(false)
 
     const calculateFieldsCount = (steps: Array<IRecordStep>) => {
         return steps.reduce((count, step) => {
-            count += step.fields.length;
+            count += step.fields.length
     
             step.fields.forEach((field) => {
                 if (field.fields) {
-                    count--;
-                    count += field.fields.length;
+                    count--
+                    count += field.fields.length
                 }
-            });
+            })
     
-            return count;
-        }, 0);
-    };
+            return count
+        }, 0)
+    }
 
     useEffect(() => {
-        if (record?.steps) {
-            const calculatedFieldsCount = calculateFieldsCount(record.steps);
-            setFieldsCount(calculatedFieldsCount);
+        setLoading(true)
+
+        const fetch = async () => {
+            try {
+                const response = await apiServer.get('/auth/action-plans', {
+                    params: {
+                        solved: false
+                    }
+                })
+
+                setActionPlansCount(response.data.data.actionPlans.totalDocs)
+            } catch (error) {
+                message.error((error as any).message)
+            } finally {
+                setLoading(false)
+            }
         }
-    }, [record?.steps]);
+
+        fetch()
+
+        if (record?.steps) {
+            const calculatedFieldsCount = calculateFieldsCount(record.steps)
+            setFieldsCount(calculatedFieldsCount)
+        }
+    }, [record?.steps])
 
 
     return (
@@ -66,18 +90,18 @@ const RecordStatisticsList = ({ record }: { record: IRecord }) => {
                 percent={Math.round(((fieldsCount! - record?.nonComplianceCount!)/fieldsCount!) * 100)}
             />
             <RecordStatisticsbox 
-                title="MÉDIA DE NC POR PASSO"
+                title="PLANOS DE AÇÃO EM ABERTO"
                 progress={{
                     color: 'blue',
-                    title: `Média de ${Math.round(record?.nonComplianceCount!/record?.form?.totalSteps!)} 
-                    campo(s) com não conformidade por passo`,
-                    info: 'Média de campos com não conformidades por passo'
+                    title: `${actionPlansCount} plano(s) de ação em aberto`,
+                    info: 'Planos de Ação em aberto'
                 }}
                 status={IRecordStatisticsboxStatus.active}
                 type={IRecordStatisticsboxType.dashboard}
                 percent={100}
-                rawNumber={Math.round(record?.nonComplianceCount!/record?.form?.totalSteps!)}
+                rawNumber={actionPlansCount}
                 lastOne={true}
+                loading={loading}
             />
         </div>
     )

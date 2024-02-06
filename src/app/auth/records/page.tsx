@@ -8,6 +8,7 @@ import ChartBox from "./components/ChartBox"
 import { useRouter } from "next/navigation"
 import PageLoading from "./components/Record/PageLoading"
 import { MagnifyingGlass } from "@phosphor-icons/react"
+import { message } from "antd"
 
 const Records = () => {
     const router = useRouter()
@@ -23,7 +24,7 @@ const Records = () => {
         try {
             await ManagerRepository.listRecords()
         } catch (error) {
-            console.log({ error })
+            message.error((error as any).message)
         }
     }
 

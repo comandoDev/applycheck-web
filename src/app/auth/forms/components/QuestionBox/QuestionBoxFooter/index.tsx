@@ -1,42 +1,52 @@
 import { IField } from "@/interfaces/Form"
 import { CameraPlus, ChatText, PlusCircle, Trash, TrashSimple, WarningDiamond } from "@phosphor-icons/react"
 import { ChangeEvent, useEffect, useState } from "react"
-import { useForm } from "../../hooks/FormContext/useForm"
+import { useForm } from "../../../hooks/FormContext/useForm"
 import FileInput from "./FileInput"
 import { Image } from "antd"
-import { useFile } from "../../hooks/FileContext/useFile"
+import { useFile } from "../../../hooks/FileContext/useFile"
 import { ClipLoader } from "react-spinners"
+import ActionPlanForm from "./ActionPlanForm"
+import { useActionPlan } from "../../../hooks/ActionPlanContext/useFile"
+import { IActionPlan } from "@/interfaces/ActionPlan"
 
 const QuestionBoxFooter = ({ field }: { field: IField }) => {
     const formContext = useForm()
     const fileContext = useFile()
+    const actionPlanContext = useActionPlan()
 
     const [selectedIndex, setSelectedIndex] = useState<number>()
     const [showBox, setShowBox] = useState<boolean>()
 
-    const [actionPlan, setActionPlan] = useState<string>('')
+    const [actionPlan, setActionPlan] = useState<Partial<IActionPlan>>()
     const [observation, setObservation] = useState<string>('')
     const [files, setFiles] = useState<Array<string>>([])
 
     useEffect(() => {
         const filledField = formContext?.filledFields?.find(filledField => filledField.key === field.key)
 
-        if (filledField?.actionPlan) {
-            setActionPlan(filledField?.actionPlan)
-            setValuesToCurrentStep('actionPlan', filledField?.actionPlan)
+        if (filledField?.actionPlanId) {
+            setValuesToCurrentStep('actionPlanId', filledField?.actionPlanId)
         }
-
+        
         if (filledField?.observation) {
             setObservation(filledField?.observation)
             setValuesToCurrentStep('observation', filledField?.observation)
         }
-
+        
+        const actionPlan = filledField?.actionPlan || (actionPlanContext?.fieldKey === field.key ? actionPlanContext.actionPlan : undefined)
+        
+        if (actionPlan) {
+            setActionPlan(actionPlan)
+            setValuesToCurrentStep('actionPlan', actionPlan)
+        }
         const files = (fileContext?.fieldKey === field.key ? fileContext.files : undefined) || filledField?.files
+        
         if (files?.length) {
             setFiles(files)
             files.map(file => setValuesToCurrentStep('files', file))
         }
-    }, [formContext?.filledFields, fileContext?.files])
+    }, [formContext?.filledFields, fileContext?.files, actionPlanContext?.actionPlan])
     
     const handleOnClick = (index: number) => {
         if (showBox && selectedIndex === index) {
@@ -51,10 +61,6 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
     const handleInputOnChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const value = event.target.value
 
-        if (selectedIndex === 0) {
-            setValuesToCurrentStep('actionPlan', value)
-            setActionPlan(value)
-        }
         if (selectedIndex === 1) {
             setValuesToCurrentStep('observation', value)
             setObservation(value)
@@ -74,7 +80,7 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
         if (!updatedFiles.length) handleOnClick(2)
     }
 
-    const setValuesToCurrentStep = (key: 'files' | 'actionPlan' |  'observation', value: string) => {
+    const setValuesToCurrentStep = (key: 'files' | 'actionPlan' |  'observation' | 'actionPlanId', value: any) => {
         const currentStep = formContext?.currentStep 
         let exists = false
 
@@ -127,11 +133,15 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
                 </div>    
             </div>  
 
-            { (showBox && selectedIndex !== 2) && (
+            { (showBox && selectedIndex === 0) && (
+                <ActionPlanForm field={field}  actionPlan={actionPlan} />
+            ) }
+
+            { (showBox && selectedIndex === 1) && (
                 <textarea
-                    value={(selectedIndex === 0) ? actionPlan : observation}
+                    value={observation}
                     onChange={handleInputOnChange}
-                    placeholder={(selectedIndex === 0) ? 'Adicione um plano de ação' : 'Adicione uma observação'}
+                    placeholder={'Adicione uma observação'}
                     className="w-full p-5 bg-white border border-gray-300 rounded-lg mt-5"
                 />
 
