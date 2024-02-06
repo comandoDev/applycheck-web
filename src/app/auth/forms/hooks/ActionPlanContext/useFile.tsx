@@ -1,13 +1,13 @@
 'use client'
 
-import { IRecordActionPlan } from "@/interfaces/Record"
+import { IActionPlan } from "@/interfaces/ActionPlan"
 import { IActionPlanContext } from "./actionPlanContext"
 import { ReactNode, createContext, useContext, useState } from "react"
 
 const ActionPlanContext = createContext<IActionPlanContext | null>(null)
 
 export const ActionPlanContextProvider = ({ children }: { children: ReactNode }) => {
-  const [actionPlan, setActionPlan] = useState<IRecordActionPlan>()
+  const [actionPlan, setActionPlan] = useState<Partial<IActionPlan>>()
   const [fieldKey, setFieldKey] = useState<string>()
 
   const actionPlanContextProvider = {

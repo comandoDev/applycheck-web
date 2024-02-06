@@ -5,9 +5,9 @@ import { useState } from "react"
 import ActionPlanInputBox from "./ActionPlanInputBox"
 import { IField } from "@/interfaces/Form"
 import { useActionPlan } from "../../../hooks/ActionPlanContext/useFile"
-import { IRecordActionPlan } from "@/interfaces/Record"
+import { IActionPlan } from "@/interfaces/ActionPlan"
 
-const ActionPlanForm = ({ field, actionPlan }: { field: IField, actionPlan?: IRecordActionPlan }) => {
+const ActionPlanForm = ({ field, actionPlan }: { field: IField, actionPlan?: Partial<IActionPlan> }) => {
     const actionPlanContext = useActionPlan()
 
     const [plan, setPlan] = useState<string>(actionPlan?.plan || '')

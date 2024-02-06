@@ -1,5 +1,6 @@
 import { IForm } from "@/interfaces/Form"
 import { IUser } from "@/interfaces/User"
+import { IActionPlan } from "./ActionPlan"
 
 interface IRecordStepField {
       key: string
@@ -8,7 +9,8 @@ interface IRecordStepField {
       fields?: Array<IRecordStepField>
       files?: Array<string>
       observation?: string
-      actionPlan?: IRecordActionPlan
+      actionPlan?: IActionPlan
+      actionPlanId?: string
       fatherKey?: string
       hasChildren?: boolean
 }
@@ -29,17 +31,6 @@ interface INonComplianceStep {
       title: string
       order: number
       nonComplianceCount: number
-}
-
-interface IRecordActionPlan {
-      plan?: string
-      reason?: string
-      place?: string
-      date?: Date
-      workResponsible?: string
-      price?: string
-      generalResponsible?: string
-      notifyManagers?: boolean
 }
 
 interface IRecord {
@@ -67,7 +58,8 @@ interface IFilledField {
       key: string,
       value?: string
       observation?: string
-      actionPlan?: IRecordActionPlan
+      actionPlan?: IActionPlan
+      actionPlanId?: string
       files?: Array<string>
       fields?: Array<IRecordStepField>
       nonCompliance?: boolean
@@ -78,6 +70,5 @@ export type {
   IRecordStep,
   IRecordStepField,
   IFilledField,
-  INonComplianceStep,
-  IRecordActionPlan
+  INonComplianceStep
 }

@@ -59,6 +59,12 @@ const RecordPage = () => {
                 <h1 className="font-bold text-2xl text-zinc-700">{`${record?.form?.title} (${record?.employee?.name})`}</h1>
                 <h2 className="font-bold text-1xl text-zinc-600">{record?.form?.type}</h2>
             </div>
+            { record && (
+                <RecordStatisticsList record={record} />
+            ) }
+            <div className="w-full bg-white shadow-xl p-5 mb-10">
+                <RecordNonCompliancesChart record={record!} />              
+            </div>
             <div className="mb-10">
                 <Steps
                     className="mb-5 mt-5"
@@ -72,12 +78,6 @@ const RecordPage = () => {
                         }
                     })}
                 />
-            </div>
-            { record && (
-                <RecordStatisticsList record={record} />
-            ) }
-            <div className="w-full bg-white shadow-xl p-5 mb-10">
-                <RecordNonCompliancesChart record={record!} />              
             </div>
             <div>
                 <Tabs

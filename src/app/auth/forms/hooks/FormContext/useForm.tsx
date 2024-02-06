@@ -38,6 +38,7 @@ export const FormContextProvider = ({ children }: { children: ReactNode }) => {
           key: stepField.key,
           value: stepField.value!,
           actionPlan: stepField.actionPlan,
+          actionPlanId: stepField.actionPlanId,
           observation: stepField.observation,
           files: stepField.files,
           fields: stepField.fields,
@@ -49,6 +50,7 @@ export const FormContextProvider = ({ children }: { children: ReactNode }) => {
             key: f.key,
             value: f.value!,
             actionPlan: f.actionPlan,
+            actionPlanId: f.actionPlanId,
             observation: f.observation,
             files: f.files,
             nonCompliance: f.nonCompliance

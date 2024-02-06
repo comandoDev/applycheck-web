@@ -3,6 +3,7 @@
 import { IRecord } from "@/interfaces/Record"
 import { Progress, Tooltip } from "antd"
 import { useEffect, useState } from "react"
+import { ClipLoader } from "react-spinners"
 
 export enum IRecordStatisticsboxStatus {
     active = 'active',
@@ -29,6 +30,7 @@ interface IRecordStatisticsbox {
     percent: number
     lastOne?: boolean
     rawNumber?: number
+    loading?: boolean
 }
 
 const RecordStatisticsbox = ({ 
@@ -38,23 +40,35 @@ const RecordStatisticsbox = ({
     status,
     percent,
     lastOne,
-    rawNumber
+    rawNumber,
+    loading
  }: IRecordStatisticsbox) => {
     return (
         <div className={`p-5 bg-white shadow-xl flex flex-col rounded-xl flex-1 ${lastOne ? 'mr-0' : 'mr-16'}`}>
             <span className="font-bold">{title}</span>
-            <div className="w-full flex justify-center mb-6 mt-6">
-                <Tooltip title={progress.title}>
-                    <Progress 
-                        type={type}
-                        status={status}
-                        percent={percent}
-                        format={(percent) => {
-                            if (rawNumber! >= 0) return rawNumber
-                            return `${percent}%`
-                        }}
-                    />
-                </Tooltip>
+                <div className="w-full flex justify-center mb-6 mt-6">
+                    { !loading ? (
+                        <Tooltip title={progress.title}>
+                            <Progress 
+                                type={type}
+                                status={status}
+                                percent={percent}
+                                format={(percent) => {
+                                    if (rawNumber! >= 0) return rawNumber
+                                    return `${percent}%`
+                                }}
+                            />
+                        </Tooltip>
+                    ) : (
+                        <ClipLoader
+                            color={'#1677FE'}
+                            loading={true}
+                            size={120}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                        />
+                    )}
+                
             </div>
             <div className="w-full p-5 bg-[#F2F6FE] rounded-xl">
                 <div className="flex items-center">

@@ -8,7 +8,7 @@ import { useFile } from "../../../hooks/FileContext/useFile"
 import { ClipLoader } from "react-spinners"
 import ActionPlanForm from "./ActionPlanForm"
 import { useActionPlan } from "../../../hooks/ActionPlanContext/useFile"
-import { IRecordActionPlan } from "@/interfaces/Record"
+import { IActionPlan } from "@/interfaces/ActionPlan"
 
 const QuestionBoxFooter = ({ field }: { field: IField }) => {
     const formContext = useForm()
@@ -18,20 +18,23 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
     const [selectedIndex, setSelectedIndex] = useState<number>()
     const [showBox, setShowBox] = useState<boolean>()
 
-    const [actionPlan, setActionPlan] = useState<IRecordActionPlan>()
+    const [actionPlan, setActionPlan] = useState<Partial<IActionPlan>>()
     const [observation, setObservation] = useState<string>('')
     const [files, setFiles] = useState<Array<string>>([])
 
     useEffect(() => {
         const filledField = formContext?.filledFields?.find(filledField => filledField.key === field.key)
 
+        if (filledField?.actionPlanId) {
+            setValuesToCurrentStep('actionPlanId', filledField?.actionPlanId)
+        }
         
         if (filledField?.observation) {
             setObservation(filledField?.observation)
             setValuesToCurrentStep('observation', filledField?.observation)
         }
         
-        const actionPlan = (actionPlanContext?.fieldKey === field.key ? actionPlanContext.actionPlan : undefined) || filledField?.actionPlan
+        const actionPlan = filledField?.actionPlan || (actionPlanContext?.fieldKey === field.key ? actionPlanContext.actionPlan : undefined)
         
         if (actionPlan) {
             setActionPlan(actionPlan)
@@ -77,7 +80,7 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
         if (!updatedFiles.length) handleOnClick(2)
     }
 
-    const setValuesToCurrentStep = (key: 'files' | 'actionPlan' |  'observation', value: any) => {
+    const setValuesToCurrentStep = (key: 'files' | 'actionPlan' |  'observation' | 'actionPlanId', value: any) => {
         const currentStep = formContext?.currentStep 
         let exists = false
 

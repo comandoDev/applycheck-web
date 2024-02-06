@@ -1,8 +1,8 @@
-import { IRecordActionPlan } from "@/interfaces/Record"
+import { IActionPlan } from "@/interfaces/ActionPlan"
 
 export interface IActionPlanContext {
-    actionPlan?: IRecordActionPlan
-    setActionPlan: (actionPlan: IRecordActionPlan) => void
+    actionPlan?: Partial<IActionPlan>
+    setActionPlan: (actionPlan: Partial<IActionPlan>) => void
     fieldKey?: string
     setFieldKey: (file: string) => void
 }
