@@ -1,16 +1,9 @@
 import { IActionPlan } from "@/interfaces/ActionPlan";
 import { IRecordStep } from "@/interfaces/Record";
-import { Image, Modal, ModalFuncProps, Table, message } from "antd";
-import ModalInfoContent from "./ModalInfoContent";
-import { useState } from "react";
-import ActionPlanRepository from "@/Repositories/ActionPlanRepository.ts";
-import { useRouter } from "next/navigation";
+import { Image, Table } from "antd";
 import ActionPlanModal from "./ActionPlanModal";
 
 const RecordStepTable = ({ step }: { step: IRecordStep }) => {
-    const [loading, setLoading] = useState<boolean>(false)
-    const [solved, setSolved] = useState<boolean>(false)
-
     let dataSource = [] as any
 
     step.fields.map(field => {

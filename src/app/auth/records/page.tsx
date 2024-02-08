@@ -7,8 +7,7 @@ import RecordsTable from "./components/RecordsTable"
 import ChartBox from "./components/ChartBox"
 import { useRouter } from "next/navigation"
 import PageLoading from "./components/Record/PageLoading"
-import { MagnifyingGlass } from "@phosphor-icons/react"
-import { message } from "antd"
+import RecordFilters from "./components/RecordFilters"
 
 const Records = () => {
     const router = useRouter()
@@ -19,14 +18,6 @@ const Records = () => {
     const [registerWithoutNonComplianceCount, setRegisterWithoutNonComplianceCount] = useState<number>()
     const [totalCount, setTotalCount] = useState<number>()
     const [loading, setLoading] = useState<boolean>(true)
-
-    const handleSearchOnChange = async () => {
-        try {
-            await ManagerRepository.listRecords()
-        } catch (error) {
-            message.error((error as any).message)
-        }
-    }
 
     useEffect(() => {
         setLoading(true)
@@ -68,13 +59,7 @@ const Records = () => {
             <div>
                 <div className="flex justify-between mb-3">
                     <div className="flex w-[50%]">
-                        <input 
-                            type="text"
-                            className="bg-zinc-100 p-3 rounded-bl-lg rounded-tl-lg outline-none w-[50%]" 
-                            placeholder="Buscar registro..."
-                            onChange={handleSearchOnChange}    
-                        />
-                        <div className="bg-zinc-100 p-3 rounded-br-lg rounded-tr-lg"><MagnifyingGlass  size={22}/></div>
+                        <RecordFilters />
                     </div>
                 </div>
                 <RecordsTable records={records!} />

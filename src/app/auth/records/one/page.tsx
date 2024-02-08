@@ -9,6 +9,7 @@ import { useEffect, useState } from "react"
 import RecordStatisticsList from "../components/Record/RecordStatisticsList"
 import RecordNonCompliancesChart from "../components/Record/RecordNonCompliancesChart"
 import PageLoading from "../components/Record/PageLoading"
+import { getFormattedDate } from "../helpers/getFormattedDate"
 
 const RecordPage = () => {
     const searchParams = useSearchParams()
@@ -16,18 +17,6 @@ const RecordPage = () => {
 
     const [record, setRecord] = useState<IRecord>()
     const [loading, setLoading] = useState<boolean>(true)
-
-    const getFormattedTime = (stringDate: Date) => {
-        const date = new Date(stringDate)
-
-        const hour = date.getHours();
-        const minutes = date.getMinutes();
-
-        const formattedHour = hour.toString().padStart(2, '0');
-        const formattedMinutes = minutes.toString().padStart(2, '0');
-
-        return `${formattedHour}:${formattedMinutes}`
-    }
 
     useEffect(() => {
         setLoading(true)
@@ -74,7 +63,7 @@ const RecordPage = () => {
                             title: `Etapa-${step.order}`,
                             status: record?.steps![(step.order - 1)] ? 'finish' : 'wait',
                             description: (record.endTime && step.order === record.form?.totalSteps) ? 
-                                getFormattedTime(record.endTime) : (step.order === 1 ? getFormattedTime(record.createdAt!) : '')
+                                getFormattedDate(record.endTime) : (step.order === 1 ? getFormattedDate(record.createdAt!) : '')
                         }
                     })}
                 />

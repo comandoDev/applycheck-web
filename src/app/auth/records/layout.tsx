@@ -2,6 +2,7 @@
 
 import { ManagerNavbarContextProvider } from "@/app/auth/records/hooks/NavbarContext/useManagerNavbar"
 import Header from "./components/Header"
+import { RecordFiltersContextProvider } from "./hooks/RecordFiltersContext/useRecordFilter"
 
 const Layout = ({
   children
@@ -10,10 +11,12 @@ const Layout = ({
 }) => {
   return(
     <ManagerNavbarContextProvider>
-      <Header />
-      <div className='flex flex-col'>
-        {children}
-      </div>
+      <RecordFiltersContextProvider>
+        <Header />
+        <div className='flex flex-col'>
+          {children}
+        </div>
+      </RecordFiltersContextProvider>
     </ManagerNavbarContextProvider>
   )
 }
