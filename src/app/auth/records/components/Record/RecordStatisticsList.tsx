@@ -33,7 +33,8 @@ const RecordStatisticsList = ({ record }: { record: IRecord }) => {
             try {
                 const response = await apiServer.get('/auth/action-plans', {
                     params: {
-                        solved: false
+                        solved: false,
+                        recordId: record.id
                     }
                 })
 
