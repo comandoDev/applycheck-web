@@ -6,6 +6,7 @@ import { ClipLoader } from "react-spinners"
 import { useRecordFiltersContext } from "../hooks/RecordFiltersContext/useRecordFilter"
 import { apiServer } from "@/services/api"
 import { IUser } from "@/interfaces/User"
+import { FunnelSimple } from "@phosphor-icons/react"
 
 const RecordFilters = () => {
     const recordFiltersContext = useRecordFiltersContext()
@@ -56,7 +57,8 @@ const RecordFilters = () => {
                     />
                 </div>
             ) : (
-                <>
+                <div className="flex items-center">
+                    <FunnelSimple size={28} className="mr-5 text-principal" />
                     <Select
                         defaultValue="Nome do Formulário"
                         onChange={handleFormOnChange}
@@ -78,7 +80,7 @@ const RecordFilters = () => {
                             }
                         })}
                     />
-                </>
+                </div>
             )}
         </div>
     )
