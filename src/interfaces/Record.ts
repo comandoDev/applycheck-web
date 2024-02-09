@@ -65,10 +65,18 @@ interface IFilledField {
       nonCompliance?: boolean
 }
 
+interface IRecordParams {
+      formId?: string
+      employeeId?: string
+      status?: RecordStatus
+      hasNonCompliance?: boolean
+}
+
 export type {
   IRecord,
   IRecordStep,
   IRecordStepField,
   IFilledField,
-  INonComplianceStep
+  INonComplianceStep,
+  IRecordParams
 }

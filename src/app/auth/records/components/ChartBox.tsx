@@ -5,7 +5,7 @@ const Chart = dynamic(() => import('react-apexcharts'))
 
 interface IChartBoxProps {
     title: string
-    data: number
+    data: Array<number>
     lastOne?: boolean
 }
 
@@ -26,7 +26,7 @@ const ChartBox = ({
           
         const series = [{
             name: title,
-            data: [Number(data), 98, 17, 43, 56, 8]
+            data
         }]
 
         const options = {
@@ -44,7 +44,7 @@ const ChartBox = ({
               curve: 'straight'
             },
             title: {
-                text: `${title} (${data})`,
+                text: title,
                 align: 'left'
             },
             xaxis: {

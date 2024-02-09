@@ -1,6 +1,6 @@
 import { Repository } from '@/core/Repository'
 import { IForm } from '@/interfaces/Form'
-import { IRecord } from '@/interfaces/Record'
+import { IRecord, IRecordParams } from '@/interfaces/Record'
 import { IPaginateList, IResponse } from '@/interfaces/Response'
 import { IUser } from '@/interfaces/User'
 
@@ -11,9 +11,11 @@ class ManagerRepository extends Repository<IUser> {
     )
   }
 
-  async listRecords (): Promise<IResponse<IPaginateList<IRecord>>> {
+  async listRecords (params?: IRecordParams): Promise<IResponse<{ records: Array<IRecord> }>> {
       return this.execute(() =>
-        this.api.get(`${this.path}/records`)
+        this.api.get(`${this.path}/records`, {
+          params
+        })
       )
    }
 
@@ -31,11 +33,10 @@ class ManagerRepository extends Repository<IUser> {
     
     async dash (): Promise<IResponse<{
         dash: {
-            totalCount: number
-            registerWithoutNonComplianceCount: number
-            registerWithNonComplianceCount: number
-            nonComplianceCount: number
-            docs: any
+          registerWithNonComplianceCountByMonth: Array<number>
+          registerWithoutNonComplianceCountByMonth: Array<number>
+          nonComplianceCountByMonth: Array<number>
+          registerCountByMonth: Array<number>
         }
     }>> {
         return this.execute(() =>
