@@ -9,6 +9,7 @@ import EmployeeRepository from "@/Repositories/EmployeeRepository"
 import { useForm } from "../../hooks/FormContext/useForm"
 import to from "await-to-js"
 import FormListLoading from "./FormListLoading"
+import Storage from "@/utils/Storage"
 
 const FormList = () => {
   const formContext = useForm()
@@ -24,7 +25,10 @@ const FormList = () => {
 
     const fetch = async () => {
       try {
-        const formsResponse = await EmployeeRepository.listForms()
+        const user = Storage.getUser()
+        if (!user) throw new Error()
+
+        const formsResponse = await EmployeeRepository.listUserForms(user.id!)
         setForms(formsResponse.data.data!.forms.docs)
 
         const [error, inProgressResponse] = await to(EmployeeRepository.hasRecordInProgress())

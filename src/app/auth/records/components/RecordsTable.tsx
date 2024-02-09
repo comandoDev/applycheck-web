@@ -1,8 +1,44 @@
 import { IRecord, RecordStatus } from "@/interfaces/Record";
 import { Table, Tag } from "antd"
 import Link from "next/link";
+import { useRecordFiltersContext } from "../hooks/RecordFiltersContext/useRecordFilter";
+import { useEffect, useState } from "react";
+import ManagerRepository from "@/Repositories/ManagerRepository";
+import { useRouter } from "next/navigation";
+import { ClipLoader } from "react-spinners";
+import RecordsTableSkeleton from "./Record/RecordsTableSkeleton";
 
-const RecordsTable = ({ records }: { records: Array<IRecord> }) => {
+const RecordsTable = () => {
+    const router = useRouter()
+    
+    const recordFiltersContext = useRecordFiltersContext()
+    
+    const [records, setRecords] = useState<Array<IRecord>>()
+    const [loading, setLoading] = useState<boolean>(true)
+
+
+    useEffect(() => {
+        setLoading(true)
+
+        const fetch = async () => {
+            try {
+                const recordsResponse = await ManagerRepository.listRecords({
+                    formId: recordFiltersContext?.formId!,
+                    employeeId: recordFiltersContext?.employeeId!,
+                    
+                })
+
+                setRecords(recordsResponse.data.data?.records)
+            } catch (error) {
+                router.push('/login/manager')
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetch()
+    }, [recordFiltersContext?.formId, recordFiltersContext?.employeeId])
+
     const dataSource = records?.map(record => {
         return {
             key: record.id,
@@ -79,7 +115,7 @@ const RecordsTable = ({ records }: { records: Array<IRecord> }) => {
         },
     ];
 
-    return <Table dataSource={dataSource} columns={columns} className="shadow-xl" />
+    return loading ? (<RecordsTableSkeleton />) : ( <Table dataSource={dataSource} columns={columns} className="shadow-xl" /> )
 
 }
 

@@ -1,32 +1,21 @@
 'use client'
 
 import ManagerRepository from "@/Repositories/ManagerRepository"
-import { IRecord } from "@/interfaces/Record"
 import { useEffect, useState } from "react"
 import RecordsTable from "./components/RecordsTable"
 import ChartBox from "./components/ChartBox"
 import { useRouter } from "next/navigation"
 import PageLoading from "./components/Record/PageLoading"
-import { MagnifyingGlass } from "@phosphor-icons/react"
-import { message } from "antd"
+import RecordFilters from "./components/RecordFilters"
 
 const Records = () => {
     const router = useRouter()
 
-    const [records, setRecords] = useState<Array<IRecord>>()
-    const [nonComplianceCount, setNonComplianceCount] = useState<number>()
-    const [registerWithNonComplianceCount, setRegisterWithNonComplianceCount] = useState<number>()
-    const [registerWithoutNonComplianceCount, setRegisterWithoutNonComplianceCount] = useState<number>()
-    const [totalCount, setTotalCount] = useState<number>()
+    const [registerWithNonComplianceCountByMonth, setRegisterWithNonComplianceCountByMonth] = useState<Array<number>>()
+    const [registerWithoutNonComplianceCountByMonth, setRegisterWithoutNonComplianceCountByMonth] = useState<Array<number>>()
+    const [nonComplianceCountByMonth, setNonComplianceCountByMonth] = useState<Array<number>>()
+    const [registerCountByMonth, setRegisterCountByMonth] = useState<Array<number>>()
     const [loading, setLoading] = useState<boolean>(true)
-
-    const handleSearchOnChange = async () => {
-        try {
-            await ManagerRepository.listRecords()
-        } catch (error) {
-            message.error((error as any).message)
-        }
-    }
 
     useEffect(() => {
         setLoading(true)
@@ -34,14 +23,17 @@ const Records = () => {
         const fetch = async () => {
             try {
                 const dashResponse = await ManagerRepository.dash()
+                const { 
+                    registerWithNonComplianceCountByMonth,
+                    registerWithoutNonComplianceCountByMonth, 
+                    nonComplianceCountByMonth, 
+                    registerCountByMonth 
+                } = dashResponse.data.data!.dash
     
-                const { docs, nonComplianceCount, registerWithNonComplianceCount, registerWithoutNonComplianceCount, totalCount } = dashResponse.data.data!.dash
-    
-                setRecords(docs)
-                setNonComplianceCount(nonComplianceCount)
-                setRegisterWithNonComplianceCount(registerWithNonComplianceCount)
-                setRegisterWithoutNonComplianceCount(registerWithoutNonComplianceCount)
-                setTotalCount(totalCount)
+                setRegisterWithNonComplianceCountByMonth(registerWithNonComplianceCountByMonth)
+                setRegisterWithoutNonComplianceCountByMonth(registerWithoutNonComplianceCountByMonth)
+                setNonComplianceCountByMonth(nonComplianceCountByMonth)
+                setRegisterCountByMonth(registerCountByMonth)
             } catch (error) {
                 router.push('/login/manager')
             } finally {
@@ -59,25 +51,19 @@ const Records = () => {
             </div>
 
             <div className="flex mb-14">
-                <ChartBox title="Registros" data={totalCount!} />
-                <ChartBox title="Registros em conf." data={registerWithoutNonComplianceCount!} />
-                <ChartBox title="Registros com não conf." data={registerWithNonComplianceCount!} />
-                <ChartBox title="N.º de não conf." data={nonComplianceCount!} lastOne={true} />
+                <ChartBox title="Registros" data={registerCountByMonth!} />
+                <ChartBox title="Registros em conf." data={registerWithoutNonComplianceCountByMonth!} />
+                <ChartBox title="Registros com não conf." data={registerWithNonComplianceCountByMonth!} />
+                <ChartBox title="N.º de não conf." data={nonComplianceCountByMonth!} lastOne={true} />
             </div>
             
             <div>
                 <div className="flex justify-between mb-3">
                     <div className="flex w-[50%]">
-                        <input 
-                            type="text"
-                            className="bg-zinc-100 p-3 rounded-bl-lg rounded-tl-lg outline-none w-[50%]" 
-                            placeholder="Buscar registro..."
-                            onChange={handleSearchOnChange}    
-                        />
-                        <div className="bg-zinc-100 p-3 rounded-br-lg rounded-tr-lg"><MagnifyingGlass  size={22}/></div>
+                        <RecordFilters />
                     </div>
                 </div>
-                <RecordsTable records={records!} />
+                <RecordsTable />
             </div>
         </div>
     ) : <PageLoading />

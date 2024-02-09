@@ -5,9 +5,9 @@ import { IPaginateList, IResponse } from '@/interfaces/Response'
 import { IUser } from '@/interfaces/User'
 
 class EmployeeRepository extends Repository<IUser> {
-  async listForms (): Promise<IResponse<IPaginateList<IForm>>> {
+  async listUserForms (userId: string): Promise<IResponse<IPaginateList<IForm>>> {
     return this.execute(() =>
-      this.api.get(`${this.path}/forms`)
+      this.api.get(`${this.path}/forms/users/${userId}`)
     )
   }
 

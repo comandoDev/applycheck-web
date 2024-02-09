@@ -5,7 +5,7 @@ const Chart = dynamic(() => import('react-apexcharts'))
 
 interface IChartBoxProps {
     title: string
-    data: number
+    data: Array<number>
     lastOne?: boolean
 }
 
@@ -26,7 +26,7 @@ const ChartBox = ({
           
         const series = [{
             name: title,
-            data: [Number(data), 98, 17, 43, 56, 8]
+            data
         }]
 
         const options = {
@@ -44,7 +44,7 @@ const ChartBox = ({
               curve: 'straight'
             },
             title: {
-                text: `${title} (${data})`,
+                text: title,
                 align: 'left'
             },
             xaxis: {
@@ -62,7 +62,7 @@ const ChartBox = ({
         <div className={`${boxStyle} ${lastOne ? 'mr-0' : 'mr-14'}`}>
             <div className="flex-1 flex justify-center">
             {typeof window !== 'undefined' && (
-              <Chart type="bar" options={options as any} series={series} height={200} width={250} />
+              <Chart type="area" options={options as any} series={series} height={200} width={250} />
             )}
             </div>
         </div>
