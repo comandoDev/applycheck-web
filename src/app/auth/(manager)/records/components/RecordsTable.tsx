@@ -16,7 +16,6 @@ const RecordsTable = () => {
     const [records, setRecords] = useState<Array<IRecord>>()
     const [loading, setLoading] = useState<boolean>(true)
 
-
     useEffect(() => {
         setLoading(true)
 
@@ -113,7 +112,7 @@ const RecordsTable = () => {
                 </Link>
             },
         },
-    ];
+    ]
 
     return loading ? (<RecordsTableSkeleton />) : ( <Table dataSource={dataSource} columns={columns} className="shadow-xl" /> )
 
