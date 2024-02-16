@@ -20,7 +20,7 @@ const ActionPlanModal = ({ actionPlan }: { actionPlan: IActionPlan }) => {
 
             message.success(response.data.message)
 
-            router.push(`/auth/records/one?recordId=${actionPlan.recordId}`)
+            router.push(`/auth/records/one/${actionPlan.recordId}`)
         } catch (error) {
             message.error((error as any).message as string)
         } finally {

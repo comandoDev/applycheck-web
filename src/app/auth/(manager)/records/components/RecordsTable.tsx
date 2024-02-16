@@ -105,7 +105,7 @@ const RecordsTable = () => {
             dataIndex: '',
             key: 'x',
             render: (index: any) => {
-                return <Link href={`/auth/records/one?recordId=${index.key}`} className="text-principal">
+                return <Link href={`/auth/records/one/${index.key}`} className="text-principal">
                     <>
                         {index.status === RecordStatus.open ? 'Analisar' : 'Visualizar'}
                     </>
