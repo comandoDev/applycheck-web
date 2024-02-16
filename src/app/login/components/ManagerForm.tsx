@@ -35,7 +35,7 @@ const ManagerForm = () => {
                     />
                 </div>
                 <div className="flex flex-col">
-                    <label htmlFor="password" className="text-zinc-600 mb-2">Password</label>
+                    <label htmlFor="password" className="text-zinc-600 mb-2">Senha</label>
                     <Input 
                         placeHolder="Insira sua senha"
                         name="password"
