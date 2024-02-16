@@ -1,3 +1,4 @@
+import { ISetPasswordProps } from "@/Repositories/UserRepository";
 import { IResponseData } from "@/interfaces/Response";
 import { IUser } from "@/interfaces/User";
 
@@ -15,4 +16,5 @@ export interface IAuthContext {
   handleUserSignin: (props: IUserSigninProps) => Promise<void>
   loading?: boolean
   setLoading: (loading: boolean) => void
+  handleUserSetPassword: (props: ISetPasswordProps) => Promise<void>
 }

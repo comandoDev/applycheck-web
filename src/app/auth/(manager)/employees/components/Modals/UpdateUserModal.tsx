@@ -8,18 +8,11 @@ const UpdateUserModal = () => {
     const employeeCreationContext = useEmployeeCreation()
 
     const [forms, setForms] = useState<Array<IForm>>()
-    const [formsIds, setFormsIds] = useState<Array<string>>([])
     const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {
         const fetch = async () => {
             try {
-                console.log(employeeCreationContext!.id,
-                employeeCreationContext!.name,
-                employeeCreationContext!.email,
-                employeeCreationContext!.active,
-                employeeCreationContext!.formsIds)
-
                 const response = await ManagerRepository.listForms()
 
                 setForms(response.data.data?.forms.docs)
@@ -36,9 +29,10 @@ const UpdateUserModal = () => {
             setLoading(true)
 
             const response = await ManagerRepository.editEmployee(employeeCreationContext!.id!, {
-                name: employeeCreationContext!.name, 
-                email: employeeCreationContext!.email, 
-                active: employeeCreationContext!.active
+                name: employeeCreationContext?.name, 
+                email: employeeCreationContext?.email, 
+                active: employeeCreationContext?.active,
+                formsIds: employeeCreationContext?.formsIds
             })
 
             employeeCreationContext?.setUpdateUsersTable(!employeeCreationContext.updateUsersTable)
@@ -53,7 +47,7 @@ const UpdateUserModal = () => {
     }
     
     const handleOnChange = (values: Array<string>) => {
-        setFormsIds(values)
+        employeeCreationContext!.setFormsIds(values)
     }
 
     return (
@@ -74,11 +68,6 @@ const UpdateUserModal = () => {
                     <input type="text" name="email" value={employeeCreationContext!.email} onChange={e => employeeCreationContext!.setEmail(e.target.value)} className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
                     <label htmlFor="role">Função</label>
                     <input type="text" name="role" value='Funcionário' disabled className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
-                    {/* <label htmlFor="active">Status</label>
-                    <select onChange={e => employeeCreationContext!.setActive(Boolean(Number(e.target.value)))} name="active" className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none">
-                        <option value={1}>Ativo</option>
-                        <option value={0}>Inativo</option>
-                    </select> */}
                     <label className="mb-1" htmlFor="">Formulários permitidos ao usuário</label>
                     <Select
                         mode="multiple"
@@ -86,6 +75,7 @@ const UpdateUserModal = () => {
                         onChange={handleOnChange}
                         style={{ width: '100%' }}
                         defaultValue={employeeCreationContext!.formsIds}
+                        value={employeeCreationContext!.formsIds}
                         options={forms?.map(form => {
                             return {
                                 label: form.title,

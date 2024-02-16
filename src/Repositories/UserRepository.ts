@@ -12,6 +12,13 @@ interface ISignInProps {
   password: string
 }
 
+
+export interface ISetPasswordProps {
+  password: string
+  passwordConfirmation: string
+  userId: string
+}
+
 class UserRepository extends Repository<IAuthenticationProps> {
   async signin ({
     email,
@@ -21,6 +28,19 @@ class UserRepository extends Repository<IAuthenticationProps> {
       this.api.post(`${this.path}/signin`, {
         email,
         password
+      })
+    )
+  }
+
+  async setPassword ({
+    password,
+    passwordConfirmation,
+    userId
+  }: ISetPasswordProps): Promise<IResponse<IAuthenticationProps>> {
+    return this.execute(() =>
+      this.api.post(`${this.path}/password/${userId}`, {
+        password,
+        passwordConfirmation
       })
     )
   }

@@ -59,6 +59,26 @@ const UsersTableSkeleton = () => {
                         <div className="w-[10%]"><div className="bg-[#b3b2b2] w-[45%] h-1"></div></div>
                         <div className="w-[10%]"><div className="bg-[#b3b2b2] w-[45%] h-1"></div></div>
                     </div>
+                    <div className="p-5 bg-white flex justify-between border-b border-zinc-200">
+                        <div className="w-[30%]"><div className="bg-[#b3b2b2] w-[45%] h-1"></div></div>
+                        <div className="w-[10%]"><div className="bg-[#b3b2b2] w-[60%] h-1"></div></div>
+                        <div className="w-[10%]"><div className="bg-[#b3b2b2] w-[45%] h-1"></div></div>
+                        <div className="w-[10%]"><div className="bg-[#b3b2b2] w-[45%] h-1"></div></div>
+                        <div className="w-[10%]"><div className="bg-[#b3b2b2] w-[45%] h-1"></div></div>
+                        <div className="w-[10%]"><div className="bg-[#b3b2b2] w-[45%] h-1"></div></div>
+                        <div className="w-[10%]"><div className="bg-[#b3b2b2] w-[45%] h-1"></div></div>
+                        <div className="w-[10%]"><div className="bg-[#b3b2b2] w-[45%] h-1"></div></div>
+                    </div>
+                    <div className="p-5 bg-white flex justify-between border-b border-zinc-200">
+                        <div className="w-[30%]"><div className="bg-[#b3b2b2] w-[45%] h-1"></div></div>
+                        <div className="w-[10%]"><div className="bg-[#b3b2b2] w-[60%] h-1"></div></div>
+                        <div className="w-[10%]"><div className="bg-[#b3b2b2] w-[45%] h-1"></div></div>
+                        <div className="w-[10%]"><div className="bg-[#b3b2b2] w-[45%] h-1"></div></div>
+                        <div className="w-[10%]"><div className="bg-[#b3b2b2] w-[45%] h-1"></div></div>
+                        <div className="w-[10%]"><div className="bg-[#b3b2b2] w-[45%] h-1"></div></div>
+                        <div className="w-[10%]"><div className="bg-[#b3b2b2] w-[45%] h-1"></div></div>
+                        <div className="w-[10%]"><div className="bg-[#b3b2b2] w-[45%] h-1"></div></div>
+                    </div>
                 </>
         </div>
     )

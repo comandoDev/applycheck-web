@@ -154,7 +154,7 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
                             return (
                                 <div className="flex justify-between items-center text-red-500 mt-4 pt-4 border-t-2">
                                     <Image
-                                        key={file}
+                                        key={index}
                                         width={100}
                                         src={file}
                                     />

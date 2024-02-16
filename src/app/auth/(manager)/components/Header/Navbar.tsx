@@ -1,15 +1,16 @@
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { useManagerNavbar } from "../../hooks/NavbarContext/useManagerNavbar"
 import { ManagerNavbarSelectedOption } from "../../hooks/NavbarContext/ManagerNavbarContext"
+import { useEffect } from "react"
 
 const Navbar = () => {
     const navbarContext = useManagerNavbar()
 
+    useEffect(() => { }, [navbarContext?.selected])
+
     const handleLiCLick = (selected: ManagerNavbarSelectedOption) => {
         navbarContext?.setSelected(selected)
     }
-
 
     const normalLiStyle = 'pb-7 pt-7 mr-5 text-zinc-500 font-medium'
     const selectedLiStyle = 'pb-7 pt-7 mr-5 border-b-2 border-principal text-principal'

@@ -5,14 +5,13 @@ import { IRecord, RecordStatus } from "@/interfaces/Record"
 import { Steps, Tabs } from "antd"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import RecordStatisticsList from "../components/Record/RecordStatisticsList"
-import RecordNonCompliancesChart from "../components/Record/RecordNonCompliancesChart"
-import PageLoading from "../components/Record/PageLoading"
-import { getFormattedDate } from "../helpers/getFormattedDate"
-import RecordStepTable from "../components/Record/RecordStepTable"
+import RecordStatisticsList from "../../components/Record/RecordStatisticsList"
+import RecordNonCompliancesChart from "../../components/Record/RecordNonCompliancesChart"
+import PageLoading from "../../components/Record/PageLoading"
+import { getFormattedDate } from "../../helpers/getFormattedDate"
+import RecordStepTable from "../../components/Record/RecordStepTable"
 
-const RecordPage = () => {
-    const searchParams = useSearchParams()
+const RecordPage = ({ params }: { params: { recordId: string } }) => {
     const router = useRouter()
 
     const [record, setRecord] = useState<IRecord>()
@@ -21,17 +20,14 @@ const RecordPage = () => {
     useEffect(() => {
         setLoading(true)
 
-        const recordId = searchParams.get('recordId')
-        if (!recordId) return router.push('/login/manager')
-
         const fetch = async () => {
             try {
-                const response = await ManagerRepository.getOneRecord(recordId)
+                const response = await ManagerRepository.getOneRecord(params.recordId)
     
                 const record = response.data.data?.record 
                 setRecord(record)
 
-                if (record?.status === RecordStatus.open) await ManagerRepository.analyzeRecord(recordId)
+                if (record?.status === RecordStatus.open) await ManagerRepository.analyzeRecord(params.recordId)
             } catch (error) {
                 router.push('/login/manager')
             } finally {

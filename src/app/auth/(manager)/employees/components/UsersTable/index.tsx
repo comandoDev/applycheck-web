@@ -14,8 +14,6 @@ const UsersTable = () => {
     
     const [employees, setEmployees] = useState<Array<IUser>>()
     const [loading, setLoading] = useState<boolean>(true)
-    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
-    const [id, setId] = useState<string>()
 
     useEffect(() => {
         setLoading(true)
@@ -36,7 +34,6 @@ const UsersTable = () => {
     }, [employeeCreationContext?.updateUsersTable])
 
     const handleEditOnClick = (user: Partial<IUser>) => {
-        console.log({ user })
         employeeCreationContext?.setIsEditModalOpen(true)
 
         employeeCreationContext!.setId(user.id!)
@@ -47,7 +44,7 @@ const UsersTable = () => {
     }
 
 
-    const handleOnDeleteOk = async () => {
+    const handleOnDeleteOk = async (id: string) => {
         try {
             setLoading(true)
 
@@ -69,7 +66,7 @@ const UsersTable = () => {
             email: employee.email,
             role: employee.role,
             active: employee.active,
-            formsId: employee.formsIds
+            formsIds: employee.formsIds
         }
     })
       
@@ -114,9 +111,7 @@ const UsersTable = () => {
                     <div className="flex">
                         <div className="mr-5 text-principal font-medium cursor-pointer hover:text-blue-800" onClick={e => handleEditOnClick(index)}>Editar</div>
                         <div onClick={e => {
-                            console.log({ indexId: index.id  })
-                            setId(index.id)
-                            warning()
+                            warning(index.id)
                         }} className="text-[#f47b7b] font-medium cursor-pointer hover:text-red-600">Desativar</div>
                     </div>
                 )
@@ -124,12 +119,12 @@ const UsersTable = () => {
         }
     ]
 
-    const warning = () => {
+    const warning = (id: string) => {
         Modal.warning({
             title: 'Tem certeza que desejar excluir esse usuário ?',
             okText: 'Confirmar',
             okType: 'danger',
-            onOk: handleOnDeleteOk
+            onOk: () => handleOnDeleteOk(id)
         });
     }
 

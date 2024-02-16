@@ -46,6 +46,10 @@ const CreateUserModal = () => {
             employeeCreationContext?.setUpdateUsersTable(!employeeCreationContext.updateUsersTable)
             employeeCreationContext?.setIsCreateModalOpen(false)
 
+            setName('')
+            setEmail('')
+            setFormsIds([])
+
             message.success(response.data.message)
         } catch (error) {
             message.error((error as any).message)

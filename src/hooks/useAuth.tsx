@@ -5,7 +5,7 @@ import { IUser, UserRole } from '@/interfaces/User';
 import { message } from 'antd';
 import { IAuthContext, IUserSigninProps } from './AuthContext';
 import Storage from '@/utils/Storage';
-import UserRepository from '@/Repositories/UserRepository';
+import UserRepository, { ISetPasswordProps } from '@/Repositories/UserRepository';
 import { useRouter } from 'next/navigation';
 
 const AuthContext = createContext<IAuthContext | null>(null)
@@ -48,6 +48,31 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
+  const handleUserSetPassword = async ({
+    userId,
+    password,
+    passwordConfirmation
+  }: ISetPasswordProps) => {
+    try {
+      setLoading(true)
+
+      const response = await UserRepository.setPassword({
+        userId,
+        password,
+        passwordConfirmation
+      })
+
+      message.success(response.data.message)
+
+      return router.push('/login/password/success')
+    } catch (error) {
+      setError(error as any)
+      message.error((error as any).message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const logout = () => {
     const userRole = Storage.getUser()?.role
     Storage.clear()
@@ -65,7 +90,8 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     setError,
     handleUserSignin,
     loading,
-    setLoading
+    setLoading,
+    handleUserSetPassword
   }
 
   return (
