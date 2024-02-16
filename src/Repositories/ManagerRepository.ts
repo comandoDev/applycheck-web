@@ -11,6 +11,30 @@ class ManagerRepository extends Repository<IUser> {
     )
   }
 
+  async listEmployees (): Promise<IResponse<IPaginateList<IUser>>> {
+    return this.execute(() =>
+      this.api.get(`${this.path}/users`)
+    )
+ }
+
+  async createEmployee (data: Partial<IUser>): Promise<IResponse<{ createdUser: IUser }>> {
+    return this.execute(() =>
+      this.api.post(`${this.path}/users/`, data)
+    )
+  }
+
+  async editEmployee (employeeId: string, data: Partial<IUser>): Promise<IResponse> {
+    return this.execute(() =>
+      this.api.patch(`${this.path}/users/${employeeId}`, data)
+    )
+  }
+
+  async deleteEmployee (employeeId: string): Promise<IResponse> {
+    return this.execute(() =>
+      this.api.delete(`${this.path}/users/${employeeId}`)
+    )
+  }
+
   async listRecords (params?: IRecordParams): Promise<IResponse<{ records: Array<IRecord> }>> {
       return this.execute(() =>
         this.api.get(`${this.path}/records`, {

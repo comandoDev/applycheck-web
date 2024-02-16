@@ -1,8 +1,7 @@
 'use client'
 
-import { ManagerNavbarContextProvider } from "@/app/auth/records/hooks/NavbarContext/useManagerNavbar"
 import Header from "./components/Header"
-import { RecordFiltersContextProvider } from "./hooks/RecordFiltersContext/useRecordFilter"
+import { ManagerNavbarContextProvider } from "./hooks/NavbarContext/useManagerNavbar"
 
 const Layout = ({
   children
@@ -11,12 +10,10 @@ const Layout = ({
 }) => {
   return(
     <ManagerNavbarContextProvider>
-      <RecordFiltersContextProvider>
         <Header />
         <div className='flex flex-col'>
           {children}
         </div>
-      </RecordFiltersContextProvider>
     </ManagerNavbarContextProvider>
   )
 }

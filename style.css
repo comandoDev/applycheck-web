@@ -1,0 +1,25 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+}
+
+.container .title {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.infos p {
+    margin-bottom: 15px;
+}
+
+.infos span {
+    color: red;
+}

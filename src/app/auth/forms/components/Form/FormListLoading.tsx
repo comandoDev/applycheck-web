@@ -5,7 +5,7 @@ const FormListLoading = () => {
         <>
             {[1, 2, 3, 4].map(i => {
                 return (
-                    <div className='animate-pulse w-full p-4 rounded-lg border border-gray-150 bg-white text-selected mb-5 shadow-md'>
+                    <div key={i} className='animate-pulse w-full p-4 rounded-lg border border-gray-150 bg-white text-selected mb-5 shadow-md'>
                         <div className="w-full flex justify-between mb-3 items-start">
                             <div className="flex flex-col w-full">
                                 <div className="bg-zinc-400 w-[95%] h-3"></div>
