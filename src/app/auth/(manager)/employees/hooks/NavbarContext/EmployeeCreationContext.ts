@@ -9,8 +9,10 @@ export interface IEmployeeCreationContext {
     setId: (id: string) => void
     name?: string
     setName: (name: string) => void
-    email?: string
-    setEmail: (email: string) => void
+    accountName?: string
+    setAccountName: (accountName: string) => void
+    password?: string
+    setPassword: (accountName: string) => void
     active?: boolean
     setActive: (active: boolean) => void
     formsIds?: Array<string>

@@ -1,6 +1,6 @@
 'use client'
 
-import { Modal, Select, message } from "antd"
+import { Checkbox, Modal, Select, message } from "antd"
 import { useEmployeeCreation } from "../../hooks/NavbarContext/useEmployeeCreation"
 import { useEffect, useState } from "react"
 import ManagerRepository from "@/Repositories/ManagerRepository"
@@ -11,9 +11,11 @@ const CreateUserModal = () => {
 
     const [forms, setForms] = useState<Array<IForm>>()
     const [name, setName] = useState<string>()
-    const [email, setEmail] = useState<string>()
+    const [accountName, setAccountName] = useState<string>()
+    const [password, setPassword] = useState<string>()
     const [formsIds, setFormsIds] = useState<Array<string>>([])
     const [loading, setLoading] = useState<boolean>(false)
+    const [defaultPassword, setDefaultPassword] = useState<boolean>(false)
 
     useEffect(() => {
         const fetch = async () => {
@@ -39,7 +41,8 @@ const CreateUserModal = () => {
 
             const response = await ManagerRepository.createEmployee({
                 name,
-                email,
+                accountName,
+                password,
                 formsIds
             })
 
@@ -47,7 +50,8 @@ const CreateUserModal = () => {
             employeeCreationContext?.setIsCreateModalOpen(false)
 
             setName('')
-            setEmail('')
+            setAccountName('')
+            setPassword('')
             setFormsIds([])
 
             message.success(response.data.message)
@@ -58,38 +62,52 @@ const CreateUserModal = () => {
         }
     }
 
+    const checkboxOnChange = () => {
+        setPassword('comando@2024')
+        setDefaultPassword(!defaultPassword)
+    }
+
     return (
         <Modal 
-                title="Cadastrar Usuário"
-                open={employeeCreationContext?.isCreateModalOpen} 
-                onCancel={e => employeeCreationContext?.setIsCreateModalOpen(false)} 
-                onOk={handleOnOkCLick}
-                okText='Cadastrar'
-                okType='dashed'
-                cancelText='Cancelar'
-                confirmLoading={loading}
-            >
-                <form>
-                    <label className="mb-1" htmlFor="name">Nome Completo</label>
-                    <input type="text" name="name" value={name} onChange={e => setName(e.target.value)} className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
-                    <label className="mb-1" htmlFor="email">Email</label>
-                    <input type="text" name="email" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
-                    <label className="mb-1" htmlFor="role">Função</label>
-                    <input type="text" name="role" value='Funcionário' disabled className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
-                    <label className="mb-1" htmlFor="">Formulários permitidos ao usuário</label>
-                    <Select
-                        mode="multiple"
-                        placeholder="Selecione Formulários"
-                        onChange={handleOnChange}
-                        style={{ width: '100%' }}
-                        options={forms?.map(form => {
-                            return {
-                                label: form.title,
-                                value: form.id
-                            }
-                        })}
-                    />
-                </form>
+            title="Cadastrar Usuário"
+            open={employeeCreationContext?.isCreateModalOpen} 
+            onCancel={e => employeeCreationContext?.setIsCreateModalOpen(false)} 
+            onOk={handleOnOkCLick}
+            okText='Cadastrar'
+            okType='dashed'
+            cancelText='Cancelar'
+            confirmLoading={loading}
+        >
+            <form>
+                <label className="mb-1" htmlFor="name">Nome Completo</label>
+                <input type="text" name="name" value={name} onChange={e => setName(e.target.value)} className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
+                <label className="mb-1" htmlFor="accountName">Nome de Usuário</label>
+                <input type="text" name="accountName" value={accountName} onChange={e => setAccountName(e.target.value)} className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
+                <div>
+                    <Checkbox className="mb-5" onChange={checkboxOnChange}>Usar senha padrão</Checkbox>
+                </div>
+                <label className="mb-1" htmlFor="password">Senha</label>
+                { defaultPassword ? (
+                    <input disabled type="text" name="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
+                ): (
+                    <input type="text" name="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
+                ) }
+                <label className="mb-1" htmlFor="role">Função</label>
+                <input type="text" name="role" value='Funcionário' disabled className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
+                <label className="mb-1" htmlFor="">Formulários permitidos ao usuário</label>
+                <Select
+                    mode="multiple"
+                    placeholder="Selecione Formulários"
+                    onChange={handleOnChange}
+                    style={{ width: '100%' }}
+                    options={forms?.map(form => {
+                        return {
+                        label: form.title,
+                        value: form.id
+                        }
+                    })}
+                />
+            </form>
         </Modal>
     )
 }

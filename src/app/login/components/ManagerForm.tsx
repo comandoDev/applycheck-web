@@ -16,7 +16,7 @@ const ManagerForm = () => {
     
         authContext?.setError(undefined)
 
-        await authContext?.handleUserSignin({
+        await authContext?.handleManagerSignin({
             email,
             password
         })            
