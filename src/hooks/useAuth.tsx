@@ -3,7 +3,7 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 import { IUser, UserRole } from '@/interfaces/User';
 import { message } from 'antd';
-import { IAuthContext, IUserSigninProps } from './AuthContext';
+import { IAuthContext, IManagerSigninProps, IEmployeeSigninProps } from './AuthContext';
 import Storage from '@/utils/Storage';
 import UserRepository, { ISetPasswordProps } from '@/Repositories/UserRepository';
 import { useRouter } from 'next/navigation';
@@ -18,7 +18,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [error, setError] = useState()
   const [loading, setLoading] = useState(false)
 
-  const handleUserSignin = async ({ email, password }: IUserSigninProps) => {
+  const handleManagerSignin = async ({ email, password }: IManagerSigninProps) => {
     try {
       setLoading(true)
 
@@ -37,7 +37,33 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       
       message.success(response.data.message)
 
-      if (user.role === UserRole.manager) return router.push('/auth/records')
+      return router.push('/auth/records')
+    } catch (error) {
+      setError(error as any)
+      message.error((error as any).message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleEmployeeSignin = async ({ accountName, password }: IEmployeeSigninProps) => {
+    try {
+      setLoading(true)
+
+      const response = await UserRepository.employeeSignin({
+        accountName,
+        password
+      })
+
+      const { user, token } = response.data.data!
+
+      setUser(user)
+      setUserToken(token)
+
+      Storage.setUser(user)
+      Storage.setUserToken(token!)
+      
+      message.success(response.data.message)
 
       return router.push('/auth/forms')
     } catch (error) {
@@ -88,7 +114,8 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     error,
     logout,
     setError,
-    handleUserSignin,
+    handleManagerSignin,
+    handleEmployeeSignin,
     loading,
     setLoading,
     handleUserSetPassword

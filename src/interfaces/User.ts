@@ -10,9 +10,10 @@ interface IUser {
     active?: boolean
     password?: string
     tenantId: string
+    email?: string
+    accountName?: string
 
     name: string
-    email: string
     role: UserRole
     formsIds: Array<string>
 }

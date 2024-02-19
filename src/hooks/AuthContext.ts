@@ -2,8 +2,13 @@ import { ISetPasswordProps } from "@/Repositories/UserRepository";
 import { IResponseData } from "@/interfaces/Response";
 import { IUser } from "@/interfaces/User";
 
-export interface IUserSigninProps {
+export interface IManagerSigninProps {
   email: string
+  password: string
+}
+
+export interface IEmployeeSigninProps {
+  accountName: string
   password: string
 }
 
@@ -13,7 +18,8 @@ export interface IAuthContext {
   error?: IResponseData
   logout: () => void
   setError: (error?: any) => void
-  handleUserSignin: (props: IUserSigninProps) => Promise<void>
+  handleManagerSignin: (props: IManagerSigninProps) => Promise<void>
+  handleEmployeeSignin: (props: IEmployeeSigninProps) => Promise<void>
   loading?: boolean
   setLoading: (loading: boolean) => void
   handleUserSetPassword: (props: ISetPasswordProps) => Promise<void>

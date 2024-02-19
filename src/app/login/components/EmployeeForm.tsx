@@ -7,7 +7,7 @@ import { FormEvent, useState } from "react"
 const EmployeeForm = () => {
   const authContext = useAuth()
 
-  const [email, setEmail] = useState<string>('')
+  const [accountName, setAccountName] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -15,8 +15,8 @@ const EmployeeForm = () => {
   
       authContext?.setError(undefined)
 
-      await authContext?.handleUserSignin({
-          email,
+      await authContext?.handleEmployeeSignin({
+          accountName,
           password
       })            
   } 
@@ -24,10 +24,10 @@ const EmployeeForm = () => {
   return (
     <form onSubmit={onSubmit}>
       <Input 
-          placeHolder="Insira seu email"
-          name="email"
-          type="email"
-          onChange={setEmail}
+          placeHolder="Insira seu nome de usuário"
+          name="accountName"
+          type="text"
+          onChange={setAccountName}
       />
       <Input 
           placeHolder="Insira sua senha"

@@ -38,7 +38,7 @@ const UsersTable = () => {
 
         employeeCreationContext!.setId(user.id!)
         employeeCreationContext!.setName(user.name!)
-        employeeCreationContext!.setEmail(user.email!)
+        employeeCreationContext!.setAccountName(user.accountName!)
         employeeCreationContext!.setActive(user.active!)
         employeeCreationContext!.setFormsIds(user.formsIds!)
     }
@@ -63,7 +63,7 @@ const UsersTable = () => {
         return {
             id: employee.id,
             name: employee.name, 
-            email: employee.email,
+            accountName: employee.accountName,
             role: employee.role,
             active: employee.active,
             formsIds: employee.formsIds
@@ -77,9 +77,9 @@ const UsersTable = () => {
             key: 'name',
         },
         {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
+            title: 'Nome de Usuário',
+            dataIndex: 'accountName',
+            key: 'accountName',
         },
         {
             title: 'Função',

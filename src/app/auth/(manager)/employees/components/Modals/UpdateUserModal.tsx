@@ -30,7 +30,7 @@ const UpdateUserModal = () => {
 
             const response = await ManagerRepository.editEmployee(employeeCreationContext!.id!, {
                 name: employeeCreationContext?.name, 
-                email: employeeCreationContext?.email, 
+                accountName: employeeCreationContext?.accountName, 
                 active: employeeCreationContext?.active,
                 formsIds: employeeCreationContext?.formsIds
             })
@@ -64,10 +64,28 @@ const UpdateUserModal = () => {
                 <form>
                     <label htmlFor="name">Nome Completo</label>
                     <input type="text" name="name" value={employeeCreationContext!.name} onChange={e => employeeCreationContext!.setName(e.target.value)} className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
-                    <label htmlFor="email">Email</label>
-                    <input type="text" name="email" value={employeeCreationContext!.email} onChange={e => employeeCreationContext!.setEmail(e.target.value)} className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
+                    <label htmlFor="accountName">Nome de Usuário</label>
+                    <input type="text" name="accountName" value={employeeCreationContext!.accountName} onChange={e => employeeCreationContext!.setAccountName(e.target.value)} className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
                     <label htmlFor="role">Função</label>
                     <input type="text" name="role" value='Funcionário' disabled className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
+                    <label htmlFor="active">Status</label>
+                    <Select
+                        placeholder="Selecione um Status"
+                        onChange={e => employeeCreationContext?.setActive(e)}
+                        style={{ width: '100%' }}
+                        className="mb-5"
+                        value={employeeCreationContext?.active}
+                        options={[
+                            {
+                                label: 'Ativo',
+                                value: true
+                            },
+                            {
+                                label: 'Inativo',
+                                value: false
+                            }
+                        ]}
+                    />
                     <label className="mb-1" htmlFor="">Formulários permitidos ao usuário</label>
                     <Select
                         mode="multiple"

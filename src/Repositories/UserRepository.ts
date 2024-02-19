@@ -13,6 +13,12 @@ interface ISignInProps {
 }
 
 
+interface IEmployeeSignInProps {
+  accountName: string
+  password: string
+}
+
+
 export interface ISetPasswordProps {
   password: string
   passwordConfirmation: string
@@ -27,6 +33,18 @@ class UserRepository extends Repository<IAuthenticationProps> {
     return this.execute(() =>
       this.api.post(`${this.path}/signin`, {
         email,
+        password
+      })
+    )
+  }
+
+  async employeeSignin ({
+    accountName,
+    password
+  }: IEmployeeSignInProps): Promise<IResponse<IAuthenticationProps>> {
+    return this.execute(() =>
+      this.api.post(`${this.path}/signin/employee`, {
+        accountName,
         password
       })
     )
