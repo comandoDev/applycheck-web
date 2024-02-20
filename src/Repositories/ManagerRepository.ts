@@ -49,30 +49,36 @@ class ManagerRepository extends Repository<IUser> {
         )
       }
     
-    async analyzeRecord (recordId: string): Promise<IResponse<IResponse>> {
+    async analyzeRecord (recordId: string): Promise<IResponse> {
       return this.execute(() =>
         this.api.get(`${this.path}/records/${recordId}/analysing`)
       )
     }
 
-    async concluedRecord (recordId: string): Promise<IResponse<IResponse>> {
+    async concluedRecord (recordId: string): Promise<IResponse> {
       return this.execute(() =>
         this.api.get(`${this.path}/records/${recordId}/conclued`)
       )
     }
+
+    async generateRecordPDF (recordId: string): Promise<IResponse<{ pdf: string }>> {
+      return this.execute(() =>
+        this.api.get(`${this.path}/records/${recordId}/pdf`)
+      )
+    }
     
     async dash (): Promise<IResponse<{
-        dash: {
-          registerWithNonComplianceCountByMonth: Array<number>
-          registerWithoutNonComplianceCountByMonth: Array<number>
-          nonComplianceCountByMonth: Array<number>
-          registerCountByMonth: Array<number>
-        }
-    }>> {
-        return this.execute(() =>
-          this.api.get(`${this.path}/records/dash`)
-        )
-    }
+      dash: {
+        registerWithNonComplianceCountByMonth: Array<number>
+        registerWithoutNonComplianceCountByMonth: Array<number>
+        nonComplianceCountByMonth: Array<number>
+        registerCountByMonth: Array<number>
+      }
+  }>> {
+      return this.execute(() =>
+        this.api.get(`${this.path}/records/dash`)
+      )
+  }
 }
 
 export default new ManagerRepository('auth')
