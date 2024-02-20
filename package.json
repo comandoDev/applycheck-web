@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.0.15",
-    "@react-pdf/renderer": "^3.3.8",
     "antd": "^5.12.8",
     "await-to-js": "^3.0.0",
     "axios": "^1.6.5",

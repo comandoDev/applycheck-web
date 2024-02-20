@@ -12,8 +12,6 @@ import { getFormattedDate } from "../../helpers/getFormattedDate"
 import RecordStepTable from "../../components/Record/RecordStepTable"
 import { ClipLoader } from "react-spinners"
 import { FilePdf } from "@phosphor-icons/react"
-import { PDFDownloadLink } from "@react-pdf/renderer"
-import PDFFile from "./pdfFile"
 
 const RecordPage = ({ params }: { params: { recordId: string } }) => {
     const router = useRouter()
@@ -21,6 +19,7 @@ const RecordPage = ({ params }: { params: { recordId: string } }) => {
     const [record, setRecord] = useState<IRecord>()
     const [loading, setLoading] = useState<boolean>(true)
     const [concluedLoading, setConcluedLoading] = useState<boolean>(false)
+    const [PDFLoading, setPDFLoading] = useState<boolean>(false)
 
     useEffect(() => {
         setLoading(true)
@@ -59,6 +58,36 @@ const RecordPage = ({ params }: { params: { recordId: string } }) => {
         }
     }
 
+    const handlePDFOnClick = async () => {
+        try {
+            setPDFLoading(true)
+
+            const response = await ManagerRepository.generateRecordPDF(record?.id!)
+
+            const pdfUrl = response.data.data?.pdf!
+
+            downloadPDF(pdfUrl)
+        } catch (error) {
+            message.error((error as any).message)
+        } finally {
+            setPDFLoading(false)
+        }
+    }
+
+    const downloadPDF = (pdfUrl: string) => {
+        const link = document.createElement('a')
+        
+        link.href = pdfUrl
+        link.download = 'seu_arquivo.pdf'
+        link.style.display = 'none'
+        
+        document.body.appendChild(link)
+        
+        link.click()
+        
+        document.body.removeChild(link)
+    }
+
     return !loading ? (
         <div className="pl-24 pr-24 pt-10 pb-10 mt-20">
             <div className="flex justify-between">
@@ -67,6 +96,24 @@ const RecordPage = ({ params }: { params: { recordId: string } }) => {
                     <h2 className="font-bold text-1xl text-zinc-600">{record?.form?.type}</h2>
                 </div>
                 <div className="flex">
+                    { record && (
+                        <div className="mr-5">
+                            <div 
+                                className="flex items-center justify-center w-40 p-3 bg-red-500 rounded-lg text-white font-bold cursor-pointer hover:bg-red-600"
+                                onClick={handlePDFOnClick}    
+                            >
+                                { PDFLoading ? (
+                                    <ClipLoader
+                                        color='white'
+                                        loading={PDFLoading}
+                                        size={24}
+                                        aria-label="Loading Spinner"
+                                        data-testid="loader"
+                                    />
+                                ): (<FilePdf size={24} />) }
+                            </div>
+                        </div>
+                    ) }
                     { (record?.status === RecordStatus.analysing) && (
                         <div>
                             <div 
@@ -83,21 +130,6 @@ const RecordPage = ({ params }: { params: { recordId: string } }) => {
                                 ) : <>Concluir</>}
                             </div>
                             
-                        </div>
-                    ) }
-                    { record && (
-                        <div className="ml-5">
-                            <div 
-                                className="flex items-center justify-center w-40 p-3 bg-red-500 rounded-lg text-white font-bold cursor-pointer hover:bg-red-600">
-                                <>
-                                    <FilePdf size={24} />
-                                    <PDFDownloadLink document={<PDFFile record={record!} />} fileName={`${record?.form?.title}.pdf`}>
-                                        {({ blob, url, loading, error }) =>
-                                            loading ? 'Loading document...' : 'Download now!'
-                                        }
-                                    </PDFDownloadLink>
-                                </>
-                            </div>
                         </div>
                     ) }
                 </div>
