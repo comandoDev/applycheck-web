@@ -3,7 +3,7 @@
 import ManagerRepository from "@/Repositories/ManagerRepository"
 import { IRecord, RecordStatus } from "@/interfaces/Record"
 import { Steps, Tabs, message } from "antd"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import RecordStatisticsList from "../../components/Record/RecordStatisticsList"
 import RecordNonCompliancesChart from "../../components/Record/RecordNonCompliancesChart"
@@ -11,6 +11,9 @@ import PageLoading from "../../components/Record/PageLoading"
 import { getFormattedDate } from "../../helpers/getFormattedDate"
 import RecordStepTable from "../../components/Record/RecordStepTable"
 import { ClipLoader } from "react-spinners"
+import { FilePdf } from "@phosphor-icons/react"
+import { PDFDownloadLink } from "@react-pdf/renderer"
+import PDFFile from "./pdfFile"
 
 const RecordPage = ({ params }: { params: { recordId: string } }) => {
     const router = useRouter()
@@ -63,24 +66,41 @@ const RecordPage = ({ params }: { params: { recordId: string } }) => {
                     <h1 className="font-bold text-2xl text-zinc-700">{`${record?.form?.title} (${record?.employee?.name})`}</h1>
                     <h2 className="font-bold text-1xl text-zinc-600">{record?.form?.type}</h2>
                 </div>
-                { (record?.status === RecordStatus.analysing) && (
-                    <div>
-                        <div 
-                            onClick={handleConcluedOnClick}
-                            className="flex items-center justify-center w-40 p-3 bg-red-500 rounded-lg text-white font-bold cursor-pointer hover:bg-red-600">
-                            { concluedLoading ? (
-                                 <ClipLoader
-                                    color='white'
-                                    loading={concluedLoading}
-                                    size={24}
-                                    aria-label="Loading Spinner"
-                                    data-testid="loader"
-                                />
-                            ) : <>Concluir</>}
+                <div className="flex">
+                    { (record?.status === RecordStatus.analysing) && (
+                        <div>
+                            <div 
+                                onClick={handleConcluedOnClick}
+                                className="flex items-center justify-center w-40 p-3 bg-red-500 rounded-lg text-white font-bold cursor-pointer hover:bg-red-600">
+                                { concluedLoading ? (
+                                    <ClipLoader
+                                        color='white'
+                                        loading={concluedLoading}
+                                        size={24}
+                                        aria-label="Loading Spinner"
+                                        data-testid="loader"
+                                    />
+                                ) : <>Concluir</>}
+                            </div>
+                            
                         </div>
-                        
-                    </div>
-                ) }
+                    ) }
+                    { record && (
+                        <div className="ml-5">
+                            <div 
+                                className="flex items-center justify-center w-40 p-3 bg-red-500 rounded-lg text-white font-bold cursor-pointer hover:bg-red-600">
+                                <>
+                                    <FilePdf size={24} />
+                                    <PDFDownloadLink document={<PDFFile record={record!} />} fileName={`${record?.form?.title}.pdf`}>
+                                        {({ blob, url, loading, error }) =>
+                                            loading ? 'Loading document...' : 'Download now!'
+                                        }
+                                    </PDFDownloadLink>
+                                </>
+                            </div>
+                        </div>
+                    ) }
+                </div>
             </div>
             { record && (
                 <RecordStatisticsList record={record} />
