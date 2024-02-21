@@ -4,13 +4,14 @@ import { IField, InputType } from "@/interfaces/Form"
 import { useForm } from "../../hooks/FormContext/useForm"
 import FormInput from "@/app/auth/forms/components/QuestionBox/Input"
 import SignatureCanvas from "./SignatureCanvas"
-import { Image } from "antd"
+import { Image, Modal } from "antd"
 
 const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IField }) => {
     const formContext = useForm()
 
     const [value, setValue] = useState<string>('')
     const [selectedOption, setSelectedOption] = useState<string>()
+    const [assignatureModal, setAssignatureModal] = useState<boolean>(false)
     const [existsAssignature, setExistsAssignature] = useState<boolean>(false)
 
     useEffect(() => {   
@@ -111,7 +112,15 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
                          {field.type === InputType.assignature && (
                             <div className="w-full">
                                 { !existsAssignature ? (
-                                    <SignatureCanvas setValues={setValues}/>
+                                    <>
+                                        <div 
+                                            className="w-full text-center bg-principal rounded-xl p-2 text-white font-bold"
+                                            onClick={() => setAssignatureModal(true)}
+                                        >ASSINAR</div>
+                                        <Modal open={assignatureModal} okType="dashed" onCancel={() => setAssignatureModal(false)} onOk={() => setAssignatureModal(false)}>
+                                            <SignatureCanvas setValues={setValues}/>
+                                        </Modal>
+                                    </>
                                 ) : (
                                     <Image className="w-full" height={200} src={value} /> 
                                 )}
