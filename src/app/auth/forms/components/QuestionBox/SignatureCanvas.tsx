@@ -9,10 +9,12 @@ const SignatureCanvas: React.FC<SignatureCanvasProps> = ({ setValues }) => {
   const [isDrawing, setIsDrawing] = useState(false);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    e.preventDefault()
     startDrawing(e.pageX - canvasRef.current!.offsetLeft, e.pageY - canvasRef.current!.offsetTop);
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    e.preventDefault()
     if (isDrawing) {
       draw(e.pageX - canvasRef.current!.offsetLeft, e.pageY - canvasRef.current!.offsetTop);
     }
@@ -23,11 +25,13 @@ const SignatureCanvas: React.FC<SignatureCanvasProps> = ({ setValues }) => {
   };
 
   const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault()
     const touch = e.touches[0];
     startDrawing(touch.pageX - canvasRef.current!.offsetLeft, touch.pageY - canvasRef.current!.offsetTop);
   };
 
   const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault()
     if (isDrawing) {
       const touch = e.touches[0];
       draw(touch.pageX - canvasRef.current!.offsetLeft, touch.pageY - canvasRef.current!.offsetTop);
