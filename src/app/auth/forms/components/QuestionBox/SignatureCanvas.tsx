@@ -1,63 +1,82 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef } from 'react';
 
 interface SignatureCanvasProps {
-  width: number
-  height: number
+  setValues: (value: string) => void;
 }
 
-const SignatureCanvas = ({ setValues }: { setValues: (value: string) => void }) => {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null)
-  const [isDrawing, setIsDrawing] = useState(false)
+const SignatureCanvas: React.FC<SignatureCanvasProps> = ({ setValues }) => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [isDrawing, setIsDrawing] = useState(false);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (canvasRef.current) {
-      setIsDrawing(true)
-      draw(e.pageX - canvasRef.current.offsetLeft, e.pageY - canvasRef.current.offsetTop, false)
-    }
-  }
+    startDrawing(e.pageX - canvasRef.current!.offsetLeft, e.pageY - canvasRef.current!.offsetTop);
+  };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (isDrawing && canvasRef.current) {
-      draw(e.pageX - canvasRef.current.offsetLeft, e.pageY - canvasRef.current.offsetTop, true)
+    if (isDrawing) {
+      draw(e.pageX - canvasRef.current!.offsetLeft, e.pageY - canvasRef.current!.offsetTop);
     }
-  }
+  };
 
   const handleMouseUp = () => {
-    setIsDrawing(false)
-  }
+    stopDrawing();
+  };
 
-  const draw = (x: number, y: number, isDrawing: boolean) => {
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    const touch = e.touches[0];
+    startDrawing(touch.pageX - canvasRef.current!.offsetLeft, touch.pageY - canvasRef.current!.offsetTop);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (isDrawing) {
+      const touch = e.touches[0];
+      draw(touch.pageX - canvasRef.current!.offsetLeft, touch.pageY - canvasRef.current!.offsetTop);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    stopDrawing();
+  };
+
+  const startDrawing = (x: number, y: number) => {
+    setIsDrawing(true);
+    draw(x, y);
+  };
+
+  const draw = (x: number, y: number) => {
     if (canvasRef.current) {
-      const context = canvasRef.current.getContext('2d')
+      const context = canvasRef.current.getContext('2d');
 
       if (!context) {
-        return
+        return;
       }
 
       if (!isDrawing) {
-        context.beginPath()
+        context.beginPath();
       }
 
-      context.lineWidth = 2
-      context.lineCap = 'round'
-      context.strokeStyle = '#000'
-      context.lineTo(x, y)
-      context.stroke()
-
-      if (!isDrawing) {
-        context.closePath()
-      }
+      context.lineWidth = 2;
+      context.lineCap = 'round';
+      context.strokeStyle = '#000';
+      context.lineTo(x, y);
+      context.stroke();
     }
+  };
 
-    save()
-  }
+  const stopDrawing = () => {
+    setIsDrawing(false);
+    if (canvasRef.current) {
+      // context.closePath();
+      save();
+    }
+  };
 
   const save = () => {
     if (canvasRef.current) {
-      const signatureImage = canvasRef.current.toDataURL('image/png')
-      setValues(signatureImage)
+      const signatureImage = canvasRef.current.toDataURL('image/png');
+      setValues(signatureImage);
     }
-  }
+  };
 
   return (
     <div>
@@ -69,9 +88,12 @@ const SignatureCanvas = ({ setValues }: { setValues: (value: string) => void }) 
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       />
     </div>
-  )
-}
+  );
+};
 
-export default SignatureCanvas
+export default SignatureCanvas;
