@@ -103,12 +103,14 @@ const QuestionBoxFooter = ({ field }: { field: IField }) => {
             if (key === 'files') {
                 currentStep?.fields.push({
                     key: field.key,
-                    files: [value]
+                    files: [value],
+                    type: field.type
                 })
             } else {
                 currentStep?.fields.push({
                     key: field.key,
-                    [key]: value
+                    [key]: value,
+                    type: field.type
                 })
             }
         }

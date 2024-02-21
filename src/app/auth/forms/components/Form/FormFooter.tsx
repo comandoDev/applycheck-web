@@ -15,7 +15,7 @@ const FormFooter = () => {
     const [nextloading, setNextLoading] = useState<boolean>()
     const [previousLoading, setpreviousLoading] = useState<boolean>()
 
-    const onClickNext = async () => {
+    const nextOnClick = async () => {
         try {
             setNextLoading(true)
 
@@ -40,7 +40,7 @@ const FormFooter = () => {
         }
     }
 
-    const onClickPrevious = async () => {
+    const previousOnClick = async () => {
         try {
             setpreviousLoading(true)
 
@@ -59,8 +59,8 @@ const FormFooter = () => {
     }
 
     return (
-        <div className="w-full bg-principal fixed bottom-0 p-5 flex justify-between text-white font-medium">
-            <div onClick={() => onClickPrevious()}>{ previousLoading ? (
+        <div className="w-full bg-principal relative bottom-0 p-5 flex justify-between text-white font-medium">
+            <div onClick={() => previousOnClick()}>{ previousLoading ? (
                 <div className="w-[76px]">
                 <ClipLoader
                     color={'white'}
@@ -72,7 +72,7 @@ const FormFooter = () => {
             </div>
             ) : (<>ANTERIOR</>) }</div>
             <div>{formContext?.lastReachedStep! + 1} de {formContext?.form?.totalSteps}</div>
-            <div onClick={() => onClickNext()}>{ nextloading ? (
+            <div onClick={() => nextOnClick()}>{ nextloading ? (
                 <div className="w-[76px]">
                     <ClipLoader
                         color={'white'}

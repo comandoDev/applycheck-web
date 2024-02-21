@@ -3,6 +3,7 @@ import QuestionBoxFooter from "./QuestionBoxFooter"
 import { IField, InputType } from "@/interfaces/Form"
 import { useForm } from "../../hooks/FormContext/useForm"
 import FormInput from "@/app/auth/forms/components/QuestionBox/Input"
+import SignatureCanvas from "./SignatureCanvas"
 
 const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IField }) => {
     const formContext = useForm()
@@ -29,13 +30,14 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
         const currentStep = formContext?.currentStep 
 
         let exists = false
-
+        
         currentStep?.fields.map(stepField => {
             if (stepField.key === field.key) {
                 if (field.type === InputType.multipleQuestions) stepField.hasChildren = true
                 if (fatherField) stepField.fatherKey = fatherField.key
                 stepField.nonCompliance = nonCompliance
                 stepField.value = value
+                stepField.type = field.type
                 exists = true
             }
         })
@@ -44,7 +46,8 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
             currentStep?.fields.push({
                 key: field.key,
                 nonCompliance,
-                value: value
+                value: value,
+                type: field.type
             })
         }
 
@@ -98,6 +101,11 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
                                     return <QuestionBox fatherField={field} field={f} key={f.key} />
                                 })}
                             </>
+                        )}
+                         {field.type === InputType.assignature && (
+                            <div className="w-full">
+                                <SignatureCanvas setValues={setValues}/>
+                            </div>
                         )}
                     </div>
                 </div>
