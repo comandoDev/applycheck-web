@@ -4,15 +4,21 @@ import { IField, InputType } from "@/interfaces/Form"
 import { useForm } from "../../hooks/FormContext/useForm"
 import FormInput from "@/app/auth/forms/components/QuestionBox/Input"
 import SignatureCanvas from "./SignatureCanvas"
+import { Image } from "antd"
 
 const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IField }) => {
     const formContext = useForm()
 
     const [value, setValue] = useState<string>('')
     const [selectedOption, setSelectedOption] = useState<string>()
+    const [existsAssignature, setExistsAssignature] = useState<boolean>(false)
 
     useEffect(() => {   
         const filledField = formContext?.filledFields?.find(filledField => filledField.key === field.key)
+        if (filledField?.type === InputType.assignature) {
+            setExistsAssignature(true)
+        }
+        
         setValues(filledField?.value!, filledField?.nonCompliance!)
     }, [formContext?.filledFields])
 
@@ -104,7 +110,11 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
                         )}
                          {field.type === InputType.assignature && (
                             <div className="w-full">
-                                <SignatureCanvas setValues={setValues}/>
+                                { !existsAssignature ? (
+                                    <SignatureCanvas setValues={setValues}/>
+                                ) : (
+                                    <Image className="w-full" height={200} src={value} /> 
+                                )}
                             </div>
                         )}
                     </div>

@@ -42,7 +42,8 @@ export const FormContextProvider = ({ children }: { children: ReactNode }) => {
           observation: stepField.observation,
           files: stepField.files,
           fields: stepField.fields,
-          nonCompliance: stepField.nonCompliance
+          nonCompliance: stepField.nonCompliance,
+          type: stepField.type
         })
 
         if (stepField.fields) {
@@ -53,7 +54,8 @@ export const FormContextProvider = ({ children }: { children: ReactNode }) => {
             actionPlanId: f.actionPlanId,
             observation: f.observation,
             files: f.files,
-            nonCompliance: f.nonCompliance
+            nonCompliance: f.nonCompliance,
+            type: f.type
           }))
         }
       })

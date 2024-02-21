@@ -56,7 +56,8 @@ interface IRecord {
 }
 
 interface IFilledField { 
-      key: string,
+      key: string
+      type: InputType
       value?: string
       observation?: string
       actionPlan?: IActionPlan
