@@ -11,7 +11,7 @@ const RecordStepTable = ({ step }: { step: IRecordStep }) => {
             field.fields.map(f => {
                 dataSource.push({
                 key: f.key,
-                question: f.key,
+                question: `${field.key} - ${f.key}`,
                 awnser: {
                     value: f.value,
                     nonCompliance: f.nonCompliance

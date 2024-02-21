@@ -39,7 +39,7 @@ const fill = () => {
             <div className="w-full pl-5 mt-5">
                 <Button type="primary" className="bg-principal" onClick={() => router.push('/auth/forms')}>VOLTAR AO MENU</Button>
             </div>
-            <div className="p-5">
+            <div className="p-5 mb-16">
                 <h1 className="font-bold text-xl mb-3">{step?.title}</h1>
                 { step?.fields.map((field) =>(<QuestionBox field={field} key={field.key}/>) ) }
             </div>

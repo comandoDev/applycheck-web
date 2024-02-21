@@ -2,9 +2,12 @@
 
 import { useEmployeeNavbar } from '@/app/auth/forms/hooks/NavbarContext/useEmployeeNavbar'
 import { Bell, List } from '@phosphor-icons/react'
+import { useRouter } from 'next/navigation'
 
 const Header = () => {
 	const navbarContext = useEmployeeNavbar()
+
+	const router = useRouter()
 
 	const handleHamburguerClick = () => {
 		navbarContext?.setShow(!navbarContext.show)
@@ -12,7 +15,7 @@ const Header = () => {
 
 	return (
 		<div className="w-screen p-8 flex justify-between text-white font-bold fixed bg-principal">
-			<div className="flex items-center">
+			<div className="flex items-center" onClick={() => router.push('/auth/forms')}>
 				FORMULÁRIOS
 			</div>
 			<div className="flex">
