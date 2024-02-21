@@ -1,9 +1,10 @@
-import { IForm } from "@/interfaces/Form"
+import { IForm, InputType } from "@/interfaces/Form"
 import { IUser } from "@/interfaces/User"
 import { IActionPlan } from "./ActionPlan"
 
 interface IRecordStepField {
       key: string
+      type: InputType
       value?: string
       nonCompliance?: boolean
       fields?: Array<IRecordStepField>

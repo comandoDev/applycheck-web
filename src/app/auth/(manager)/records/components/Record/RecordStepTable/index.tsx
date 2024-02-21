@@ -2,6 +2,7 @@ import { IActionPlan } from "@/interfaces/ActionPlan";
 import { IRecordStep } from "@/interfaces/Record";
 import { Image, Table } from "antd";
 import ActionPlanModal from "./ActionPlanModal";
+import { InputType } from "@/interfaces/Form";
 
 const RecordStepTable = ({ step }: { step: IRecordStep }) => {
     let dataSource = [] as any
@@ -14,7 +15,8 @@ const RecordStepTable = ({ step }: { step: IRecordStep }) => {
                 question: `${field.key} - ${f.key}`,
                 awnser: {
                     value: f.value,
-                    nonCompliance: f.nonCompliance
+                    nonCompliance: f.nonCompliance,
+                    type: f.type
                 },
                 observation: f.observation,
                 actionPlan: f.actionPlan,
@@ -28,7 +30,8 @@ const RecordStepTable = ({ step }: { step: IRecordStep }) => {
                 question: field.key,
                 awnser: {
                     value: field.value,
-                    nonCompliance: field.nonCompliance
+                    nonCompliance: field.nonCompliance,
+                    type: field.type
                 },
                 observation: field.observation,
                 actionPlan: field.actionPlan,
@@ -48,7 +51,14 @@ const RecordStepTable = ({ step }: { step: IRecordStep }) => {
             dataIndex: 'awnser',
             key: 'awnser',
             render: (_: any, { awnser }: { awnser: any }) => {
+                if (awnser.type === InputType.assignature) return (
+                    <div className="border border-zinc-300 shadow-xl pb-0 w-[50px] h-[50px] mt-2 mb-2">
+                        <Image width={50} height={50} src={`${awnser.value}`} />
+                    </div>
+                )
+
                 if (awnser.nonCompliance) return <span className="text-red-400 font-bold">{ awnser.value }</span>
+
                 if (awnser) return awnser.value
             }
         },
