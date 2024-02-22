@@ -22,5 +22,4 @@ export interface IAuthContext {
   handleEmployeeSignin: (props: IEmployeeSigninProps) => Promise<void>
   loading?: boolean
   setLoading: (loading: boolean) => void
-  handleUserSetPassword: (props: ISetPasswordProps) => Promise<void>
 }
