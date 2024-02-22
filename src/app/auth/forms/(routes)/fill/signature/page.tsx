@@ -43,8 +43,21 @@ const signature = () => {
                         size="large"
                         className=""
                         type="dashed"
+                        loading={finishLoading}
+                        onClick={() => router.push('/auth/forms/fill')}
+                        >
+                        VOLTAR
+                    </Button>
+                    <Button
+                        size="large"
+                        className=""
+                        type="default"
                         loading={clearLoading}
                         onClick={() => signatureContext?.setClearCanvas(true)}
+                        style={{
+                            borderColor: '#287AF8',
+                            color: '#287AF8'
+                        }}
                         >
                         LIMPAR
                     </Button>

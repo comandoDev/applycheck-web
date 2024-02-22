@@ -14,7 +14,7 @@ const Header = () => {
 	}
 
 	return (
-		<div className="w-screen p-8 flex justify-between text-white font-bold fixed bg-principal">
+		<div className="w-screen p-8 flex justify-between text-white font-bold fixed bg-principal rounded-bl-3xl rounded-br-3xl">
 			<div className="flex items-center" onClick={() => router.push('/auth/forms')}>
 				FORMULÁRIOS
 			</div>

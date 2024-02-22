@@ -6,10 +6,13 @@ import FormInput from "@/app/auth/forms/components/QuestionBox/Input"
 import { Image } from "antd"
 import { useSignature } from "../../hooks/signatureContext/useSignature"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IField }) => {
     const formContext = useForm()
     const signatureContext = useSignature()
+
+    const router = useRouter()
 
     const [value, setValue] = useState<string>('')
     const [selectedOption, setSelectedOption] = useState<string>()
@@ -121,10 +124,10 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
                          {field.type === InputType.signature && (
                             <div className="w-full">
                                 { !existssignature ? (
-                                    <Link 
-                                        href='/auth/forms/fill/signature'
+                                    <div 
+                                        onClick={() => router.push('/auth/forms/fill/signature')}
                                         className="w-full text-center bg-principal rounded-xl p-2 text-white font-bold"
-                                    >ASSINAR</Link>
+                                    >ASSINAR</div>
                                 ) : (
                                     <Image className="w-full" height={200} src={value || signatureContext?.signature} /> 
                                 )}

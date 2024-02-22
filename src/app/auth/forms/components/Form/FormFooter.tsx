@@ -69,7 +69,7 @@ const FormFooter = () => {
     }
 
     return (
-        <div className="w-full bg-principal relative bottom-0 p-5 flex justify-between text-white font-medium">
+        <div className="w-full bg-principal fixed bottom-0 p-5 flex justify-between text-white font-medium">
             <div onClick={() => previousOnClick()}>{ previousLoading ? (
                 <div className="w-[76px]">
                 <ClipLoader
