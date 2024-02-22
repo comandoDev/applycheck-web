@@ -18,7 +18,7 @@ const Layout = ({
           <Header></Header>
           { navbarContext?.show && (
             <>
-              <div className='h-screen w-screen opacity-30 fixed bg-zinc-900' onClick={() => navbarContext.setShow(false)}></div>
+              <div className='h-screen w-screen opacity-30 fixed bg-zinc-900 z-50' onClick={() => navbarContext.setShow(false)}></div>
               <Navbar />
             </>
           ) }

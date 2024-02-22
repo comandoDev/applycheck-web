@@ -66,7 +66,7 @@ const Init = () => {
                     <h2 className="text-zinc-400">{formContext?.form?.description}</h2>
                 </div>
                 <Steps
-                    className="mb-5 mt-5"
+                    className="mb-10 mt-5"
                     direction="vertical"
                     size="small"
                     current={1}

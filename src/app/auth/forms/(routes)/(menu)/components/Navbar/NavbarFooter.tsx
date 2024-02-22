@@ -13,7 +13,7 @@ const NavbarFooter = () => {
 
     return (
         <div 
-            className="flex justify-between p-5 text-white items-center font-bold bg-principal"
+            className="flex justify-between p-5 text-white items-center font-bold bg-principal rounded-tl-xl rounded-tr-xl"
             onClick={handleLogoutClick}
         >
             <span>SAIR</span>

@@ -3,7 +3,7 @@ import { ArrowCircleRight } from "@phosphor-icons/react"
 const FormListLoading = () => {
     return (
         <>
-            {[1, 2, 3, 4].map(i => {
+            {[1, 2, 3].map(i => {
                 return (
                     <div key={i} className='animate-pulse w-full p-4 rounded-lg border border-gray-150 bg-white text-selected mb-5 shadow-md'>
                         <div className="w-full flex justify-between mb-3 items-start">
