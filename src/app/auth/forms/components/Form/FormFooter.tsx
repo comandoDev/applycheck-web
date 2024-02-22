@@ -6,8 +6,15 @@ import { useRouter } from "next/navigation"
 import { message } from "antd"
 import { useState } from "react"
 import { ClipLoader } from "react-spinners"
+import { useFile } from "../../hooks/FileContext/useFile"
+import { useActionPlan } from "../../hooks/ActionPlanContext/useFile"
+import { useSignature } from "../../hooks/signatureContext/useSignature"
 
 const FormFooter = () => {
+    const fileContext = useFile()
+    const actionPlanContext = useActionPlan()
+    const signatureContext = useSignature() 
+
     const router = useRouter()
 
     const formContext = useForm()
@@ -20,7 +27,13 @@ const FormFooter = () => {
             setNextLoading(true)
 
             const isFinished = await formContext?.isRecordFinished()
-            if (isFinished) return router.push('/auth/forms')
+            if (isFinished) {
+                fileContext?.setFiles([])
+                actionPlanContext?.setActionPlan({})
+                signatureContext?.setSignature(undefined)
+                
+                return router.push('/auth/forms')
+            }
 
             await formContext?.findRecordAndSetFilledFields((formContext!.lastReachedStep + 2))
 
@@ -30,8 +43,6 @@ const FormFooter = () => {
             )
     
             formContext?.setLastReachedStep(formContext.lastReachedStep + 1)
-
-            // return router.push('/auth/forms/fill')
         } catch (error) {
             message.error((error as any).message)
             return router.push('/auth/forms/fill')
@@ -49,10 +60,9 @@ const FormFooter = () => {
             await formContext?.findRecordAndSetFilledFields(formContext.lastReachedStep)
 
             formContext?.setLastReachedStep(formContext.lastReachedStep - 1)
-
-            // return router.push('/auth/forms/fill')
-        } catch (e) {
-            
+        } catch (error) {
+            message.error((error as any).message)
+            return router.push('/auth/forms/fill')
         } finally {
             setpreviousLoading(false)
         }

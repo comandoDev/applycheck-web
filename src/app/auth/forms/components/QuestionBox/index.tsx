@@ -3,25 +3,34 @@ import QuestionBoxFooter from "./QuestionBoxFooter"
 import { IField, InputType } from "@/interfaces/Form"
 import { useForm } from "../../hooks/FormContext/useForm"
 import FormInput from "@/app/auth/forms/components/QuestionBox/Input"
-import SignatureCanvas from "./SignatureCanvas"
-import { Image, Modal } from "antd"
+import { Image } from "antd"
+import { useSignature } from "../../hooks/signatureContext/useSignature"
+import Link from "next/link"
 
 const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IField }) => {
     const formContext = useForm()
+    const signatureContext = useSignature()
 
     const [value, setValue] = useState<string>('')
     const [selectedOption, setSelectedOption] = useState<string>()
-    const [assignatureModal, setAssignatureModal] = useState<boolean>(false)
-    const [existsAssignature, setExistsAssignature] = useState<boolean>(false)
+    const [existssignature, setExistssignature] = useState<boolean>(false)
 
     useEffect(() => {   
-        const filledField = formContext?.filledFields?.find(filledField => filledField.key === field.key)
-        if (filledField?.type === InputType.assignature) {
-            setExistsAssignature(true)
+        const signature = signatureContext?.signature
+
+        if (signature) {
+            setValues(signature)
+            setExistssignature(true)
         }
         
-        setValues(filledField?.value!, filledField?.nonCompliance!)
-    }, [formContext?.filledFields])
+        const filledField = formContext?.filledFields?.find(filledField => filledField.key === field.key)
+
+        if (filledField?.type === InputType.signature) {
+            setExistssignature(true)
+        }
+        
+        if (filledField) setValues(filledField?.value!, filledField?.nonCompliance!)
+    }, [formContext?.filledFields, signatureContext?.signature])
 
     const handleOnChange = (targetValue: string, nonCompliance?: boolean): void => {
         setValues(targetValue, nonCompliance)
@@ -109,20 +118,15 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
                                 })}
                             </>
                         )}
-                         {field.type === InputType.assignature && (
+                         {field.type === InputType.signature && (
                             <div className="w-full">
-                                { !existsAssignature ? (
-                                    <>
-                                        <div 
-                                            className="w-full text-center bg-principal rounded-xl p-2 text-white font-bold"
-                                            onClick={() => setAssignatureModal(true)}
-                                        >ASSINAR</div>
-                                        <Modal open={assignatureModal} okType="dashed" onCancel={() => setAssignatureModal(false)} onOk={() => setAssignatureModal(false)}>
-                                            <SignatureCanvas setValues={setValues}/>
-                                        </Modal>
-                                    </>
+                                { !existssignature ? (
+                                    <Link 
+                                        href='/auth/forms/fill/signature'
+                                        className="w-full text-center bg-principal rounded-xl p-2 text-white font-bold"
+                                    >ASSINAR</Link>
                                 ) : (
-                                    <Image className="w-full" height={200} src={value} /> 
+                                    <Image className="w-full" height={200} src={value || signatureContext?.signature} /> 
                                 )}
                             </div>
                         )}

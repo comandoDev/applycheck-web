@@ -5,7 +5,7 @@ export enum InputType {
     number = 'number',
     date = 'date',
     hour = 'hour',
-    assignature = 'assignature',
+    signature = 'signature',
 }
 
 interface ISelectOption {

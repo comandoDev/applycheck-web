@@ -4,6 +4,7 @@ import { NavbarContextProvider } from "@/app/auth/forms/hooks/NavbarContext/useE
 import { FileContextProvider } from "./hooks/FileContext/useFile"
 import { FormContextProvider } from "./hooks/FormContext/useForm"
 import { ActionPlanContextProvider } from "./hooks/ActionPlanContext/useFile"
+import { SignatureContextProvider } from "./hooks/signatureContext/useSignature"
 
 const Layout = ({
   children
@@ -16,9 +17,11 @@ const Layout = ({
       <FormContextProvider>
         <FileContextProvider>
           <ActionPlanContextProvider>
-            <div className='flex flex-col'>
-              {children}
-            </div>
+            <SignatureContextProvider>
+              <div className='flex flex-col'>
+                {children}
+              </div>
+            </SignatureContextProvider>
           </ActionPlanContextProvider>
         </FileContextProvider>
       </FormContextProvider>

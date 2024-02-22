@@ -1,93 +1,103 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react'
+import { useSignature } from '../../hooks/signatureContext/useSignature'
 
 interface SignatureCanvasProps {
-  setValues: (value: string) => void;
+  setValues: (value: string) => void
 }
 
-const SignatureCanvas: React.FC<SignatureCanvasProps> = ({ setValues }) => {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [isDrawing, setIsDrawing] = useState(false);
+const SignatureCanvas = () => {
+  const signatureContext = useSignature()
+  
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const [isDrawing, setIsDrawing] = useState(false)
+
+  useEffect(() => {
+    if (!signatureContext?.clearCanvas) return
+
+    if (canvasRef.current) {
+      const context = canvasRef.current.getContext('2d')
+
+      if (!context) {
+        return
+      }
+
+      context.clearRect(0, 0, 1000, 1000)
+    }
+
+    signatureContext.setClearCanvas(false)
+  }, [signatureContext?.clearCanvas])
 
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    e.preventDefault()
-    startDrawing(e.pageX - canvasRef.current!.offsetLeft, e.pageY - canvasRef.current!.offsetTop);
-  };
+    startDrawing(e.pageX - canvasRef.current!.offsetLeft, e.pageY - canvasRef.current!.offsetTop)
+  }
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    e.preventDefault()
     if (isDrawing) {
-      draw(e.pageX - canvasRef.current!.offsetLeft, e.pageY - canvasRef.current!.offsetTop);
+      draw(e.pageX - canvasRef.current!.offsetLeft, e.pageY - canvasRef.current!.offsetTop)
     }
-  };
+  }
 
   const handleMouseUp = () => {
-    stopDrawing();
-  };
+    stopDrawing()
+  }
 
   const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
-    e.preventDefault()
-    const touch = e.touches[0];
-    startDrawing(touch.pageX - canvasRef.current!.offsetLeft, touch.pageY - canvasRef.current!.offsetTop);
-  };
+    const touch = e.touches[0]
+    startDrawing(touch.pageX - canvasRef.current!.offsetLeft, touch.pageY - canvasRef.current!.offsetTop)
+  }
 
   const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
-    e.preventDefault()
     if (isDrawing) {
-      const touch = e.touches[0];
-      draw(touch.pageX - canvasRef.current!.offsetLeft, touch.pageY - canvasRef.current!.offsetTop);
+      const touch = e.touches[0]
+      draw(touch.pageX - canvasRef.current!.offsetLeft, touch.pageY - canvasRef.current!.offsetTop)
     }
-  };
+  }
 
   const handleTouchEnd = () => {
-    stopDrawing();
-  };
+    stopDrawing()
+  }
 
   const startDrawing = (x: number, y: number) => {
-    setIsDrawing(true);
-    draw(x, y);
-  };
+    setIsDrawing(true)
+    draw(x, y)
+  }
 
   const draw = (x: number, y: number) => {
     if (canvasRef.current) {
-      const context = canvasRef.current.getContext('2d');
+      const context = canvasRef.current.getContext('2d')
 
       if (!context) {
-        return;
+        return
       }
 
       if (!isDrawing) {
-        context.beginPath();
+        context.beginPath()
       }
 
-      context.lineWidth = 2;
-      context.lineCap = 'round';
-      context.strokeStyle = '#000';
-      context.lineTo(x, y);
-      context.stroke();
+      context.lineWidth = 2
+      context.lineCap = 'round'
+      context.strokeStyle = '#000'
+      context.lineTo(x, y)
+      context.stroke()
     }
-  };
+  }
 
   const stopDrawing = () => {
-    setIsDrawing(false);
-    if (canvasRef.current) {
-      // context.closePath();
-      save();
-    }
-  };
+    setIsDrawing(false)
+    save()
+  }
 
   const save = () => {
     if (canvasRef.current) {
-      const signatureImage = canvasRef.current.toDataURL('image/png');
-      setValues(signatureImage);
+      signatureContext?.setCurrentCanvas(canvasRef.current)
     }
-  };
+  }
 
   return (
     <div>
       <canvas
         ref={canvasRef}
-        className='w-full'
-        height={200}
+        className='w-full h-screen'
         style={{ border: '1px solid #000' }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
@@ -97,7 +107,7 @@ const SignatureCanvas: React.FC<SignatureCanvasProps> = ({ setValues }) => {
         onTouchEnd={handleTouchEnd}
       />
     </div>
-  );
-};
+  )
+}
 
-export default SignatureCanvas;
+export default SignatureCanvas

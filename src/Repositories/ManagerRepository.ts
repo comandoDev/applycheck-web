@@ -66,6 +66,14 @@ class ManagerRepository extends Repository<IUser> {
         this.api.get(`${this.path}/records/${recordId}/pdf`)
       )
     }
+
+    async uploadSignature (signatureImage: string): Promise<IResponse<{ signature: string }>> {
+      return this.execute(() =>
+        this.api.post(`${this.path}/records/upload-signature`, {
+          signatureImage
+        })
+      )
+    }
     
     async dash (): Promise<IResponse<{
       dash: {

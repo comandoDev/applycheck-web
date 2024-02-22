@@ -51,7 +51,7 @@ const RecordStepTable = ({ step }: { step: IRecordStep }) => {
             dataIndex: 'awnser',
             key: 'awnser',
             render: (_: any, { awnser }: { awnser: any }) => {
-                if (awnser.type === InputType.assignature) return (
+                if (awnser.type === InputType.signature) return (
                     <div className="border border-zinc-300 shadow-xl pb-0 w-[50px] h-[50px] mt-2 mb-2">
                         <Image width={50} height={50} src={`${awnser.value}`} />
                     </div>
