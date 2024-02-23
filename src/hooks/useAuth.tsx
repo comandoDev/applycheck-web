@@ -1,11 +1,11 @@
 'use client'
 
 import { createContext, ReactNode, useContext, useState } from 'react';
-import { IUser, UserRole } from '@/interfaces/User';
+import { ISetUserPasswordProps, IUser, UserRole } from '@/interfaces/User';
 import { message } from 'antd';
 import { IAuthContext, IManagerSigninProps, IEmployeeSigninProps } from './AuthContext';
 import Storage from '@/utils/Storage';
-import UserRepository, { ISetPasswordProps } from '@/Repositories/UserRepository';
+import UserRepository from '@/Repositories/UserRepository';
 import { useRouter } from 'next/navigation';
 
 const AuthContext = createContext<IAuthContext | null>(null)
@@ -50,6 +50,10 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     try {
       setLoading(true)
 
+      const existsPassword = await hasPassword(accountName) 
+
+      if(!existsPassword) return router.push(`/login/password/${accountName}`)
+
       const response = await UserRepository.employeeSignin({
         accountName,
         password
@@ -83,6 +87,36 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     router.push('/login/manager')
   }
 
+  const hasPassword = async (accountName: string): Promise<boolean> => {
+    const response = await UserRepository.hasPassword(accountName)
+
+    const hasPassword = response.data.data?.hasPassword!
+
+    return hasPassword
+  }
+
+
+  const setPassword = async ({
+    accountName,
+    password,
+    passwordConfirmation
+  }: ISetUserPasswordProps): Promise<void> => {
+    try {
+      setLoading(true)
+
+      await UserRepository.setPassword({
+        accountName,
+        password, 
+        passwordConfirmation
+      })
+    } catch (error) {
+      setError(error as any)
+      message.error((error as any).message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const authContextProvider = {
     user,
     userToken,
@@ -93,6 +127,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     handleEmployeeSignin,
     loading,
     setLoading,
+    setPassword
   }
 
   return (

@@ -1,6 +1,6 @@
 import { Repository } from '@/core/Repository'
 import { IResponse } from '@/interfaces/Response'
-import { IUser } from '@/interfaces/User'
+import { ISetUserPasswordProps, IUser } from '@/interfaces/User'
 
 interface IAuthenticationProps {
   user: IUser,
@@ -18,12 +18,6 @@ interface IEmployeeSignInProps {
   password: string
 }
 
-
-export interface ISetPasswordProps {
-  password: string
-  passwordConfirmation: string
-  userId: string
-}
 
 class UserRepository extends Repository<IAuthenticationProps> {
   async signin ({
@@ -51,15 +45,21 @@ class UserRepository extends Repository<IAuthenticationProps> {
   }
 
   async setPassword ({
+    accountName,
     password,
-    passwordConfirmation,
-    userId
-  }: ISetPasswordProps): Promise<IResponse<IAuthenticationProps>> {
+    passwordConfirmation
+  }: ISetUserPasswordProps): Promise<IResponse> {
     return this.execute(() =>
-      this.api.post(`${this.path}/password/${userId}`, {
+      this.api.post(`${this.path}/users/${accountName}/set-password`, {
         password,
         passwordConfirmation
       })
+    )
+  }
+
+  async hasPassword (accountName: string): Promise<IResponse<{ hasPassword: boolean }>> {
+    return this.execute(() =>
+      this.api.get(`${this.path}/users/${accountName}/has-password`)
     )
   }
 }

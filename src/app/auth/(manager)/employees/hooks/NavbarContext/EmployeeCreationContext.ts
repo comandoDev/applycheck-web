@@ -11,8 +11,6 @@ export interface IEmployeeCreationContext {
     setName: (name: string) => void
     accountName?: string
     setAccountName: (accountName: string) => void
-    password?: string
-    setPassword: (accountName: string) => void
     active?: boolean
     setActive: (active: boolean) => void
     formsIds?: Array<string>

@@ -4,6 +4,12 @@ export enum UserRole {
     admin = 'admin'
 }
 
+interface ISetUserPasswordProps {
+  accountName: string
+  password: string
+  passwordConfirmation: string
+}
+
 interface IUser {
     id?: string
     managerId?: string
@@ -19,5 +25,6 @@ interface IUser {
 }
 
 export type {
-  IUser
+  IUser,
+  ISetUserPasswordProps
 }

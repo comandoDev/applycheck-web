@@ -12,10 +12,8 @@ const CreateUserModal = () => {
     const [forms, setForms] = useState<Array<IForm>>()
     const [name, setName] = useState<string>()
     const [accountName, setAccountName] = useState<string>()
-    const [password, setPassword] = useState<string>()
     const [formsIds, setFormsIds] = useState<Array<string>>([])
     const [loading, setLoading] = useState<boolean>(false)
-    const [defaultPassword, setDefaultPassword] = useState<boolean>(false)
 
     useEffect(() => {
         const fetch = async () => {
@@ -42,7 +40,6 @@ const CreateUserModal = () => {
             const response = await ManagerRepository.createEmployee({
                 name,
                 accountName,
-                password,
                 formsIds
             })
 
@@ -51,7 +48,6 @@ const CreateUserModal = () => {
 
             setName('')
             setAccountName('')
-            setPassword('')
             setFormsIds([])
 
             message.success(response.data.message)
@@ -60,11 +56,6 @@ const CreateUserModal = () => {
         } finally {
             setLoading(false)
         }
-    }
-
-    const checkboxOnChange = () => {
-        setPassword('comando@2024')
-        setDefaultPassword(!defaultPassword)
     }
 
     return (
@@ -83,15 +74,6 @@ const CreateUserModal = () => {
                 <input type="text" name="name" value={name} onChange={e => setName(e.target.value)} className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
                 <label className="mb-1" htmlFor="accountName">Nome de Usuário</label>
                 <input type="text" name="accountName" value={accountName} onChange={e => setAccountName(e.target.value)} className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
-                <div>
-                    <Checkbox className="mb-5" onChange={checkboxOnChange}>Usar senha padrão</Checkbox>
-                </div>
-                <label className="mb-1" htmlFor="password">Senha</label>
-                { defaultPassword ? (
-                    <input disabled type="text" name="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
-                ): (
-                    <input type="text" name="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
-                ) }
                 <label className="mb-1" htmlFor="role">Função</label>
                 <input type="text" name="role" value='Funcionário' disabled className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
                 <label className="mb-1" htmlFor="">Formulários permitidos ao usuário</label>

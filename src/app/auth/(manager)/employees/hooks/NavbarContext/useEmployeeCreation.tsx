@@ -11,7 +11,6 @@ export const EmployeeCreationContextProvider = ({ children }: { children: ReactN
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false)
   const [id, setId] = useState<string>()
   const [name, setName] = useState<string>()
-  const [password, setPassword] = useState<string>()
   const [accountName, setAccountName] = useState<string>()
   const [active, setActive] = useState<boolean>()
   const [formsIds, setFormsIds] = useState<Array<string>>([])
@@ -27,8 +26,6 @@ export const EmployeeCreationContextProvider = ({ children }: { children: ReactN
     setId,
     name,
     setName,
-    password,
-    setPassword,
     accountName,
     setAccountName,
     active,
