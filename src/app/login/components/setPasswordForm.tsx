@@ -3,17 +3,26 @@
 import { useAuth } from "@/hooks/useAuth"
 import Input from "./Input"
 import { FormEvent, useState } from "react"
+import { useRouter } from "next/navigation"
 
-const EmployeeForm = () => {
+const SetPasswordForm = ({ accountName }: { accountName:string }) => {
   const authContext = useAuth()
 
-  const [accountName, setAccountName] = useState<string>('')
+  const router = useRouter()
+
   const [password, setPassword] = useState<string>('')
+  const [passwordConfirmation, setPasswordConfirmation] = useState<string>('')
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
   
       authContext?.setError(undefined)
+
+      await authContext?.setPassword({
+        accountName,
+        password,
+        passwordConfirmation
+      })            
 
       await authContext?.handleEmployeeSignin({
         accountName,
@@ -24,16 +33,16 @@ const EmployeeForm = () => {
   return (
     <form onSubmit={onSubmit}>
       <Input 
-          placeHolder="Insira seu nome de usuário"
-          name="accountName"
-          type="text"
-          onChange={setAccountName}
-      />
-      <Input 
           placeHolder="Insira sua senha"
           name="password"
-          type="password"
+          type="text"
           onChange={setPassword}
+      />
+      <Input 
+          placeHolder="Confirme sua senha"
+          name="passwordConfirmation"
+          type="text"
+          onChange={setPasswordConfirmation}
       />
 
       <Input 
@@ -44,4 +53,4 @@ const EmployeeForm = () => {
   )
 }
 
-export default EmployeeForm
+export default SetPasswordForm

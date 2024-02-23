@@ -1,6 +1,5 @@
-import { ISetPasswordProps } from "@/Repositories/UserRepository";
 import { IResponseData } from "@/interfaces/Response";
-import { IUser } from "@/interfaces/User";
+import { ISetUserPasswordProps, IUser } from "@/interfaces/User";
 
 export interface IManagerSigninProps {
   email: string
@@ -22,4 +21,5 @@ export interface IAuthContext {
   handleEmployeeSignin: (props: IEmployeeSigninProps) => Promise<void>
   loading?: boolean
   setLoading: (loading: boolean) => void
+  setPassword: (props: ISetUserPasswordProps) => Promise<void>
 }
