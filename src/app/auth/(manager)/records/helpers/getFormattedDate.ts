@@ -1,10 +1,8 @@
-export const getFormattedDate = (stringDate: Date, endTime?: boolean) => {
+export const getFormattedDate = (stringDate: Date) => {
     const date = new Date(stringDate)
 
-    let hour = date.getHours()
+    let hour = date.getHours() + 3
     const minutes = date.getMinutes()
-
-    if (endTime) hour = hour + 3
 
     const formattedHour = hour.toString().padStart(2, '0')
     const formattedMinutes = minutes.toString().padStart(2, '0')
