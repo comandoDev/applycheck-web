@@ -45,6 +45,7 @@ const CreateUserModal = () => {
 
             employeeCreationContext?.setUpdateUsersTable(!employeeCreationContext.updateUsersTable)
             employeeCreationContext?.setIsCreateModalOpen(false)
+            employeeCreationContext?.setFormsIds([])
 
             setName('')
             setAccountName('')
@@ -82,6 +83,7 @@ const CreateUserModal = () => {
                     placeholder="Selecione Formulários"
                     onChange={handleOnChange}
                     style={{ width: '100%' }}
+                    value={[]}
                     options={forms?.map(form => {
                         return {
                         label: form.title,
