@@ -15,4 +15,6 @@ export interface IEmployeeCreationContext {
     setActive: (active: boolean) => void
     formsIds?: Array<string>
     setFormsIds: (formsIds: Array<string>) => void
+    search?: string
+    setSearch: (search: string) => void
 }

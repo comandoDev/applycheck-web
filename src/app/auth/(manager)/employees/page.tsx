@@ -15,7 +15,12 @@ const Employees = () => {
             </div>
 
             <div>
-                <div className="flex justify-end mb-3">
+                <div className="flex justify-between mb-3">
+                    <input 
+                        className="w-[35%] p-3 rounded-xl outline-0 border-0 shadow-lg" 
+                        placeholder="Buscar Usuário..." 
+                        onChange={e => employeeCreationContext?.setSearch(e.target.value)}
+                    />
                     <PlusCircle size={36} onClick={() => employeeCreationContext?.setIsCreateModalOpen(true)} className="cursor-pointer text-principal hover:text-blue-700" />
                 </div>
                 <UsersTable />
