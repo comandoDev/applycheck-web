@@ -3,8 +3,4 @@ export interface ISignatureContext {
     setSignature: (signature?: string) => void
     fieldKey?: string
     setFieldKey: (fieldKey: string) => void
-    currentCanvas?: HTMLCanvasElement
-    setCurrentCanvas: (currentCanvas: HTMLCanvasElement) => void
-    clearCanvas: boolean
-    setClearCanvas: (clearCanvas: boolean) => void
 }
