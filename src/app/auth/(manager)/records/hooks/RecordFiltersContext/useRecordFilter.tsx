@@ -8,12 +8,15 @@ const RecordFiltersContext = createContext<IRecordFiltersContext | null>(null)
 export const RecordFiltersContextProvider = ({ children }: { children: ReactNode }) => {
   const [formId, setFormId] = useState<string | null>(null)
   const [employeeId, setEmployeeId] = useState<string | null>(null)
+  const [date, setDate] = useState<string | null>(null)
 
   const recordFiltersContextProvider = {
     formId,
     setFormId,
     employeeId,
-    setEmployeeId
+    setEmployeeId,
+    date,
+    setDate
   }
 
   return (

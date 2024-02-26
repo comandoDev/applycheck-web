@@ -44,6 +44,11 @@ const RecordFilters = () => {
         recordFiltersContext?.setEmployeeId(employeeId)
     }
 
+
+    const handleDateOnChange = (date: string) => {
+        recordFiltersContext?.setDate(date)
+    }
+
     return (
         <div className="w-full flex">
             { loading ? (
@@ -80,6 +85,14 @@ const RecordFilters = () => {
                             }
                         })}
                     />
+                    <div className="">
+                        <input
+                            type="date"
+                            className="border border-zinc-300 rounded-lg ml-5 p-[5px] pl-2 pr-2 text-[14px] outline-0"
+                            defaultValue="Nome do Funcionário"
+                            onChange={e => handleDateOnChange(e.target.value)}
+                        />
+                    </div>
                 </div>
             )}
         </div>

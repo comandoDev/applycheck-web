@@ -72,6 +72,7 @@ interface IRecordParams {
       employeeId?: string
       status?: RecordStatus
       hasNonCompliance?: boolean
+      createdAt?: string
 }
 
 export type {

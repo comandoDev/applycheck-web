@@ -5,7 +5,6 @@ import { useRecordFiltersContext } from "../hooks/RecordFiltersContext/useRecord
 import { useEffect, useState } from "react";
 import ManagerRepository from "@/Repositories/ManagerRepository";
 import { useRouter } from "next/navigation";
-import { ClipLoader } from "react-spinners";
 import RecordsTableSkeleton from "./Record/RecordsTableSkeleton";
 
 const RecordsTable = () => {
@@ -24,6 +23,7 @@ const RecordsTable = () => {
                 const recordsResponse = await ManagerRepository.listRecords({
                     formId: recordFiltersContext?.formId!,
                     employeeId: recordFiltersContext?.employeeId!,
+                    createdAt: recordFiltersContext?.date!
                     
                 })
 
@@ -36,7 +36,7 @@ const RecordsTable = () => {
         }
 
         fetch()
-    }, [recordFiltersContext?.formId, recordFiltersContext?.employeeId])
+    }, [recordFiltersContext?.formId, recordFiltersContext?.employeeId, recordFiltersContext?.date])
 
     const dataSource = records?.map(record => {
         return {
