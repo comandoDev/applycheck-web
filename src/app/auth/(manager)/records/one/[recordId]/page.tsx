@@ -149,7 +149,7 @@ const RecordPage = ({ params }: { params: { recordId: string } }) => {
                             title: `Etapa-${step.order}`,
                             status: record?.steps![(step.order - 1)] ? 'finish' : 'wait',
                             description: (record.endTime && step.order === record.form?.totalSteps) ? 
-                                getFormattedDate(record.endTime) : (step.order === 1 ? getFormattedDate(record.createdAt!) : '')
+                                getFormattedDate(record.endTime, true) : (step.order === 1 ? getFormattedDate(record.createdAt!) : '')
                         }
                     })}
                 />
