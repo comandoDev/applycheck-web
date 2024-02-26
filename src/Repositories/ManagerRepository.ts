@@ -11,9 +11,13 @@ class ManagerRepository extends Repository<IUser> {
     )
   }
 
-  async listEmployees (): Promise<IResponse<IPaginateList<IUser>>> {
+  async listEmployees ({ search }: { search?: string }): Promise<IResponse<IPaginateList<IUser>>> {
     return this.execute(() =>
-      this.api.get(`${this.path}/users`)
+      this.api.get(`${this.path}/users`, {
+        params: { 
+          search
+        }
+      })
     )
  }
 

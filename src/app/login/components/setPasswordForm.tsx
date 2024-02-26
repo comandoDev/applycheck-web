@@ -3,12 +3,9 @@
 import { useAuth } from "@/hooks/useAuth"
 import Input from "./Input"
 import { FormEvent, useState } from "react"
-import { useRouter } from "next/navigation"
 
 const SetPasswordForm = ({ accountName }: { accountName:string }) => {
   const authContext = useAuth()
-
-  const router = useRouter()
 
   const [password, setPassword] = useState<string>('')
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>('')

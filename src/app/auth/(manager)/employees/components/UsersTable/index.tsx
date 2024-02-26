@@ -20,7 +20,9 @@ const UsersTable = () => {
 
         const fetch = async () => {
             try {
-                const response = await ManagerRepository.listEmployees()
+                const response = await ManagerRepository.listEmployees({
+                    search: employeeCreationContext?.search
+                })
 
                 setEmployees(response.data.data?.users.docs)
             } catch (error) {
@@ -31,7 +33,7 @@ const UsersTable = () => {
         }
 
         fetch()
-    }, [employeeCreationContext?.updateUsersTable])
+    }, [employeeCreationContext?.updateUsersTable, employeeCreationContext?.search])
 
     const handleEditOnClick = (user: Partial<IUser>) => {
         employeeCreationContext?.setIsEditModalOpen(true)

@@ -14,6 +14,7 @@ export const EmployeeCreationContextProvider = ({ children }: { children: ReactN
   const [accountName, setAccountName] = useState<string>()
   const [active, setActive] = useState<boolean>()
   const [formsIds, setFormsIds] = useState<Array<string>>([])
+  const [search, setSearch] = useState<string>()
   
   const navbarContextProvider = {
     updateUsersTable, 
@@ -31,7 +32,9 @@ export const EmployeeCreationContextProvider = ({ children }: { children: ReactN
     active,
     setActive,
     formsIds,
-    setFormsIds
+    setFormsIds,
+    search,
+    setSearch
   }
 
   return (
