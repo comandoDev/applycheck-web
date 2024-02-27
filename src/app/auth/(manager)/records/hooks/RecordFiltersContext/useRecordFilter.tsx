@@ -9,6 +9,7 @@ export const RecordFiltersContextProvider = ({ children }: { children: ReactNode
   const [formId, setFormId] = useState<string | null>(null)
   const [employeeId, setEmployeeId] = useState<string | null>(null)
   const [date, setDate] = useState<string | null>(null)
+  const [nonCompliance, setNonCompliance] = useState<string | null>(null)
 
   const recordFiltersContextProvider = {
     formId,
@@ -16,7 +17,9 @@ export const RecordFiltersContextProvider = ({ children }: { children: ReactNode
     employeeId,
     setEmployeeId,
     date,
-    setDate
+    setDate,
+    nonCompliance,
+    setNonCompliance
   }
 
   return (

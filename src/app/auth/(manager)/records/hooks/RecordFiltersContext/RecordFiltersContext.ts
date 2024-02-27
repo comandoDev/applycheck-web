@@ -5,4 +5,6 @@ export interface IRecordFiltersContext {
     setEmployeeId: (userId: string) => void
     date: string | null
     setDate: (date: string) => void
+    nonCompliance: string | null
+    setNonCompliance: (nonCompliance: string) => void
 }

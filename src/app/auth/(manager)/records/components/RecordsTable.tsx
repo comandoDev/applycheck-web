@@ -23,8 +23,8 @@ const RecordsTable = () => {
                 const recordsResponse = await ManagerRepository.listRecords({
                     formId: recordFiltersContext?.formId!,
                     employeeId: recordFiltersContext?.employeeId!,
-                    createdAt: recordFiltersContext?.date!
-                    
+                    createdAt: recordFiltersContext?.date!,
+                    hasNonCompliance: Boolean(recordFiltersContext?.nonCompliance)!,
                 })
 
                 setRecords(recordsResponse.data.data?.records)
@@ -36,7 +36,12 @@ const RecordsTable = () => {
         }
 
         fetch()
-    }, [recordFiltersContext?.formId, recordFiltersContext?.employeeId, recordFiltersContext?.date])
+    }, [
+        recordFiltersContext?.formId, 
+        recordFiltersContext?.employeeId, 
+        recordFiltersContext?.date,
+        recordFiltersContext?.nonCompliance
+    ])
 
     const dataSource = records?.map(record => {
         return {
