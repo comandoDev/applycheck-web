@@ -11,13 +11,12 @@ import { useRouter } from "next/navigation"
 const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IField }) => {
     const formContext = useForm()
     const signatureContext = useSignature()
-
     const router = useRouter()
-
+    
     const [value, setValue] = useState<string>('')
     const [selectedOption, setSelectedOption] = useState<string>()
     const [existssignature, setExistssignature] = useState<boolean>(false)
-
+    
     useEffect(() => {   
         const signature = signatureContext?.signature
 
@@ -29,10 +28,14 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
         const filledField = formContext?.filledFields?.find(filledField => filledField.key === field.key)
 
         if (filledField?.type === InputType.signature) {
+            if (!signature) setValues(filledField?.value!, filledField?.nonCompliance!)
+            
             setExistssignature(true)
         }
         
-        if (filledField) setValues(filledField?.value!, filledField?.nonCompliance!)
+        if (filledField?.type !== InputType.signature && !signature) {
+            setValues(filledField?.value!, filledField?.nonCompliance!)
+        }
     }, [formContext?.filledFields, signatureContext?.signature])
 
     const handleOnChange = (targetValue: string, nonCompliance?: boolean): void => {
@@ -49,7 +52,7 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
         const currentStep = formContext?.currentStep 
 
         let exists = false
-        
+
         currentStep?.fields.map(stepField => {
             if (stepField.key === field.key) {
                 if (field.type === InputType.multipleQuestions) stepField.hasChildren = true
@@ -121,7 +124,7 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
                                 })}
                             </>
                         )}
-                         {field.type === InputType.signature && (
+                        {field.type === InputType.signature && (
                             <div className="w-full">
                                 { !existssignature ? (
                                     <div 
