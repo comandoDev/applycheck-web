@@ -83,7 +83,7 @@ const CreateUserModal = () => {
                     placeholder="Selecione Formulários"
                     onChange={handleOnChange}
                     style={{ width: '100%' }}
-                    value={[]}
+                    value={formsIds}
                     options={forms?.map(form => {
                         return {
                         label: form.title,

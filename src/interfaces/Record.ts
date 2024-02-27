@@ -71,7 +71,7 @@ interface IRecordParams {
       formId?: string
       employeeId?: string
       status?: RecordStatus
-      hasNonCompliance?: boolean
+      hasNonCompliance?: string
       createdAt?: string
 }
 

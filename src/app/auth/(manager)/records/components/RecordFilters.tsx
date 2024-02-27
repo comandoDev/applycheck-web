@@ -96,11 +96,11 @@ const RecordFilters = () => {
                         options={[
                             {
                                 label: 'Sim',
-                                value: true
+                                value: 'true'
                             },
                             {
                                 label: 'Não',
-                                value: false
+                                value: 'false'
                             }
                         ]}
                     />

@@ -24,7 +24,7 @@ const RecordsTable = () => {
                     formId: recordFiltersContext?.formId!,
                     employeeId: recordFiltersContext?.employeeId!,
                     createdAt: recordFiltersContext?.date!,
-                    hasNonCompliance: Boolean(recordFiltersContext?.nonCompliance)!,
+                    hasNonCompliance: recordFiltersContext?.nonCompliance ? recordFiltersContext?.nonCompliance! : undefined,
                 })
 
                 setRecords(recordsResponse.data.data?.records)
