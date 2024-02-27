@@ -1,5 +1,5 @@
 import { IRecord, RecordStatus } from "@/interfaces/Record";
-import { Table, Tag } from "antd"
+import { Modal, Table, Tag, message } from "antd"
 import Link from "next/link";
 import { useRecordFiltersContext } from "../hooks/RecordFiltersContext/useRecordFilter";
 import { useEffect, useState } from "react";
@@ -14,6 +14,7 @@ const RecordsTable = () => {
     
     const [records, setRecords] = useState<Array<IRecord>>()
     const [loading, setLoading] = useState<boolean>(true)
+    const [reloadTable, setReloadTable] = useState<boolean>()
 
     useEffect(() => {
         setLoading(true)
@@ -40,7 +41,8 @@ const RecordsTable = () => {
         recordFiltersContext?.formId, 
         recordFiltersContext?.employeeId, 
         recordFiltersContext?.date,
-        recordFiltersContext?.nonCompliance
+        recordFiltersContext?.nonCompliance,
+        reloadTable
     ])
 
     const dataSource = records?.map(record => {
@@ -56,6 +58,21 @@ const RecordsTable = () => {
         }
     })
       
+    const handleOnDeleteOk = async (recordId: string) => {
+        try {
+            setLoading(true)
+
+            const response = await ManagerRepository.deleteRecord(recordId)
+
+            message.success(response.data.message)
+            setReloadTable(!reloadTable)
+        } catch (error) {
+            message.error((error as any).message)
+        } finally {
+            setLoading(false)
+        }
+    }
+
     const columns = [
         {
             title: 'Titúlo',
@@ -110,14 +127,28 @@ const RecordsTable = () => {
             dataIndex: '',
             key: 'x',
             render: (index: any) => {
-                return <Link href={`/auth/records/one/${index.key}`} className="text-principal">
-                    <>
-                        {index.status === RecordStatus.open ? 'Analisar' : 'Visualizar'}
-                    </>
-                </Link>
+                return (
+                    <div className="flex">
+                        <Link href={`/auth/records/one/${index.key}`} className="text-principal mr-5">
+                            <>
+                                {index.status === RecordStatus.open ? 'Analisar' : 'Visualizar'}
+                            </>
+                        </Link>
+                        <div onClick={e => warning(index.key)} className="text-[#f47b7b] font-medium cursor-pointer hover:text-red-600">Remover</div>
+                    </div>
+                )
             },
         },
     ]
+
+    const warning = (id: string) => {
+        Modal.warning({
+            title: 'Tem certeza que deseja remover esse registro ?',
+            okText: 'Confirmar',
+            okType: 'danger',
+            onOk: () => handleOnDeleteOk(id)
+        });
+    }
 
     return loading ? (<RecordsTableSkeleton />) : ( <Table dataSource={dataSource} columns={columns} className="shadow-xl" /> )
 
