@@ -39,6 +39,12 @@ class ManagerRepository extends Repository<IUser> {
     )
   }
 
+  async deleteRecord (recordId: string): Promise<IResponse> {
+    return this.execute(() =>
+      this.api.delete(`${this.path}/records/${recordId}`)
+    )
+  }
+
   async listRecords (params?: IRecordParams): Promise<IResponse<{ records: Array<IRecord> }>> {
       return this.execute(() =>
         this.api.get(`${this.path}/records`, {

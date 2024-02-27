@@ -49,6 +49,10 @@ const RecordFilters = () => {
         recordFiltersContext?.setDate(date)
     }
 
+    const handleHasNonComplianceOnChange = (nonCompliance: string) => {
+        recordFiltersContext?.setNonCompliance(nonCompliance)
+    }
+
     return (
         <div className="w-full flex">
             { loading ? (
@@ -84,6 +88,21 @@ const RecordFilters = () => {
                                 label: employee.name
                             }
                         })}
+                    />
+                    <Select
+                        defaultValue="Possui Não conformidades"
+                        className="ml-5"
+                        onChange={handleHasNonComplianceOnChange}
+                        options={[
+                            {
+                                label: 'Sim',
+                                value: 'true'
+                            },
+                            {
+                                label: 'Não',
+                                value: 'false'
+                            }
+                        ]}
                     />
                     <div className="">
                         <input

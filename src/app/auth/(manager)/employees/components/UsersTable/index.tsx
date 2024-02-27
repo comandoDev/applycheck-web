@@ -123,7 +123,7 @@ const UsersTable = () => {
 
     const warning = (id: string) => {
         Modal.warning({
-            title: 'Tem certeza que desejar desativar esse usuário ?',
+            title: 'Tem certeza que deseja desativar esse usuário ?',
             okText: 'Confirmar',
             okType: 'danger',
             onOk: () => handleOnDeleteOk(id)
