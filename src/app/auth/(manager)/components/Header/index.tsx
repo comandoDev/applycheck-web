@@ -5,6 +5,7 @@ import ProfileSettings from "./ProfileSettings"
 import Navbar from "./Navbar"
 import { useManagerNavbar } from "../../hooks/NavbarContext/useManagerNavbar"
 import { ManagerNavbarSelectedOption } from "../../hooks/NavbarContext/ManagerNavbarContext"
+import ChangeBranchSelect from "./ChangeBranchSelect"
 
 const Header = () => {
     const navbarContext = useManagerNavbar()
@@ -26,9 +27,13 @@ const Header = () => {
                     />
                 </Link>
             </div>
-            <Navbar />
+            <div className="w-full flex justify-center">
+                <Navbar />
+            </div>
             <div className="flex items-center">
+                <ChangeBranchSelect />
                 <Bell 
+                    className="ml-12 cursor-pointer hover:fill-zinc-400"
                     width={28}
                     height={28}
                     fill="#acb3be"

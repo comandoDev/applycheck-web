@@ -7,6 +7,7 @@ import { IAuthContext, IManagerSigninProps, IEmployeeSigninProps } from './AuthC
 import Storage from '@/utils/Storage';
 import UserRepository from '@/Repositories/UserRepository';
 import { useRouter } from 'next/navigation';
+import { IBranch } from '@/interfaces/Branch';
 
 const AuthContext = createContext<IAuthContext | null>(null)
 
@@ -17,6 +18,9 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [userToken, setUserToken] = useState<string>()
   const [error, setError] = useState()
   const [loading, setLoading] = useState(false)
+  const [showBranchBox, setShowBranchBox] = useState(false)
+  const [branches, setBranches] = useState<Array<IBranch>>([])
+  const [userRole, setUserRole] = useState<UserRole>()
 
   const handleManagerSignin = async ({ email, password }: IManagerSigninProps) => {
     try {
@@ -31,13 +35,22 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
       setUser(user)
       setUserToken(token)
+      setUserRole(UserRole.manager)
 
       Storage.setUser(user)
       Storage.setUserToken(token!)
+      Storage.setUserRole(UserRole.manager)
       
-      message.success(response.data.message)
+      if (user.branchesIds.length <= 1) {
+        Storage.setBranchId(user.branchesIds[0] || user.branchId)
+        
+        message.success(response.data.message)
 
-      return router.push('/auth/records')
+        return router.push('/auth/records')
+      }
+
+      setBranches(user.branches)
+      setShowBranchBox(true)
     } catch (error) {
       setError(error as any)
       message.error((error as any).message)
@@ -63,13 +76,22 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
       setUser(user)
       setUserToken(token)
+      setUserRole(UserRole.employee)
 
       Storage.setUser(user)
       Storage.setUserToken(token!)
+      Storage.setUserRole(UserRole.employee)
       
-      message.success(response.data.message)
+      if (user.branchesIds.length <= 1) {
+        Storage.setBranchId(user.branchesIds[0] || user.branchId)
+        
+        message.success(response.data.message)
 
-      return router.push('/auth/forms')
+        return router.push('/auth/forms')
+      }
+
+      setBranches(user.branches)
+      setShowBranchBox(true)
     } catch (error) {
       setError(error as any)
       message.error((error as any).message)
@@ -87,7 +109,9 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     router.push('/login/manager')
   }
 
-  const hasPassword = async (accountName: string): Promise<boolean> => {
+  const hasPassword = async (accountName?: string): Promise<boolean> => {
+    if (!accountName) return true
+    
     const response = await UserRepository.hasPassword(accountName)
 
     const hasPassword = response.data.data?.hasPassword!
@@ -127,7 +151,13 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     handleEmployeeSignin,
     loading,
     setLoading,
-    setPassword
+    setPassword,
+    showBranchBox,
+    setShowBranchBox,
+    branches,
+    setBranches,
+    userRole,
+    setUserRole
   }
 
   return (

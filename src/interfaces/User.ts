@@ -1,3 +1,5 @@
+import { IBranch } from "./Branch"
+
 export enum UserRole {
     employee = 'employee',
     manager = 'manager',
@@ -8,6 +10,11 @@ interface ISetUserPasswordProps {
   accountName: string
   password: string
   passwordConfirmation: string
+}
+
+interface IUserFormsIds {
+  branchId: string
+  ids: Array<string>
 }
 
 interface IUser {
@@ -21,10 +28,14 @@ interface IUser {
 
     name: string
     role: UserRole
-    formsIds: Array<string>
+    formsIds: Array<IUserFormsIds>
+    branchId: string
+    branchesIds: Array<string>
+    branches: Array<IBranch>
 }
 
 export type {
   IUser,
+  IUserFormsIds,
   ISetUserPasswordProps
 }

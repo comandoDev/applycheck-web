@@ -40,7 +40,7 @@ const CreateUserModal = () => {
             const response = await ManagerRepository.createEmployee({
                 name,
                 accountName,
-                formsIds
+                formsIds: formsIds as any 
             })
 
             employeeCreationContext?.setUpdateUsersTable(!employeeCreationContext.updateUsersTable)
