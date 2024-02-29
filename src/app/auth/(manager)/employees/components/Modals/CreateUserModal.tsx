@@ -38,8 +38,8 @@ const CreateUserModal = () => {
             setLoading(true)
 
             const response = await ManagerRepository.createEmployee({
-                name,
-                accountName,
+                name: name?.trim(),
+                accountName: accountName?.trim(),
                 formsIds
             })
 

@@ -29,8 +29,8 @@ const UpdateUserModal = () => {
             setLoading(true)
 
             const response = await ManagerRepository.editEmployee(employeeCreationContext!.id!, {
-                name: employeeCreationContext?.name, 
-                accountName: employeeCreationContext?.accountName, 
+                name: employeeCreationContext?.name?.trim(), 
+                accountName: employeeCreationContext?.accountName?.trim(), 
                 active: employeeCreationContext?.active,
                 formsIds: employeeCreationContext?.formsIds
             })

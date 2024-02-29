@@ -16,7 +16,7 @@ const EmployeeForm = () => {
       authContext?.setError(undefined)
 
       await authContext?.handleEmployeeSignin({
-        accountName,
+        accountName: accountName.trim(),
         password
       })
   } 
