@@ -5,6 +5,8 @@ import ProfileSettings from "./ProfileSettings"
 import Navbar from "./Navbar"
 import { useManagerNavbar } from "../../hooks/NavbarContext/useManagerNavbar"
 import { ManagerNavbarSelectedOption } from "../../hooks/NavbarContext/ManagerNavbarContext"
+import ChangeBranchSelect from "./ChangeBranchSelect"
+import Storage from "@/utils/Storage"
 
 const Header = () => {
     const navbarContext = useManagerNavbar()
@@ -20,15 +22,19 @@ const Header = () => {
                     <Image 
                         src="https://denunc.s3.sa-east-1.amazonaws.com/39b16646-330a-4c1f-8a0c-adc30346c791-Group 481767.png"
                         alt=""
-                        width={50}
-                        height={50}
+                        width={65}
+                        height={65}
                         quality={100}
                     />
                 </Link>
             </div>
-            <Navbar />
+            <div className="w-full flex justify-center">
+                <Navbar />
+            </div>
             <div className="flex items-center">
+                { (Storage.getUser()!.branches!.length > 1) && <ChangeBranchSelect /> }
                 <Bell 
+                    className="ml-12 cursor-pointer hover:fill-zinc-400"
                     width={28}
                     height={28}
                     fill="#acb3be"

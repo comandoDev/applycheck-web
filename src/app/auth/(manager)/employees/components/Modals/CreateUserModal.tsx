@@ -1,6 +1,6 @@
 'use client'
 
-import { Checkbox, Modal, Select, message } from "antd"
+import { Modal, Select, message } from "antd"
 import { useEmployeeCreation } from "../../hooks/NavbarContext/useEmployeeCreation"
 import { useEffect, useState } from "react"
 import ManagerRepository from "@/Repositories/ManagerRepository"
@@ -40,7 +40,7 @@ const CreateUserModal = () => {
             const response = await ManagerRepository.createEmployee({
                 name,
                 accountName,
-                formsIds
+                formsIds: formsIds as any 
             })
 
             employeeCreationContext?.setUpdateUsersTable(!employeeCreationContext.updateUsersTable)

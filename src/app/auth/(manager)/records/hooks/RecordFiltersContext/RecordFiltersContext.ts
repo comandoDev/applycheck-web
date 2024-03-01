@@ -7,4 +7,6 @@ export interface IRecordFiltersContext {
     setDate: (date: string) => void
     nonCompliance: string | null
     setNonCompliance: (nonCompliance: string) => void
+    reloadTable: boolean
+    setReloadTable: (realoadTable: boolean) => void
 }

@@ -1,4 +1,4 @@
-import { IUser } from '@/interfaces/User'
+import { IUser, UserRole } from '@/interfaces/User'
 
 class Storage {
   setUser (user: IUser): void {
@@ -22,6 +22,26 @@ class Storage {
     if (!this.isWindowDefined()) return null
 
     return localStorage.getItem('userToken')
+  }
+
+  setBranchId (branchId: string): void {
+    if (this.isWindowDefined()) localStorage.setItem('branchId', branchId)
+  }
+
+  getBranchId (): string | null {
+    if (!this.isWindowDefined()) return null
+
+    return localStorage.getItem('branchId')
+  }
+
+  setUserRole (userRole: UserRole): void {
+    if (this.isWindowDefined()) localStorage.setItem('userRole', userRole)
+  }
+
+  getUserRole (): UserRole | null {
+    if (!this.isWindowDefined()) return null
+
+    return localStorage.getItem('userRole') as UserRole
   }
 
   clear (): void {

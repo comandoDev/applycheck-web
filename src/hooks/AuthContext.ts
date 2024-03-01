@@ -1,5 +1,6 @@
+import { IBranch } from "@/interfaces/Branch";
 import { IResponseData } from "@/interfaces/Response";
-import { ISetUserPasswordProps, IUser } from "@/interfaces/User";
+import { ISetUserPasswordProps, IUser, UserRole } from "@/interfaces/User";
 
 export interface IManagerSigninProps {
   email: string
@@ -22,4 +23,10 @@ export interface IAuthContext {
   loading?: boolean
   setLoading: (loading: boolean) => void
   setPassword: (props: ISetUserPasswordProps) => Promise<void>
+  showBranchBox: boolean
+  setShowBranchBox: (showBranchBox: boolean) => void
+  branches: Array<IBranch>
+  setBranches: (branches: Array<IBranch>) => void
+  userRole?: UserRole
+  setUserRole: (userRole: UserRole) => void
 }
