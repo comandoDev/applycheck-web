@@ -22,8 +22,8 @@ const Header = () => {
                     <Image 
                         src="https://denunc.s3.sa-east-1.amazonaws.com/39b16646-330a-4c1f-8a0c-adc30346c791-Group 481767.png"
                         alt=""
-                        width={50}
-                        height={50}
+                        width={65}
+                        height={65}
                         quality={100}
                     />
                 </Link>

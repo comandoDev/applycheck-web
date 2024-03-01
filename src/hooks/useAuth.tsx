@@ -40,17 +40,11 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       Storage.setUser(user)
       Storage.setUserToken(token!)
       Storage.setUserRole(UserRole.manager)
+      Storage.setBranchId(user.branchesIds[0] || user.branchId)
       
-      if (user.branchesIds.length <= 1) {
-        Storage.setBranchId(user.branchesIds[0] || user.branchId)
-        
-        message.success(response.data.message)
+      message.success(response.data.message)
 
-        return router.push('/auth/records')
-      }
-
-      setBranches(user.branches)
-      setShowBranchBox(true)
+      return router.push('/auth/records')
     } catch (error) {
       setError(error as any)
       message.error((error as any).message)
