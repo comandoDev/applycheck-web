@@ -22,7 +22,7 @@ const SelectBranchModal = () => {
         if (userRole === UserRole.employee) {
             router.push('/auth/forms') 
         } else {
-            router.push('/auth/records')  
+            router.push('/auth/records') 
         } 
         
         authContext?.setShowBranchBox(false)

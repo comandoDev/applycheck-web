@@ -1,6 +1,6 @@
 'use client'
 
-import { Checkbox, Modal, Select, message } from "antd"
+import { Modal, Select, message } from "antd"
 import { useEmployeeCreation } from "../../hooks/NavbarContext/useEmployeeCreation"
 import { useEffect, useState } from "react"
 import ManagerRepository from "@/Repositories/ManagerRepository"

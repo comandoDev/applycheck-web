@@ -6,6 +6,7 @@ import Navbar from "./Navbar"
 import { useManagerNavbar } from "../../hooks/NavbarContext/useManagerNavbar"
 import { ManagerNavbarSelectedOption } from "../../hooks/NavbarContext/ManagerNavbarContext"
 import ChangeBranchSelect from "./ChangeBranchSelect"
+import Storage from "@/utils/Storage"
 
 const Header = () => {
     const navbarContext = useManagerNavbar()
@@ -31,7 +32,7 @@ const Header = () => {
                 <Navbar />
             </div>
             <div className="flex items-center">
-                <ChangeBranchSelect />
+                { (Storage.getUser()!.branches!.length > 1) && <ChangeBranchSelect /> }
                 <Bell 
                     className="ml-12 cursor-pointer hover:fill-zinc-400"
                     width={28}
