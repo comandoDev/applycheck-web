@@ -7,7 +7,9 @@ import QuestionBox from "../../components/QuestionBox"
 import FormFooter from "../../components/Form/FormFooter"
 import { useRouter } from "next/navigation"
 import ProgressBar from "../../components/ProgressBar"
-import { Button, Flex } from "antd"
+import { Button, message } from "antd"
+import ManagerRepository from "@/Repositories/ManagerRepository"
+import { DeleteOutlined } from "@ant-design/icons"
 
 const fill = () => {
     const formContext = useForm()
@@ -15,6 +17,7 @@ const fill = () => {
     const router = useRouter()
 
     const [step, setStep] = useState<IFormStep>()
+    const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {
         window.scrollTo({
@@ -33,11 +36,45 @@ const fill = () => {
         })
     }, [formContext?.lastReachedStep])
 
+    const handleDeleteOnClick = async () => {
+        try {
+            setLoading(true)
+
+            const response = await ManagerRepository.deleteRecord(formContext?.record?.id!)
+    
+            router.push('/auth/forms')
+            message.success(response.data.message)
+
+            formContext?.setForm(undefined as any)
+            formContext?.setRecord(undefined as any)
+        } catch (error) {
+            message.error((error as any).message)
+        } finally {
+            setLoading(false)
+        }
+    }
+
     return (
         <>
             <ProgressBar percentage={(formContext!.lastReachedStep/formContext?.form?.totalSteps!) * 100} />
-            <div className="w-full pl-5 mt-5">
-                <Button type="primary" className="bg-principal" onClick={() => router.push('/auth/forms')}>VOLTAR AO MENU</Button>
+            <div className="flex justify-between items-center p-5">
+                <div className="w-full">
+                    <Button type="primary" className="bg-principal" onClick={() => router.push('/auth/forms')}>VOLTAR AO MENU</Button>
+                </div>
+                <div>
+                    <Button
+                        type="primary"
+                        style={{
+                            backgroundColor: 'red',
+                            color: 'white'
+                        }}
+                        icon={<DeleteOutlined />}
+                        loading={loading}
+                        onClick={handleDeleteOnClick}
+                        >
+                        APAGAR
+                    </Button>
+                </div>
             </div>
             <div className="p-5 mb-16">
                 <h1 className="font-bold text-xl mb-3">{step?.title}</h1>
