@@ -14,7 +14,6 @@ const RecordsTable = () => {
     
     const [records, setRecords] = useState<Array<IRecord>>()
     const [loading, setLoading] = useState<boolean>(true)
-    const [reloadTable, setReloadTable] = useState<boolean>()
 
     useEffect(() => {
         setLoading(true)
@@ -42,7 +41,7 @@ const RecordsTable = () => {
         recordFiltersContext?.employeeId, 
         recordFiltersContext?.date,
         recordFiltersContext?.nonCompliance,
-        reloadTable
+        recordFiltersContext?.reloadTable
     ])
 
     const dataSource = records?.map(record => {
@@ -65,7 +64,7 @@ const RecordsTable = () => {
             const response = await ManagerRepository.deleteRecord(recordId)
 
             message.success(response.data.message)
-            setReloadTable(!reloadTable)
+            recordFiltersContext?.setReloadTable(!recordFiltersContext.reloadTable)
         } catch (error) {
             message.error((error as any).message)
         } finally {

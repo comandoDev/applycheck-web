@@ -9,19 +9,25 @@ export const apiServer = axios.create({
 
 const setBearerToken = (instance: AxiosInstance): void => {
   instance.interceptors.request.use(async (config: AxiosRequestConfig): Promise<any> => {
-      const isAuthed = document.location.href.includes('/auth');
+      const isAuthed = document.location.href.includes('/auth')
 
-      const token = Storage.getUserToken();
+      const token = Storage.getUserToken()
+      const branchId = Storage.getBranchId()
 
-      if (token && isAuthed) {
-        config.headers = config.headers || {};
-        config.headers.Authorization = 'Bearer ' + token;
+      if (
+        token && 
+        isAuthed &&
+        branchId
+      ) {
+        config.headers = config.headers || {}
+        config.headers.Authorization = 'Bearer ' + token
+        config.headers.branch = branchId
       }
 
-      return config;
+      return config
     },
     error => Promise.reject(error)
-  );
-};
+  )
+}
 
 setBearerToken(apiServer)

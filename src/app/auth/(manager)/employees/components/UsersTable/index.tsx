@@ -6,6 +6,7 @@ import { IUser } from "@/interfaces/User";
 import UsersTableSkeleton from "./UsersTableSkeleton";
 import { useEmployeeCreation } from "../../hooks/NavbarContext/useEmployeeCreation";
 import UpdateUserModal from "../Modals/UpdateUserModal";
+import Storage from "@/utils/Storage";
 
 const UsersTable = () => {
     const employeeCreationContext = useEmployeeCreation()
@@ -42,7 +43,11 @@ const UsersTable = () => {
         employeeCreationContext!.setName(user.name!)
         employeeCreationContext!.setAccountName(user.accountName!)
         employeeCreationContext!.setActive(user.active!)
-        employeeCreationContext!.setFormsIds(user.formsIds!)
+        user.formsIds!.map(formsIds => {
+            if (formsIds.branchId === Storage.getBranchId()) {
+                employeeCreationContext!.setFormsIds(formsIds.ids)
+            }
+        })
     }
 
 

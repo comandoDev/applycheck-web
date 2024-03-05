@@ -32,7 +32,7 @@ const UpdateUserModal = () => {
                 name: employeeCreationContext?.name?.trim(), 
                 accountName: employeeCreationContext?.accountName?.trim(), 
                 active: employeeCreationContext?.active,
-                formsIds: employeeCreationContext?.formsIds
+                formsIds: employeeCreationContext?.formsIds as any
             })
 
             employeeCreationContext?.setUpdateUsersTable(!employeeCreationContext.updateUsersTable)
