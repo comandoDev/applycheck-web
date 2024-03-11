@@ -41,7 +41,7 @@ const RecordsTable = () => {
         recordFiltersContext?.employeeId, 
         recordFiltersContext?.date,
         recordFiltersContext?.nonCompliance,
-        recordFiltersContext?.reloadTable
+        recordFiltersContext?.reloadData
     ])
 
     const dataSource = records?.map(record => {
@@ -64,7 +64,7 @@ const RecordsTable = () => {
             const response = await ManagerRepository.deleteRecord(recordId)
 
             message.success(response.data.message)
-            recordFiltersContext?.setReloadTable(!recordFiltersContext.reloadTable)
+            recordFiltersContext?.setReloadData(!recordFiltersContext.reloadData)
         } catch (error) {
             message.error((error as any).message)
         } finally {

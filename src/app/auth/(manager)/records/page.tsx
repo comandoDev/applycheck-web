@@ -6,9 +6,12 @@ import RecordsTable from "./components/RecordsTable"
 import ChartBox from "./components/ChartBox"
 import { useRouter } from "next/navigation"
 import RecordFilters from "./components/RecordFilters"
+import { useRecordFiltersContext } from "./hooks/RecordFiltersContext/useRecordFilter"
 
 const Records = () => {
     const router = useRouter()
+
+    const recordFiltersContext = useRecordFiltersContext()
 
     const [registerWithNonComplianceCountByMonth, setRegisterWithNonComplianceCountByMonth] = useState<Array<number>>()
     const [registerWithoutNonComplianceCountByMonth, setRegisterWithoutNonComplianceCountByMonth] = useState<Array<number>>()
@@ -36,7 +39,9 @@ const Records = () => {
         }
 
         fetch()
-    }, [])
+    }, [
+        recordFiltersContext?.reloadData
+    ])
       
     return (
         <div className=" pl-24 pr-24 pt-10 pb-10 mt-20">

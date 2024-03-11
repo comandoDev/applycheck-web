@@ -22,7 +22,7 @@ const ChangeBranchSelect = () => {
     const handleOnChange = (value: string) => {
         Storage.setBranchId(value)
     
-        recordFiltersContext?.setReloadTable(!recordFiltersContext.reloadTable)
+        recordFiltersContext?.setReloadData(!recordFiltersContext.reloadData)
         navbarContext?.setSelected(ManagerNavbarSelectedOption.records)
 
         router.push('/auth/records')
