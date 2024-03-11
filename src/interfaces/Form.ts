@@ -4,7 +4,7 @@ export enum InputType {
     text = 'text',
     number = 'number',
     date = 'date',
-    hour = 'hour',
+    time = 'time',
     signature = 'signature',
 }
 

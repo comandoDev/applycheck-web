@@ -117,6 +117,14 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
                                 value={value}
                             />
                         )}
+                        {field.type === InputType.time && (
+                            <FormInput 
+                                onChange={handleOnChange}
+                                placeholder="Selecione um horário"
+                                type={InputType.time}
+                                value={value}
+                            />
+                        )}
                         {field.type === InputType.multipleQuestions && (
                             <>
                                 {  field.fields?.map(f => {
