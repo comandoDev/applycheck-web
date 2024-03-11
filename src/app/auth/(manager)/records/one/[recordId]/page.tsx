@@ -114,7 +114,7 @@ const RecordPage = ({ params }: { params: { recordId: string } }) => {
                             </div>
                         </div>
                     ) }
-                    { (record?.status === RecordStatus.analysing) && (
+                    { (record?.status !== RecordStatus.conclued) && (
                         <div>
                             <div 
                                 onClick={handleConcluedOnClick}
