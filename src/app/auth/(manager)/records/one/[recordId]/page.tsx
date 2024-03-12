@@ -66,7 +66,7 @@ const RecordPage = ({ params }: { params: { recordId: string } }) => {
 
             const pdfUrl = response.data.data?.pdf!
 
-            downloadPDF(pdfUrl)
+            openPDF(pdfUrl)
         } catch (error) {
             message.error((error as any).message)
         } finally {
@@ -74,11 +74,11 @@ const RecordPage = ({ params }: { params: { recordId: string } }) => {
         }
     }
 
-    const downloadPDF = (pdfUrl: string) => {
+    const openPDF = (pdfUrl: string) => {
         const link = document.createElement('a')
         
         link.href = pdfUrl
-        link.download = 'seu_arquivo.pdf'
+        link.target = '_blank'
         link.style.display = 'none'
         
         document.body.appendChild(link)
