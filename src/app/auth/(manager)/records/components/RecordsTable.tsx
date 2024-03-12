@@ -15,6 +15,7 @@ const RecordsTable = () => {
     const [records, setRecords] = useState<Array<IRecord>>()
     const [totalDocs, setTotalDocs] = useState<number>()
     const [loading, setLoading] = useState<boolean>(true)
+    const [changePageLoading, setChangePageLoading] = useState<boolean>(false)
 
     useEffect(() => {
         setLoading(true)
@@ -78,6 +79,8 @@ const RecordsTable = () => {
 
     const handleTablePageOnChange = async (page: number) => {
         try {
+            setChangePageLoading(true)
+
             const recordsResponse = await ManagerRepository.listRecords({
                 formId: recordFiltersContext?.formId!,
                 employeeId: recordFiltersContext?.employeeId!,
@@ -90,7 +93,7 @@ const RecordsTable = () => {
         } catch (error) {
             router.push('/login/manager')
         } finally {
-            setLoading(false)
+            setChangePageLoading(false)
         }
     } 
 
@@ -177,6 +180,7 @@ const RecordsTable = () => {
             pageSize: 10,
             showSizeChanger: true
         }}
+        loading={changePageLoading}
         dataSource={dataSource}
         columns={columns}
         className="shadow-xl"
