@@ -73,6 +73,8 @@ interface IRecordParams {
       status?: RecordStatus
       hasNonCompliance?: string
       createdAt?: string
+      page?: number
+      limit?: number
 }
 
 export type {

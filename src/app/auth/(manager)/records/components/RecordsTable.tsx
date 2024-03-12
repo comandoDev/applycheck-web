@@ -13,6 +13,7 @@ const RecordsTable = () => {
     const recordFiltersContext = useRecordFiltersContext()
     
     const [records, setRecords] = useState<Array<IRecord>>()
+    const [totalDocs, setTotalDocs] = useState<number>()
     const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
@@ -27,7 +28,10 @@ const RecordsTable = () => {
                     hasNonCompliance: recordFiltersContext?.nonCompliance ? recordFiltersContext?.nonCompliance! : undefined,
                 })
 
-                setRecords(recordsResponse.data.data?.records)
+                const recordPaginate = recordsResponse.data.data?.records
+
+                setRecords(recordPaginate?.docs)
+                setTotalDocs(recordPaginate?.totalDocs)
             } catch (error) {
                 router.push('/login/manager')
             } finally {
@@ -56,7 +60,7 @@ const RecordsTable = () => {
             date: new Date(record.createdAt!).toLocaleDateString("pt-BR")
         }
     })
-      
+
     const handleOnDeleteOk = async (recordId: string) => {
         try {
             setLoading(true)
@@ -71,6 +75,24 @@ const RecordsTable = () => {
             setLoading(false)
         }
     }
+
+    const handleTablePageOnChange = async (page: number) => {
+        try {
+            const recordsResponse = await ManagerRepository.listRecords({
+                formId: recordFiltersContext?.formId!,
+                employeeId: recordFiltersContext?.employeeId!,
+                createdAt: recordFiltersContext?.date!,
+                hasNonCompliance: recordFiltersContext?.nonCompliance ? recordFiltersContext?.nonCompliance! : undefined,
+                page
+            })
+
+            setRecords(recordsResponse.data.data?.records.docs)
+        } catch (error) {
+            router.push('/login/manager')
+        } finally {
+            setLoading(false)
+        }
+    } 
 
     const columns = [
         {
@@ -149,7 +171,18 @@ const RecordsTable = () => {
         });
     }
 
-    return loading ? (<RecordsTableSkeleton />) : ( <Table dataSource={dataSource} columns={columns} className="shadow-xl" /> )
+    return loading ? (<RecordsTableSkeleton />) : ( <Table 
+        pagination={{
+            total: totalDocs,
+            pageSize: 10,
+            showSizeChanger: true
+        }}
+        dataSource={dataSource}
+        columns={columns}
+        className="shadow-xl"
+        onChange={e => handleTablePageOnChange(e.current!)} />
+            
+    )
 
 }
 
