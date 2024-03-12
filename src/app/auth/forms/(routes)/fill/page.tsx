@@ -31,8 +31,8 @@ const fill = () => {
 
         formContext?.setCurrentStep({
             fields: [],
-            order: formContext?.form?.steps[formContext.lastReachedStep]!.order!,
-            title: formContext?.form?.steps[formContext.lastReachedStep]!.title!
+            order: formContext?.form?.steps[formContext.lastReachedStep]?.order!,
+            title: formContext?.form?.steps[formContext.lastReachedStep]?.title!
         })
     }, [formContext?.lastReachedStep])
 

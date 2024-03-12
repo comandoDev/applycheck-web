@@ -45,7 +45,7 @@ class ManagerRepository extends Repository<IUser> {
     )
   }
 
-  async listRecords (params?: IRecordParams): Promise<IResponse<{ records: Array<IRecord> }>> {
+  async listRecords (params?: IRecordParams): Promise<IResponse<IPaginateList<IRecord>>> {
       return this.execute(() =>
         this.api.get(`${this.path}/records`, {
           params
