@@ -1,6 +1,6 @@
 'use client'
 
-import Navbar from '@/app/auth/forms/(routes)/(menu)/components/Navbar/Navbar'
+import Navbar from '@/app/auth/forms/routes/menu/components/Navbar/Navbar'
 import Content from './components/Content'
 import Header from './components/Header'
 import { useEmployeeNavbar } from '@/app/auth/forms/hooks/NavbarContext/useEmployeeNavbar'

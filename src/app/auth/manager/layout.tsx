@@ -1,6 +1,6 @@
 'use client'
 
-import Header from "./components/Header"
+import Header from "../manager/components/Header"
 import { ManagerNavbarContextProvider } from "./hooks/NavbarContext/useManagerNavbar"
 import { RecordFiltersContextProvider } from "./records/hooks/RecordFiltersContext/useRecordFilter"
 

@@ -1,6 +1,6 @@
-import NavbarFooter from "@/app/auth/forms/(routes)/(menu)/components/Navbar/NavbarFooter"
-import NavbarHeader from "@/app/auth/forms/(routes)/(menu)/components/Navbar/NavbarHeader"
-import NavbarList from "@/app/auth/forms/(routes)/(menu)/components/Navbar/NavbarList"
+import NavbarFooter from "@/app/auth/forms/routes/menu/components/Navbar/NavbarFooter"
+import NavbarHeader from "@/app/auth/forms/routes/menu/components/Navbar/NavbarHeader"
+import NavbarList from "@/app/auth/forms/routes/menu/components/Navbar/NavbarList"
 
 const Navbar = () => {
     return (
