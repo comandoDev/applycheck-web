@@ -1,0 +1,63 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      s3BucketName:
+        description: 'S3 Bucket Name'
+        required: true
+        type: choice
+        options:
+          - comando-log-applycheck-web-hml
+          - comando-log-applycheck-web-prod
+      cloudFrontCDNId:
+        description: 'AWS CloudFront CDN ID'
+        required: true
+        type: choice
+        options:
+          - E14DAS6QNEHSWL (Hml)
+          - EZROZM80QPO4P (Prod)
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+
+      - name: Read .nvmrc
+        id: node_version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ steps.node_version.outputs.NODE_VERSION }}
+
+- name: Build bundle
+  run: |
+    npm install
+
+    # Configurar variáveis de ambiente com base no ambiente
+    if [[ "${{ github.event.inputs.s3BucketName }}" == "comando-log-applycheck-web-prod" ]]; then
+      echo "NEXT_PUBLIC_APP_SERVER=${{ secrets.PROD_NEXT_PUBLIC_APP_SERVER }}" >> .env
+      echo "NEXT_PUBLIC_REQUEST_TIMEOUT=${{ secrets.PROD_NEXT_PUBLIC_REQUEST_TIMEOUT }}" >> .env
+    else
+      echo "NEXT_PUBLIC_APP_SERVER=${{ secrets.HML_NEXT_PUBLIC_APP_SERVER }}" >> .env
+      echo "NEXT_PUBLIC_REQUEST_TIMEOUT=${{ secrets.HML_NEXT_PUBLIC_REQUEST_TIMEOUT }}" >> .env
+    fi
+
+    npm run build
+
+- name: Configure AWS credentials
+  uses: aws-actions/configure-aws-credentials@v1
+  with:
+    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    aws-region: sa-east-1
+
+- name: Sync S3 bucket
+  run: aws s3 sync dist 's3://${{ github.event.inputs.s3BucketName }}' --delete
+
+- name: Create CDN invalidation
+  run: aws cloudfront create-invalidation --distribution-id "$(echo '${{ github.event.inputs.cloudFrontCDNId }}' | cut -d' ' -f1)" --paths "/*"
