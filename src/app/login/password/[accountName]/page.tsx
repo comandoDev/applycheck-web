@@ -1,6 +1,6 @@
-import SetPasswordForm from "../../components/setPasswordForm"
+import SetEmployeePasswordForm from "../../components/SetEmployeePasswordForm"
 
-const SetPassword = ({ params }: { params: { accountName: string } }) => {
+const SetEmployeePassword = ({ params }: { params: { accountName: string } }) => {
     return (
         <div className="h-screen w-full p-10 flex justify-center items-center">
             <div>
@@ -10,10 +10,10 @@ const SetPassword = ({ params }: { params: { accountName: string } }) => {
                     </div>
                     <span>Cadastrar Senha</span>
                 </div>
-                <SetPasswordForm accountName={params.accountName} />
+                <SetEmployeePasswordForm accountName={params.accountName} />
             </div>
         </div>
     )
 }
 
-export default SetPassword
+export default SetEmployeePassword

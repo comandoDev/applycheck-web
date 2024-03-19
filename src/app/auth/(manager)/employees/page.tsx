@@ -4,6 +4,7 @@ import { PlusCircle } from "@phosphor-icons/react"
 import UsersTable from "./components/UsersTable"
 import { useEmployeeCreation } from "./hooks/NavbarContext/useEmployeeCreation"
 import CreateUserModal from "./components/Modals/CreateUserModal"
+import { Button } from "antd"
 
 const Employees = () => {
     const employeeCreationContext = useEmployeeCreation()
@@ -21,7 +22,13 @@ const Employees = () => {
                         placeholder="Buscar Usuário..." 
                         onChange={e => employeeCreationContext?.setSearch(e.target.value)}
                     />
-                    <PlusCircle size={36} onClick={() => employeeCreationContext?.setIsCreateModalOpen(true)} className="cursor-pointer text-principal hover:text-blue-700" />
+                    <div className="flex items-end">
+                        <Button 
+                            onClick={() => employeeCreationContext?.setIsCreateModalOpen(true)}
+                            className="cursor-pointer text-principal hover:text-blue-700 mr-5"
+                        >Adicionar Gestor</Button>
+                        <PlusCircle size={36} onClick={() => employeeCreationContext?.setIsCreateModalOpen(true)} className="cursor-pointer text-principal hover:text-blue-700" />
+                    </div>
                 </div>
                 <UsersTable />
             </div>
