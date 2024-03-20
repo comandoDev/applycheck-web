@@ -25,7 +25,7 @@ const Navbar = () => {
                     <Link href='' onClick={() => handleLiCLick(ManagerNavbarSelectedOption.forms)}>Formulários</Link>
                 </li>
                 <li className={`${navbarContext?.selected === ManagerNavbarSelectedOption.employees ? selectedLiStyle : normalLiStyle}`}>
-                    <Link href='/auth/employees' onClick={() => handleLiCLick(ManagerNavbarSelectedOption.employees)}>Funcionários</Link>
+                    <Link href='/auth/employees' onClick={() => handleLiCLick(ManagerNavbarSelectedOption.employees)}>Usuários</Link>
                 </li>
                 <li className={`${navbarContext?.selected === ManagerNavbarSelectedOption.config ? selectedLiStyle : normalLiStyle}`}>
                     <Link href='' onClick={() => handleLiCLick(ManagerNavbarSelectedOption.config)}>Configurações</Link>

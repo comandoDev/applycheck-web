@@ -4,7 +4,8 @@ const UsersTableSkeleton = () => {
                 <>
                     <div className="p-5 bg-[#FAFAFA] flex justify-between border-b border-zinc-200">
                         <div className="text-[#1E1E1E] font-bold text-[14px] border-l w-[10%]">Nome Completo</div>
-                        <div className="text-[#1E1E1E] font-bold text-[14px] border-l w-[30%] pl-3 border-zinc-200">Email</div>
+                        <div className="text-[#1E1E1E] font-bold text-[14px] border-l w-[15%] pl-3 border-zinc-200">Nome da Conta</div>
+                        <div className="text-[#1E1E1E] font-bold text-[14px] border-l w-[20%] pl-3 border-zinc-200">Email</div>
                         <div className="text-[#1E1E1E] font-bold text-[14px] border-l w-[10%] pl-3 border-zinc-200">Função</div>
                         <div className="text-[#1E1E1E] font-bold text-[14px] border-l w-[10%] pl-3 border-zinc-200">Status</div>
                         <div className="text-[#1E1E1E] font-bold text-[14px] border-l w-[10%] pl-3 border-zinc-200">Ação</div>

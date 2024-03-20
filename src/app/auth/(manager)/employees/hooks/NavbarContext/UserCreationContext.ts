@@ -1,4 +1,6 @@
-export interface IEmployeeCreationContext {
+import { UserRole } from "@/interfaces/User"
+
+export interface IUserCreationContext {
     updateUsersTable: boolean
     setUpdateUsersTable: (updateUsersTable: boolean) => void
     isCreateModalOpen: boolean
@@ -17,4 +19,9 @@ export interface IEmployeeCreationContext {
     setFormsIds: (formsIds: Array<string>) => void
     search?: string
     setSearch: (search: string) => void
+    email?: string
+    setEmail: (email: string) => void
+    role?: UserRole
+    setRole: (role: UserRole) => void
+    clearProps: () => void
 }

@@ -1,11 +1,29 @@
 import { Modal, Select, message } from "antd"
-import { useEmployeeCreation } from "../../hooks/NavbarContext/useEmployeeCreation"
+import { useUserCreation } from "../../hooks/NavbarContext/useUserCreation"
 import { useEffect, useState } from "react"
 import ManagerRepository from "@/Repositories/ManagerRepository"
 import { IForm } from "@/interfaces/Form"
+import { UserRole } from "@/interfaces/User"
 
 const UpdateUserModal = () => {
-    const employeeCreationContext = useEmployeeCreation()
+    const {
+        id,
+        accountName,
+        name,
+        active,
+        formsIds,
+        setUpdateUsersTable,
+        setIsEditModalOpen,
+        updateUsersTable,
+        setFormsIds,
+        isEditModalOpen,
+        setName,
+        setAccountName,
+        setActive,
+        role,
+        email,
+        setEmail
+    } = useUserCreation()
 
     const [forms, setForms] = useState<Array<IForm>>()
     const [loading, setLoading] = useState<boolean>(false)
@@ -28,15 +46,16 @@ const UpdateUserModal = () => {
         try {
             setLoading(true)
 
-            const response = await ManagerRepository.editEmployee(employeeCreationContext!.id!, {
-                name: employeeCreationContext?.name?.trim(), 
-                accountName: employeeCreationContext?.accountName?.trim(), 
-                active: employeeCreationContext?.active,
-                formsIds: employeeCreationContext?.formsIds as any
+            const response = await ManagerRepository.editEmployee(id!, {
+                name: name?.trim(), 
+                accountName: accountName?.trim(), 
+                active: active,
+                formsIds: formsIds as any,
+                email
             })
 
-            employeeCreationContext?.setUpdateUsersTable(!employeeCreationContext.updateUsersTable)
-            employeeCreationContext?.setIsEditModalOpen(false)
+            setUpdateUsersTable(!updateUsersTable)
+            setIsEditModalOpen(false)
 
             message.success(response.data.message)
         } catch (error) {
@@ -47,34 +66,43 @@ const UpdateUserModal = () => {
     }
     
     const handleOnChange = (values: Array<string>) => {
-        employeeCreationContext!.setFormsIds(values)
+        setFormsIds(values)
     }
 
     return (
         <Modal 
                 title="Editar Usuário"
-                open={employeeCreationContext?.isEditModalOpen} 
+                open={isEditModalOpen} 
                 onOk={handleOnSubmit} 
-                onCancel={e => employeeCreationContext?.setIsEditModalOpen(false)} 
+                onCancel={e => setIsEditModalOpen(false)} 
                 confirmLoading={loading}
                 okText='Atualizar'
                 okType='dashed'
                 cancelText='Cancelar'
             >
                 <form>
-                    <label htmlFor="name">Nome Completo</label>
-                    <input type="text" name="name" value={employeeCreationContext!.name} onChange={e => employeeCreationContext!.setName(e.target.value)} className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
-                    <label htmlFor="accountName">Nome de Usuário</label>
-                    <input type="text" name="accountName" value={employeeCreationContext!.accountName} onChange={e => employeeCreationContext!.setAccountName(e.target.value)} className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
                     <label htmlFor="role">Função</label>
-                    <input type="text" name="role" value='Funcionário' disabled className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
+                    <input type="text" name="role" value={role === UserRole.employee ? 'Funcionário' : 'Gestor'} disabled className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
+                    <label htmlFor="name">Nome Completo</label>
+                    <input type="text" name="name" value={name} onChange={e => setName(e.target.value)} className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
+                    { role === UserRole.employee ? (
+                        <>
+                            <label className="mb-1" htmlFor="accountName">Nome da Conta</label>
+                            <input type="text" name="accountName" value={accountName} onChange={e => setAccountName(e.target.value)} className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
+                        </>
+                    ) : (
+                        <>
+                            <label className="mb-1" htmlFor="email">Email do gestor</label>
+                            <input type="email" name="email" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-slate-50 rounded-lg p-3 mb-5 outline-none"/>
+                        </>
+                    ) }
                     <label htmlFor="active">Status</label>
                     <Select
                         placeholder="Selecione um Status"
-                        onChange={e => employeeCreationContext?.setActive(e)}
+                        onChange={e => setActive(e)}
                         style={{ width: '100%' }}
                         className="mb-5"
-                        value={employeeCreationContext?.active}
+                        value={active}
                         options={[
                             {
                                 label: 'Ativo',
@@ -86,21 +114,25 @@ const UpdateUserModal = () => {
                             }
                         ]}
                     />
-                    <label className="mb-1" htmlFor="">Formulários permitidos ao usuário</label>
-                    <Select
-                        mode="multiple"
-                        placeholder="Selecione Formulários"
-                        onChange={handleOnChange}
-                        style={{ width: '100%' }}
-                        defaultValue={employeeCreationContext!.formsIds}
-                        value={employeeCreationContext!.formsIds}
-                        options={forms?.map(form => {
-                            return {
-                                label: form.title,
-                                value: form.id
-                            }
-                        })}
-                    />
+                    { role === UserRole.employee && (
+                        <>
+                            <label className="mb-1" htmlFor="">Formulários permitidos ao usuário</label>
+                            <Select
+                                mode="multiple"
+                                placeholder="Selecione Formulários"
+                                onChange={handleOnChange}
+                                style={{ width: '100%' }}
+                                defaultValue={formsIds}
+                                value={formsIds}
+                                options={forms?.map(form => {
+                                    return {
+                                        label: form.title,
+                                        value: form.id
+                                    }
+                                })}
+                            />
+                        </>
+                    ) }
                 </form>
             </Modal>
     )

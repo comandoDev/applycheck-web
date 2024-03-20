@@ -28,7 +28,6 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
       const existsPassword = await hasPassword({ email }) 
       
-      console.log({ existsPassword })
       if(!existsPassword) return router.push(`/login/manager/password/${email}`)
 
       const response = await UserRepository.signin({
@@ -44,7 +43,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
       Storage.setUser(user)
       Storage.setUserToken(token!)
-      Storage.setUserRole(UserRole.manager)
+      Storage.setUserRole(user.role)
       Storage.setBranchId(user.branchesIds[0] || user.branchId)
       
       message.success(response.data.message)
@@ -120,8 +119,6 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
     const hasPassword = response.data.data?.hasPassword!
 
-    console.log({ hasPassword })
-
     return hasPassword
   }
 
@@ -133,8 +130,6 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   }: ISetUserPasswordProps): Promise<void> => {
     try {
       setLoading(true)
-
-      console.log({ email })
 
       if (accountName) {
         await UserRepository.setEmployeePassword({

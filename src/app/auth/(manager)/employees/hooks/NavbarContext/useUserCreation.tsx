@@ -1,11 +1,12 @@
 'use client'
 
 import { createContext, ReactNode, useContext, useState } from 'react';
-import { IEmployeeCreationContext } from './EmployeeCreationContext';
+import { IUserCreationContext } from './UserCreationContext';
+import { UserRole } from '@/interfaces/User';
 
-const EmployeeCreationContext = createContext<IEmployeeCreationContext | null>(null)
+const UserCreationContext = createContext<IUserCreationContext>({ } as IUserCreationContext)
 
-export const EmployeeCreationContextProvider = ({ children }: { children: ReactNode }) => {
+export const UserCreationContextProvider = ({ children }: { children: ReactNode }) => {
   const [updateUsersTable, setUpdateUsersTable] = useState<boolean>(false)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false)
@@ -15,8 +16,18 @@ export const EmployeeCreationContextProvider = ({ children }: { children: ReactN
   const [active, setActive] = useState<boolean>()
   const [formsIds, setFormsIds] = useState<Array<string>>([])
   const [search, setSearch] = useState<string>()
+  const [email, setEmail] = useState<string>()
+  const [role, setRole] = useState<UserRole>()
+
+  const clearProps = () => {
+    setId('')
+    setName('')
+    setAccountName('')
+    setEmail('')
+    setFormsIds([])
+  }
   
-  const navbarContextProvider = {
+  const userCreationContextContextProvider = {
     updateUsersTable, 
     setUpdateUsersTable,
     isCreateModalOpen,
@@ -34,14 +45,19 @@ export const EmployeeCreationContextProvider = ({ children }: { children: ReactN
     formsIds,
     setFormsIds,
     search,
-    setSearch
+    setSearch,
+    email,
+    setEmail,
+    role,
+    setRole,
+    clearProps
   }
 
   return (
-    <EmployeeCreationContext.Provider value={navbarContextProvider}>
+    <UserCreationContext.Provider value={userCreationContextContextProvider}>
       {children}
-    </EmployeeCreationContext.Provider>
+    </UserCreationContext.Provider>
   )
 }
 
-export const useEmployeeCreation = () => useContext(EmployeeCreationContext)
+export const useUserCreation = () => useContext(UserCreationContext)

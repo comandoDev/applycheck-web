@@ -14,6 +14,7 @@ import { ClipLoader } from "react-spinners"
 import { FilePdf } from "@phosphor-icons/react"
 import TextArea from "antd/es/input/TextArea"
 import Storage from "@/utils/Storage"
+import RecordComment from "../../components/Record/RecordComment"
 
 const RecordPage = ({ params }: { params: { recordId: string } }) => {
     const router = useRouter()
@@ -22,8 +23,6 @@ const RecordPage = ({ params }: { params: { recordId: string } }) => {
     const [loading, setLoading] = useState<boolean>(true)
     const [concluedLoading, setConcluedLoading] = useState<boolean>(false)
     const [PDFLoading, setPDFLoading] = useState<boolean>(false)
-    const [comment, setComment] = useState<string>()
-    const [commentLoading, setCommentLoading] = useState<boolean>(false)
 
     useEffect(() => {
         setLoading(true)
@@ -35,7 +34,6 @@ const RecordPage = ({ params }: { params: { recordId: string } }) => {
                 const record = response.data.data?.record 
 
                 setRecord(record)
-                setComment(record?.comment)
 
                 if (record?.status === RecordStatus.open) await ManagerRepository.analyzeRecord(params.recordId)
             } catch (error) {
@@ -92,22 +90,6 @@ const RecordPage = ({ params }: { params: { recordId: string } }) => {
         link.click()
         
         document.body.removeChild(link)
-    }
-
-    const handleSaveCommentOnClick = async () => {
-        try {
-            setCommentLoading(true)
-
-            const response = await ManagerRepository.commentRecord(params.recordId, {
-                comment
-            })
-
-            message.success(response.data.message)
-        } catch (error) {
-            message.error((error as any).message)
-        } finally {
-            setCommentLoading(false)
-        }
     }
 
     return !loading ? (
@@ -189,26 +171,8 @@ const RecordPage = ({ params }: { params: { recordId: string } }) => {
                     }) as any}
                 />
             </div>
-            <div style={{ position: 'relative' }}>
-                <h2 className="text-[25px] text-zinc-600 mb-3">Observações:</h2>
-
-                <TextArea 
-                    autoSize={{ minRows: 3, maxRows: 5 }}
-                    placeholder="Adicione alguma observação geral sobre o registro..."
-                    onChange={(e) => setComment(e.target.value)}
-                    value={comment}
-                    disabled={record?.managerId !== Storage.getUser()?.id!}
-                    className="w-full"
-                />
-                <Button 
-                    loading={commentLoading}
-                    style={{ position: 'absolute', bottom: 5, right: 5 }}
-                    onClick={handleSaveCommentOnClick}
-                    disabled={record?.managerId !== Storage.getUser()?.id!}
-                >
-                    Salvar
-                </Button>
-            </div>
+                
+            <RecordComment record={record!} />
         </div>
     ) : <PageLoading />
 }
