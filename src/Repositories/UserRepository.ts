@@ -25,7 +25,7 @@ class UserRepository extends Repository<IAuthenticationProps> {
     password
   }: ISignInProps): Promise<IResponse<IAuthenticationProps>> {
     return this.execute(() =>
-      this.api.post(`${this.path}/signin`, {
+      this.api.post(`${this.path}/signin/manager`, {
         email,
         password
       })
@@ -44,22 +44,41 @@ class UserRepository extends Repository<IAuthenticationProps> {
     )
   }
 
-  async setPassword ({
+  async setEmployeePassword ({
     accountName,
     password,
     passwordConfirmation
   }: ISetUserPasswordProps): Promise<IResponse> {
     return this.execute(() =>
-      this.api.post(`${this.path}/users/${accountName}/set-password`, {
+      this.api.post(`${this.path}/employees/${accountName}/set-password`, {
         password,
         passwordConfirmation
       })
     )
   }
 
-  async hasPassword (accountName: string): Promise<IResponse<{ hasPassword: boolean }>> {
+  async hasEmployeePassword (accountName: string): Promise<IResponse<{ hasPassword: boolean }>> {
     return this.execute(() =>
-      this.api.get(`${this.path}/users/${accountName}/has-password`)
+      this.api.get(`${this.path}/employees/${accountName}/has-password`)
+    )
+  }
+
+  async setManagerPassword ({
+    email,
+    password,
+    passwordConfirmation
+  }: ISetUserPasswordProps): Promise<IResponse> {
+    return this.execute(() =>
+      this.api.post(`${this.path}/managers/${email}/set-password`, {
+        password,
+        passwordConfirmation
+      })
+    )
+  }
+
+  async hasManagerPassword (email: string): Promise<IResponse<{ hasPassword: boolean }>> {
+    return this.execute(() =>
+      this.api.get(`${this.path}/managers/${email}/has-password`)
     )
   }
 }

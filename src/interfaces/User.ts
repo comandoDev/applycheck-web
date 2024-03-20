@@ -7,7 +7,8 @@ export enum UserRole {
 }
 
 interface ISetUserPasswordProps {
-  accountName: string
+  accountName?: string
+  email?: string
   password: string
   passwordConfirmation: string
 }

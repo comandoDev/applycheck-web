@@ -4,13 +4,13 @@ import { useAuth } from "@/hooks/useAuth"
 import Input from "./Input"
 import { FormEvent, useState } from "react"
 
-const SetPasswordForm = ({ accountName }: { accountName:string }) => {
+const SetEmployeePasswordForm = ({ accountName }: { accountName:string }) => {
   const authContext = useAuth()
 
   const [password, setPassword] = useState<string>('')
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>('')
 
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
   
       authContext?.setError(undefined)
@@ -28,7 +28,7 @@ const SetPasswordForm = ({ accountName }: { accountName:string }) => {
   } 
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={handleFormSubmit}>
       <Input 
           placeHolder="Insira sua senha"
           name="password"
@@ -50,4 +50,4 @@ const SetPasswordForm = ({ accountName }: { accountName:string }) => {
   )
 }
 
-export default SetPasswordForm
+export default SetEmployeePasswordForm

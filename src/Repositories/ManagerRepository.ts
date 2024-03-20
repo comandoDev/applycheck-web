@@ -71,6 +71,12 @@ class ManagerRepository extends Repository<IUser> {
       )
     }
 
+    async commentRecord (recordId: string, data: Partial<IRecord>): Promise<IResponse> {
+      return this.execute(() =>
+        this.api.patch(`${this.path}/records/${recordId}/comment`, data)
+      )
+    }
+
     async generateRecordPDF (recordId: string): Promise<IResponse<{ pdf: string }>> {
       return this.execute(() =>
         this.api.get(`${this.path}/records/${recordId}/pdf`)

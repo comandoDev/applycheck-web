@@ -2,11 +2,16 @@
 
 import { PlusCircle } from "@phosphor-icons/react"
 import UsersTable from "./components/UsersTable"
-import { useEmployeeCreation } from "./hooks/NavbarContext/useEmployeeCreation"
 import CreateUserModal from "./components/Modals/CreateUserModal"
+import { useUserCreation } from "./hooks/NavbarContext/useUserCreation"
 
 const Employees = () => {
-    const employeeCreationContext = useEmployeeCreation()
+    const {
+        setSearch,
+        setIsCreateModalOpen,
+        clearProps
+        
+    } = useUserCreation()
     
     return (
         <div className=" pl-24 pr-24 pt-10 pb-10 mt-20">
@@ -19,9 +24,12 @@ const Employees = () => {
                     <input 
                         className="w-[35%] p-3 rounded-xl outline-0 border-0 shadow-lg" 
                         placeholder="Buscar Usuário..." 
-                        onChange={e => employeeCreationContext?.setSearch(e.target.value)}
+                        onChange={e => setSearch(e.target.value)}
                     />
-                    <PlusCircle size={36} onClick={() => employeeCreationContext?.setIsCreateModalOpen(true)} className="cursor-pointer text-principal hover:text-blue-700" />
+                    <PlusCircle size={36} onClick={() => {
+                        clearProps()
+                        setIsCreateModalOpen(true)
+                    }} className="cursor-pointer text-principal hover:text-blue-700" />
                 </div>
                 <UsersTable />
             </div>

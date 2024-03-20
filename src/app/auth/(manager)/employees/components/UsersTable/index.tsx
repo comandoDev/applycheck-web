@@ -2,18 +2,30 @@ import { Modal, Table, Tag, message } from "antd"
 import { useEffect, useState } from "react";
 import ManagerRepository from "@/Repositories/ManagerRepository";
 import { useRouter } from "next/navigation";
-import { IUser } from "@/interfaces/User";
+import { IUser, UserRole } from "@/interfaces/User";
 import UsersTableSkeleton from "./UsersTableSkeleton";
-import { useEmployeeCreation } from "../../hooks/NavbarContext/useEmployeeCreation";
 import UpdateUserModal from "../Modals/UpdateUserModal";
 import Storage from "@/utils/Storage";
+import { useUserCreation } from "../../hooks/NavbarContext/useUserCreation";
 
 const UsersTable = () => {
-    const employeeCreationContext = useEmployeeCreation()
+    const {
+        search,
+        updateUsersTable,
+        setIsEditModalOpen,
+        setId,
+        setName,
+        setEmail,
+        setRole,
+        setAccountName,
+        setActive,
+        setFormsIds,
+        setUpdateUsersTable
+    } = useUserCreation()
 
     const router = useRouter()
     
-    const [employees, setEmployees] = useState<Array<IUser>>()
+    const [users, setUsers] = useState<Array<IUser>>()
     const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
@@ -22,10 +34,10 @@ const UsersTable = () => {
         const fetch = async () => {
             try {
                 const response = await ManagerRepository.listEmployees({
-                    search: employeeCreationContext?.search
+                    search: search
                 })
 
-                setEmployees(response.data.data?.users.docs)
+                setUsers(response.data.data?.users.docs)
             } catch (error) {
                 router.push('/login/manager')
             } finally {
@@ -34,20 +46,24 @@ const UsersTable = () => {
         }
 
         fetch()
-    }, [employeeCreationContext?.updateUsersTable, employeeCreationContext?.search])
+    }, [updateUsersTable, search])
 
     const handleEditOnClick = (user: Partial<IUser>) => {
-        employeeCreationContext?.setIsEditModalOpen(true)
+        setIsEditModalOpen(true)
 
-        employeeCreationContext!.setId(user.id!)
-        employeeCreationContext!.setName(user.name!)
-        employeeCreationContext!.setAccountName(user.accountName!)
-        employeeCreationContext!.setActive(user.active!)
-        user.formsIds!.map(formsIds => {
-            if (formsIds.branchId === Storage.getBranchId()) {
-                employeeCreationContext!.setFormsIds(formsIds.ids)
-            }
-        })
+        setId(user.id!)
+        setName(user.name!)
+        setAccountName(user.accountName!)
+        setEmail(user.email!)
+        setRole(user.role!)
+        setActive(user.active!)
+        if (user.formsIds) {
+            user.formsIds.map(formsIds => {
+                if (formsIds.branchId === Storage.getBranchId()) {
+                    setFormsIds(formsIds.ids)
+                }
+            })
+        }
     }
 
 
@@ -62,18 +78,19 @@ const UsersTable = () => {
             message.error((error as any).message)
         } finally {
             setLoading(false)
-            employeeCreationContext?.setUpdateUsersTable(!employeeCreationContext.updateUsersTable)
+            setUpdateUsersTable(!updateUsersTable)
         }
     }
 
-    const dataSource = employees?.map(employee => {
+    const dataSource = users?.map(user => {
         return {
-            id: employee.id,
-            name: employee.name, 
-            accountName: employee.accountName,
-            role: employee.role,
-            active: employee.active,
-            formsIds: employee.formsIds
+            id: user.id,
+            name: user.name, 
+            accountName: user.accountName,
+            email: user.email,
+            role: user.role,
+            active: user.active,
+            formsIds: user.formsIds
         }
     })
       
@@ -84,14 +101,28 @@ const UsersTable = () => {
             key: 'name',
         },
         {
-            title: 'Nome de Usuário',
+            title: 'Nome da Conta',
             dataIndex: 'accountName',
             key: 'accountName',
+            render: (_: any, { accountName }: { accountName: any }) => {
+                return accountName || '-'
+            }
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+            render: (_: any, { email }: { email: any }) => {
+                return email || '-'
+            }
         },
         {
             title: 'Função',
             dataIndex: 'role',
             key: 'role',
+            render: (_: any, { role }: { role: any }) => {
+                return role === UserRole.employee ? 'Funcionário' : 'Gestor'
+            }
         },
         {
             title: 'Status',

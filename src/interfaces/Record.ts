@@ -49,6 +49,7 @@ interface IRecord {
       employee?: IUser
       form?: IForm
       nonComplianceSteps?: Array<INonComplianceStep>
+      comment?: string
 
       tenantId: string
       formId: string

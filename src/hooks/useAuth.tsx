@@ -26,6 +26,10 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     try {
       setLoading(true)
 
+      const existsPassword = await hasPassword({ email }) 
+      
+      if(!existsPassword) return router.push(`/login/manager/password/${email}`)
+
       const response = await UserRepository.signin({
         email,
         password
@@ -39,7 +43,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
       Storage.setUser(user)
       Storage.setUserToken(token!)
-      Storage.setUserRole(UserRole.manager)
+      Storage.setUserRole(user.role)
       Storage.setBranchId(user.branchesIds[0] || user.branchId)
       
       message.success(response.data.message)
@@ -57,7 +61,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     try {
       setLoading(true)
 
-      const existsPassword = await hasPassword(accountName) 
+      const existsPassword = await hasPassword({ accountName }) 
 
       if(!existsPassword) return router.push(`/login/password/${accountName}`)
 
@@ -103,18 +107,23 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     router.push('/login/manager')
   }
 
-  const hasPassword = async (accountName?: string): Promise<boolean> => {
-    if (!accountName) return true
+  const hasPassword = async ({
+    accountName,
+    email
+  }: { accountName?: string, email?: string }): Promise<boolean> => {
+    if (!accountName && !email) return true
     
-    const response = await UserRepository.hasPassword(accountName)
+    const response = accountName 
+      ? await UserRepository.hasEmployeePassword(accountName)
+      :  await UserRepository.hasManagerPassword(email!)
 
     const hasPassword = response.data.data?.hasPassword!
 
     return hasPassword
   }
 
-
   const setPassword = async ({
+    email,
     accountName,
     password,
     passwordConfirmation
@@ -122,11 +131,21 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     try {
       setLoading(true)
 
-      await UserRepository.setPassword({
-        accountName,
-        password, 
-        passwordConfirmation
-      })
+      if (accountName) {
+        await UserRepository.setEmployeePassword({
+          accountName,
+          password, 
+          passwordConfirmation
+        })
+      }
+
+      if (email) {
+        await UserRepository.setManagerPassword({
+          email,
+          password, 
+          passwordConfirmation
+        })
+      }
     } catch (error) {
       setError(error as any)
       message.error((error as any).message)

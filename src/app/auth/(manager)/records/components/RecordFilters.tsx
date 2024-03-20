@@ -1,6 +1,6 @@
 import ManagerRepository from "@/Repositories/ManagerRepository"
 import { IForm } from "@/interfaces/Form"
-import { Select, message } from "antd"
+import { Button, Select, message } from "antd"
 import { useEffect, useState } from "react"
 import { ClipLoader } from "react-spinners"
 import { useRecordFiltersContext } from "../hooks/RecordFiltersContext/useRecordFilter"
@@ -51,6 +51,13 @@ const RecordFilters = () => {
 
     const handleHasNonComplianceOnChange = (nonCompliance: string) => {
         recordFiltersContext?.setNonCompliance(nonCompliance)
+    }
+    
+    const handleClearOnClick = () => {
+        recordFiltersContext?.setFormId(null)
+        recordFiltersContext?.setEmployeeId(null)
+        recordFiltersContext?.setDate(null)
+        recordFiltersContext?.setNonCompliance(null)
     }
 
     return (
@@ -112,6 +119,7 @@ const RecordFilters = () => {
                             onChange={e => handleDateOnChange(e.target.value)}
                         />
                     </div>
+                    <Button className="ml-5" onClick={handleClearOnClick}>Limpar Filtros</Button>
                 </div>
             )}
         </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { EmployeeCreationContextProvider } from "./hooks/NavbarContext/useEmployeeCreation"
+import { UserCreationContextProvider } from "./hooks/NavbarContext/useUserCreation"
 
 
 const Layout = ({
@@ -9,11 +9,11 @@ const Layout = ({
   children: React.ReactNode
 }) => {
   return(
-    <EmployeeCreationContextProvider>
+    <UserCreationContextProvider>
         <div className='flex flex-col'>
           {children}
         </div>
-    </EmployeeCreationContextProvider>
+    </UserCreationContextProvider>
   )
 }
 

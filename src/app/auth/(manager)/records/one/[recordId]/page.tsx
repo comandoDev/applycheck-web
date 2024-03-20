@@ -2,7 +2,7 @@
 
 import ManagerRepository from "@/Repositories/ManagerRepository"
 import { IRecord, RecordStatus } from "@/interfaces/Record"
-import { Steps, Tabs, message } from "antd"
+import { Button, Steps, Tabs, message } from "antd"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import RecordStatisticsList from "../../components/Record/RecordStatisticsList"
@@ -12,6 +12,9 @@ import { getFormattedDate } from "../../helpers/getFormattedDate"
 import RecordStepTable from "../../components/Record/RecordStepTable"
 import { ClipLoader } from "react-spinners"
 import { FilePdf } from "@phosphor-icons/react"
+import TextArea from "antd/es/input/TextArea"
+import Storage from "@/utils/Storage"
+import RecordComment from "../../components/Record/RecordComment"
 
 const RecordPage = ({ params }: { params: { recordId: string } }) => {
     const router = useRouter()
@@ -29,6 +32,7 @@ const RecordPage = ({ params }: { params: { recordId: string } }) => {
                 const response = await ManagerRepository.getOneRecord(params.recordId)
     
                 const record = response.data.data?.record 
+
                 setRecord(record)
 
                 if (record?.status === RecordStatus.open) await ManagerRepository.analyzeRecord(params.recordId)
@@ -114,7 +118,7 @@ const RecordPage = ({ params }: { params: { recordId: string } }) => {
                             </div>
                         </div>
                     ) }
-                    { (record?.status !== RecordStatus.conclued) && (
+                    { (record?.status !== RecordStatus.conclued && record?.managerId === Storage.getUser()?.id!) && (
                         <div>
                             <div 
                                 onClick={handleConcluedOnClick}
@@ -154,7 +158,7 @@ const RecordPage = ({ params }: { params: { recordId: string } }) => {
                     })}
                 />
             </div>
-            <div>
+            <div className="mb-10">
                 <Tabs
                     defaultActiveKey="1"
                     tabPosition='left'
@@ -167,6 +171,8 @@ const RecordPage = ({ params }: { params: { recordId: string } }) => {
                     }) as any}
                 />
             </div>
+                
+            <RecordComment record={record!} />
         </div>
     ) : <PageLoading />
 }
