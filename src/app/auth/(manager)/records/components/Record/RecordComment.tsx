@@ -1,5 +1,5 @@
 import ManagerRepository from "@/Repositories/ManagerRepository"
-import { IRecord } from "@/interfaces/Record"
+import { IRecord, RecordStatus } from "@/interfaces/Record"
 import Storage from "@/utils/Storage"
 import { Button, message } from "antd"
 import TextArea from "antd/es/input/TextArea"
@@ -42,14 +42,14 @@ const RecordComment = ({ record }: { record: IRecord }) => {
                 autoSize={{ minRows: 3, maxRows: 5 }}
                 onChange={(e) => setComment(e.target.value)}
                 value={comment}
-                disabled={record?.managerId !== Storage.getUser()?.id!}
+                disabled={record?.managerId !== Storage.getUser()?.id! && record.status !== RecordStatus.open}
                 className="w-full"
             />
             <Button
                 loading={commentLoading}
                 style={{ position: 'absolute', bottom: 5, right: 5 }}
                 onClick={handleSaveCommentOnClick}
-                disabled={record?.managerId !== Storage.getUser()?.id!}
+                disabled={record?.managerId !== Storage.getUser()?.id! && record.status !== RecordStatus.open}
             >
                 Salvar
             </Button>
