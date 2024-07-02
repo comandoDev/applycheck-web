@@ -15,6 +15,8 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
     
     const [value, setValue] = useState<string>('')
     const [selectedOption, setSelectedOption] = useState<string>()
+    const [selectedOptions, setSelectedOptions] = useState<string[]>([])
+    const [textArrayValues, setTextArrayValues] = useState<string[]>([''])
     const [existssignature, setExistssignature] = useState<boolean>(false)
     
     useEffect(() => {   
@@ -40,6 +42,38 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
 
     const handleOnChange = (targetValue: string, nonCompliance?: boolean): void => {
         setValues(targetValue, nonCompliance)
+    }
+
+    const handleCheckboxChange = (option: string, nonCompliance?: boolean) => {
+        const currentIndex = selectedOptions.indexOf(option)
+        const newSelectedOptions = [...selectedOptions]
+
+        if (currentIndex === -1) {
+            newSelectedOptions.push(option);
+        } else {
+            newSelectedOptions.splice(currentIndex, 1)
+        }
+
+        setSelectedOptions(newSelectedOptions);
+        setValues(newSelectedOptions.join(', '), nonCompliance)
+    }
+
+    const handleTextArrayChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+        const newTextArrayValues = [...textArrayValues]
+        if(index < 0 || index >= newTextArrayValues.length) return
+        newTextArrayValues[index] = e.target.value
+        setTextArrayValues(newTextArrayValues)
+        setValues(newTextArrayValues.join(', '))
+    }    
+
+    const addTextArrayField = () => {
+        setTextArrayValues([...textArrayValues, ''])
+    }
+
+    const removeTextArrayField = (index: number) => {
+        const newTextArrayValues = textArrayValues.filter((_, i) => i !== index)
+        setTextArrayValues(newTextArrayValues)
+        setValues(newTextArrayValues.join(', '))
     }
 
     const setValues = (value: string, nonCompliance?: boolean) => {
@@ -93,6 +127,21 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
                                 })}
                             </>
                         )}
+                        {field.type === InputType.checkbox && (
+                            <>
+                                {field.options?.map(option => {
+                                    return (
+                                        <div 
+                                            key={option.key}
+                                            className={`w-full ${selectedOptions.includes(option.key) ? 'bg-principal text-white' : 'border border-gray-200 text-gray-500 bg-zinc-50'} font-bold rounded-lg p-3 pl-8 mt-3`}
+                                            onClick={() => handleCheckboxChange(option.key, option.nonCompliance)}
+                                        >
+                                            {option.key}
+                                        </div>
+                                    )
+                                })}
+                            </>
+                        )}
                         {field.type === InputType.text && (
                             <FormInput 
                                 onChange={handleOnChange}
@@ -130,6 +179,56 @@ const QuestionBox = ({ field, fatherField }: { field: IField, fatherField?: IFie
                                 {  field.fields?.map(f => {
                                     return <QuestionBox fatherField={field} field={f} key={f.key} />
                                 })}
+                            </>
+                        )}
+                        {field.type === InputType.textArray && (
+                            <>
+                                {textArrayValues.map((textValue, index) => (
+                                    <div key={index} className="flex items-center mb-2">
+                                        <FormInput
+                                            onChangeArray={(e) => handleTextArrayChange(index, e)}
+                                            placeholder="Digite um valor"
+                                            type={InputType.number}
+                                            value={textValue}
+                                        />
+                                        {index > 0 && (
+                                            <svg 
+                                                xmlns="http://www.w3.org/2000/svg" 
+                                                width="25"
+                                                height="25" 
+                                                fill="#ff0000"
+                                                viewBox="0 0 60 60" 
+                                                stroke="#ff0000"
+                                                className="ml-2 mt-3 cursor-pointer"
+                                                onClick={() => removeTextArrayField(index)}
+                                            >
+                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                                <g id="SVGRepo_iconCarrier"> <g> <g> <path d="M27.851,0C12.495,0,0,12.495,0,27.852s12.495,27.851,27.851,27.851c15.357,0,27.852-12.494,27.852-27.851 S43.209,0,27.851,0z M27.851,51.213c-12.882,0-23.362-10.48-23.362-23.362c0-12.882,10.481-23.362,23.362-23.362 c12.883,0,23.364,10.48,23.364,23.362C51.215,40.733,40.734,51.213,27.851,51.213z"></path> 
+                                                <path d="M38.325,25.607H17.379c-1.239,0-2.244,1.005-2.244,2.244c0,1.239,1.005,2.245,2.244,2.245h20.946 c1.239,0,2.244-1.006,2.244-2.245C40.569,26.612,39.564,25.607,38.325,25.607z"></path> </g> </g> </g>
+                                            </svg>
+                                        )}
+                                    </div>
+                                ))}
+                                <div className="flex items-center mt-2">
+                                    <button
+                                        type="button"
+                                        onClick={addTextArrayField}
+                                        className="flex items-center text-blue-500"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="28"
+                                            height="28"
+                                            fill="currentColor"
+                                            viewBox="0 0 260 260"
+                                            className="mr-1"
+                                        >
+                                            <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm40-88a8,8,0,0,1-8,8H136v32a8,8,0,0,1-16,0V136H96a8,8,0,0,1,0-16h32V88a8,8,0,0,1,16,0v32h32A8,8,0,0,1,168,128Z"></path>
+                                        </svg>
+                                        Adicionar Nota
+                                    </button>
+                                </div>
                             </>
                         )}
                         {field.type === InputType.signature && (

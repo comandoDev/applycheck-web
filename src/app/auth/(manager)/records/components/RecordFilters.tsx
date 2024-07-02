@@ -43,8 +43,7 @@ const RecordFilters = () => {
     const handleEmployeeOnChange = (employeeId: string) => {
         recordFiltersContext?.setEmployeeId(employeeId)
     }
-
-
+    
     const handleDateOnChange = (date: string) => {
         recordFiltersContext?.setDate(date)
     }
@@ -58,6 +57,31 @@ const RecordFilters = () => {
         recordFiltersContext?.setEmployeeId(null)
         recordFiltersContext?.setDate(null)
         recordFiltersContext?.setNonCompliance(null)
+    }
+
+    const exportToExcel = async () => {
+        const filters = {
+            formId: recordFiltersContext?.formId,
+            employeeId: recordFiltersContext?.employeeId,
+            createdAt: recordFiltersContext?.date,
+            hasNonCompliance: recordFiltersContext?.nonCompliance !== null ? recordFiltersContext?.nonCompliance : undefined
+        }
+
+        try {
+            const response = await apiServer.get('/auth/records/export-excel', {
+                params: filters,
+                responseType: 'blob'
+            })
+
+            const url = window.URL.createObjectURL(new Blob([response.data]))
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', 'AuditLis_Registros.xlsx')
+            document.body.appendChild(link)
+            link.click()
+        } catch (error) {
+            message.error('Failed to export records to Excel')
+        }
     }
 
     return (
@@ -120,6 +144,7 @@ const RecordFilters = () => {
                         />
                     </div>
                     <Button className="ml-5" onClick={handleClearOnClick}>Limpar Filtros</Button>
+                    <Button className="ml-5" onClick={exportToExcel}>Exportar Excel</Button>
                 </div>
             )}
         </div>
