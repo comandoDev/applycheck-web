@@ -6,6 +6,8 @@ export enum InputType {
     date = 'date',
     time = 'time',
     signature = 'signature',
+    textArray = 'textArray',
+    checkbox = 'checkbox'
 }
 
 interface ISelectOption {
